@@ -29,3 +29,7 @@ for(h = 0; h < classes.length; h++) {
     hclass = assignments[h].children[1].children[1].innerHTML
     assignmentsarray.push([hname,hdate,hclass])
 }
+
+document.getElementById("wrapper").style.display = "none"
+document.getElementById("site-navigation-footer").style.display = "none"
+document.getElementById("site-navigation-breadcrumbs").style.display = "none"
