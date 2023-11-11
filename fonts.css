@@ -1,0 +1,70 @@
+:root{
+    --sgy-font-default: 'Sgy Open Sans', 'Open Sans', Helvetica, Arial, sans-serif;
+    --sgy-font-light: 'Sgy Muli', 'Muli', sans-serif;
+    --sgy-font-bold: 'Sgy Muli Bold', 'Muli Bold', sans-serif;
+    --sgy-font-mono-space: 'Courier New', Courier, monospace;
+    --sgy-font-cursive: cursive;
+
+    --sgy-background-color-default : #faf9f7;
+}
+
+/*
+ These are copies of design system fonts. They are included here to prevent "Flash Of Unstyled Content" (FOUC) issues.
+ These font families are renamed from their design system equivalents to prevent issues where the application would try to
+ load the same font family twice (e.g. the site navigation). When that happens, the text flickers on the screen as
+ the second load happens due to collision. Renaming the fonts avoids this.
+*/
+@font-face {
+    font-family: "Sgy Open Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Sgy Open Sans Regular"), local("OpenSansCore-Regular"),
+    url(https://ui.schoology.com/design-system/assets/open-sans-latin-regular.cffb686d7d2f4682df8342bd4d276e09.woff2)
+    format("woff2"),
+    url(https://ui.schoology.com/design-system/assets/open-sans-latin-regular.bf2d0783515b7d75c35bde69e01b3135.woff)
+    format("woff")
+}
+
+@font-face {
+    font-family: "Sgy Open Sans";
+    font-style: italic;
+    font-weight: 400;
+    src: local("Sgy Open Sans Italic"), local("OpenSansCore-Italic"),
+    url(https://ui.schoology.com/design-system/assets/open-sans-latin-italic.987032ea5d57c93d8da215678eae3b86.woff2)
+    format("woff2"),
+    url(https://ui.schoology.com/design-system/assets/open-sans-latin-italic.db70d0b9cb27ada1a260a2b35e756b8b.woff)
+    format("woff")
+}
+
+@font-face {
+    font-family: "Sgy Open Sans";
+    font-style: normal;
+    font-weight: 600;
+    src: local("Sgy Open Sans SemiBold"), local("OpenSansCore-SemiBold"),
+    url(https://ui.schoology.com/design-system/assets/open-sans-latin-600.223a277bd88d8a90c8cdf24cda0ad5f5.woff2)
+    format("woff2"),
+    url(https://ui.schoology.com/design-system/assets/open-sans-latin-600.1cd5320f8937d337b61d5117cf9d7b28.woff)
+    format("woff")
+}
+
+@font-face {
+    font-family: "Sgy Muli";
+    font-style: normal;
+    font-weight: 200;
+    src: local("Sgy Muli ExtraLight"), local("MuliCore-ExtraLight"),
+    url(https://ui.schoology.com/design-system/assets/muli-latin-200.4387a458edb3bec4e81602c6329a207f.woff2)
+    format("woff2"),
+    url(https://ui.schoology.com/design-system/assets/muli-latin-200.3ae45760f8b0b342216bd55f131a68ec.woff)
+    format("woff")
+}
+
+@font-face {
+    font-family: "Sgy Muli";
+    font-style: normal;
+    font-weight: 700;
+    src: local("Sgy Muli Bold"), local("MuliCore-Bold"),
+    url(https://ui.schoology.com/design-system/assets/muli-latin-700.8f65fa68cfb5d8cc4f4fa728a470332b.woff2)
+    format("woff2"),
+    url(https://ui.schoology.com/design-system/assets/muli-latin-700.1e6aab148ffeb8fe3470c15ef33c90bf.woff)
+    format("woff")
+} 

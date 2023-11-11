@@ -11,7 +11,7 @@ for(i = 0; i < grades.length; i++) {
 
 classes = document.getElementsByClassName("sgy-card")
 for(j = 0; j < classes.length; j++) {
-    jtext = classes[j].ariaLabel
+    jtext = classes[j].getAttribute("aria-label")
     jname = jtext.slice(jtext.indexOf("Navigate to course:") + 20, jtext.indexOf(".  Organization:"))
     jlist = classes[j].getElementsByClassName("course-dashboard__card-lens-img")
     if(jlist.length > 0) {
@@ -33,3 +33,5 @@ for(h = 0; h < classes.length; h++) {
 document.getElementById("wrapper").style.display = "none"
 document.getElementById("site-navigation-footer").style.display = "none"
 document.getElementById("site-navigation-breadcrumbs").style.display = "none"
+
+console.debug(gradesarray, classesarray, assignmentsarray)

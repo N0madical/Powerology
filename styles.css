@@ -1,0 +1,52 @@
+.box-center {
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, 0);
+} 
+
+.text-center p, h1, h2, h3, h4, h5 {
+    text-align: center;
+} 
+
+p, h1, h2, h3, h4, h5 {
+    font-family: var(--sgy-font-default);
+}
+
+.header {
+    font-weight: bold;
+    font-size: 18px;
+    color: #556370;
+}
+
+.body {
+    font-size: 16px;
+    color: #44505d;
+}
+
+.note {
+    font-size: 14px;
+    font-style: italic;
+    color: #677583;
+}
+
+.box {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    height: auto;
+}
+
+.classbox {
+    width: inherit;
+    height: auto;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    cursor: pointer;
+}
+
+.classbox:hover {
+    background-color: lightgray;
+}
+
+hr {
+    width: 90%;
+}
