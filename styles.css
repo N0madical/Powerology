@@ -11,6 +11,12 @@
     text-align: center;
 } 
 
+.image-Hcenter {
+    display: block;
+    margin-top: 50%
+    /* transform: translate(0, 100%); */
+}
+
 hr {
     width: 90%;
     transform: translate(5%, 0);
@@ -52,12 +58,18 @@ h4 {
     margin-bottom: 5px;
 }
 
+em {
+    font-size: 22px;
+    font-style: normal;
+    color: rgb(54, 87, 59);
+}
+
 /* ######################################################## */
 /* Object Types */
 
 .box {
     height: auto;
-    margin: 10px;
+    margin: 20px;
     padding-bottom: 10px;
     background-color: white;
 }
@@ -86,6 +98,7 @@ h4 {
 }
 
 #centerbox {
+    padding-top: 20px;
     width: fit-content;
     height: fit-content;
     position: relative;
@@ -100,8 +113,9 @@ h4 {
 }
 
 .classcolor {
-    height: 50px;
-    width: 5px; 
+    top:0px;
+    bottom: 0px;
+    width: 7px; 
     margin: 0;
 }
 
