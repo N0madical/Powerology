@@ -1,0 +1,30 @@
+{
+    "manifest_version": 2,
+    "name": "Schoology++",
+    "version": "1.0",
+  
+    "description": "Custom (Better) Schoology Pages",
+  
+    "icons": {
+      "48": "icons/border-48.png"
+    },
+
+    "web_accessible_resources": [
+      "newindex.html"
+    ],
+  
+    "content_scripts": [
+      {
+        "matches": ["*://postoakschool.schoology.com/home/course-dashboard*"],
+        "css": ["styles.css", "fonts.css"],
+        "js": ["variables.js", "index.js"]
+      }
+    ],
+
+    "browser_specific_settings": {
+        "gecko": {
+          "id": "nomadicalyt@gmail.com"
+        }
+    } 
+  }
+  

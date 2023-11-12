@@ -1,52 +1,113 @@
+/* ######################################################## */
+/* Element Allignment */
+
 .box-center {
     left: 50%;
     position: absolute;
     transform: translate(-50%, 0);
 } 
 
-.text-center p, h1, h2, h3, h4, h5 {
+.text-center {
     text-align: center;
 } 
+
+hr {
+    width: 90%;
+    transform: translate(5%, 0);
+}
+
+/* ######################################################## */
+/* Font Styling */
 
 p, h1, h2, h3, h4, h5 {
     font-family: var(--sgy-font-default);
 }
 
-.header {
+h1 {
     font-weight: bold;
     font-size: 18px;
     color: #556370;
+    line-height: 35px;
 }
 
-.body {
+h2 {
+    font-weight: bold;
     font-size: 16px;
-    color: #44505d;
+    color: #556370;
+    line-height: 25px !important;
 }
 
-.note {
+h3 {
     font-size: 14px;
+    color: #44505d;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h4 {
+    font-size: 12px;
     font-style: italic;
     color: #677583;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
+
+/* ######################################################## */
+/* Object Types */
 
 .box {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
     height: auto;
+    margin: 10px;
+    padding-bottom: 10px;
+    background-color: white;
 }
 
-.classbox {
+.widthbox {
     width: inherit;
-    height: auto;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    height: fit-content;
     overflow: hidden;
     display: flex;
+}
+
+.shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.clickable {
     cursor: pointer;
 }
 
-.classbox:hover {
+/* ######################################################## */
+/* Specefic Items */
+
+#schoologyplusplus {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#centerbox {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    overflow: hidden;
+    display: flex;
+}
+
+.hov:hover {
     background-color: lightgray;
 }
 
-hr {
-    width: 90%;
+.classcolor {
+    height: 50px;
+    width: 5px; 
+    margin: 0;
+}
+
+.gradebox {
+    height: 20px; 
+    width: 20px; 
+    margin-right: 20px;
+    margin-top: 4px;
 }

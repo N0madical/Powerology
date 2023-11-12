@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fonts.css">
+</head>
+
+<body id="body" style="width: 100%; height: 100%; position: absolute;">
+</body>
+
+<script>
+    var HTMLString = getFile("newindex.html") //some way to get file as HTML string
+
+    alert( HTMLString ); // shows: [html code of the file or 404 page]
+
+    function getFile(U) {
+        var X = new XMLHttpRequest();
+        X.open('GET', U, false);
+        X.send();
+    return X.responseText;
+}
+
+    document.body.innerHTML = HTMLString
+</script>
+
+</html>

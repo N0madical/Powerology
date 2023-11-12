@@ -34,4 +34,12 @@ document.getElementById("wrapper").style.display = "none"
 document.getElementById("site-navigation-footer").style.display = "none"
 document.getElementById("site-navigation-breadcrumbs").style.display = "none"
 
+if(document.getElementById("schoologyplusplus")) {
+    document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb
+} else {
+    document.getElementById("body").innerHTML += `<div id="schoologyplusplus"></div>`
+    document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb;
+}
+
+
 console.debug(gradesarray, classesarray, assignmentsarray)
