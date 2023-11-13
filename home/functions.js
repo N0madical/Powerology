@@ -26,7 +26,7 @@ function addAssignment(day, name, time, link) {
         container.innerHTML += `
         <tr name="day" class="widthbox">
             <th style="width: 100%;">
-                <h2 style="padding-left: 10px; line-height: 5px; text-align: left; padding-top: 10px; font-style: italic;"><em>${dayonly}</em>${notday}</h2>
+                <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em>${dayonly}</em>${notday}</h2>
             </th>
         </tr>
         `
@@ -34,9 +34,10 @@ function addAssignment(day, name, time, link) {
     } 
 
     container.innerHTML += `
-    <tr name="assignment" onclick="openLink('${link}')" class="widthbox hov clickable">
-        <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left; color: lightslategrey;">${name}</h3></th>
-        <th><h4 style="padding-right: 20px; text-align: right;">${time}</h4></th>
+    <tr name="assignment" class="widthbox hov clickable">
+        <th><input style="margin-left: 20px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="sus()"></th>
+        <th style="width: 100%;"><h3 onclick="openLink('${link}')" style="text-align: left; color: lightslategrey;">${name}</h3></th>
+        <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
     </tr>
     `
 }

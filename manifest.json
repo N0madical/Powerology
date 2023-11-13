@@ -9,6 +9,10 @@
       "48": "icons/border-48.png"
     },
 
+    "permissions": [
+      "storage"
+    ],
+
     "web_accessible_resources": [
       "icons/carat.png",
       "icons/gradebook.png"

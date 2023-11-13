@@ -1,9 +1,13 @@
+datacollected = false
 classesarray = []
 assignmentsarray = []
 gradesarray = []
 
+browser.storage.sync.get("test").then(loadTest, onError);
+function loadTest(value) {console.info(value.test)}
+function onError(error) {console.debug(error)}
+
 function loadSchoologyPlus() {
-    console.debug("test")
 
     //########################################################
         //Grabbing Data
@@ -43,7 +47,8 @@ function loadSchoologyPlus() {
 
     assignments = document.getElementsByClassName("upcoming-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("event-title")
     assignmentsarray = []
-    for(h = 0; h < classes.length; h++) {
+    console.debug(assignments)
+    for(h = 0; h < assignments.length; h++) {
         hname = assignments[h].firstChild.innerHTML
         hdue = assignments[h].children[1].children[0].innerHTML
         hdate = hdue.substr(4,hdue.indexOf(" at ")-10)
