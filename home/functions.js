@@ -6,9 +6,6 @@ function addClass(name, link) {
     } else {
         color = "gray"
     }
-    
-
-    console.debug(link)
 
     container.innerHTML += `
     <tr class="widthbox shadow hov clickable">

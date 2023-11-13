@@ -11,7 +11,8 @@
 
     "web_accessible_resources": [
       "icons/carat.png",
-      "icons/gradebook.png"
+      "icons/gradebook.png",
+      "backgrounds/mountains.jpg"
     ],
   
     "content_scripts": [

@@ -57,6 +57,9 @@ function loadSchoologyPlus() {
         //Injecting Data
     //########################################################
 
+    document.body.style.backgroundImage = "url('https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg')"
+    document.body.style.backgroundSize = "cover"
+
     //document.getElementById("wrapper").style.display = "none"
     document.getElementById("site-navigation-footer").style.display = "none"
     document.getElementById("site-navigation-breadcrumbs").style.display = "none"
