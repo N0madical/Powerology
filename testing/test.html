@@ -1,9 +1,11 @@
  <!DOCTYPE html>
-    <body>
+    <body style="content: 'test';">
+        <div id="sus" style="width: 100%; height: 100%; position: absolute; background-image: url(https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg);"></div>
         
     </body>
 
     <script>
-        document.body.style.backgroundImage = "url(https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg)"
+        // document.body.style.backgroundImage = "url(https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg)"
+        document.getElementById("sus").style.filter = "blur(10px)"
     </script>
  </html>

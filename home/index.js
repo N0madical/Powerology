@@ -57,8 +57,7 @@ function loadSchoologyPlus() {
         //Injecting Data
     //########################################################
 
-    document.body.style.backgroundImage = "url('https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg')"
-    document.body.style.backgroundSize = "cover"
+    document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
 
     //document.getElementById("wrapper").style.display = "none"
     document.getElementById("site-navigation-footer").style.display = "none"
@@ -95,8 +94,10 @@ function loadSchoologyPlus() {
 //########################################################
 
 var loadrepeat = window.setInterval(function(){
-    loadSchoologyPlus()
-    if(classesarray.length > 0) {
+    if(document.getElementById("centerbox") == null) {
+        loadSchoologyPlus()
+    }
+    if(classesarray.length > 0 || document.getElementById("centerbox") != null) {
         clearInterval(loadrepeat)
     }
   }, 500);

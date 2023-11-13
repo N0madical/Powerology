@@ -125,3 +125,13 @@ em {
     margin-right: 20px;
     margin-top: 4px;
 }
+
+.js {
+    height: 100% !important;
+}
+
+body{
+    backdrop-filter: blur(10px);
+    background-size: "cover"
+}
+
