@@ -14,15 +14,14 @@
     ],
 
     "web_accessible_resources": [
-      "icons/carat.png",
-      "icons/gradebook.png"
+      "icons/*"
     ],
   
     "content_scripts": [
       {
         "matches": ["*://postoakschool.schoology.com/", "*://postoakschool.schoology.com/home*"],
         "css": ["styles.css", "fonts.css"],
-        "js": ["home/variables.js", "home/functions.js", "home/index.js"]
+        "js": ["home/functions.js", "home/variables.js", "home/index.js"]
       }
     ],
 

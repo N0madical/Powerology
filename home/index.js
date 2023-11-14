@@ -1,11 +1,31 @@
+document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
+
+checkedAssignments = []
+browser.storage.sync.get("checkedAssignments").then(defineAssignments, onError)
+function defineAssignments(value) {; 
+    checkedAssignments = value.checkedAssignments; 
+    if(checkedAssignments == undefined) {
+        checkedAssignments = []
+        browser.storage.sync.set({checkedAssignments})
+    }
+}
+
+pastGrades = []
+// browser.storage.sync.set({pastGrades})
+browser.storage.sync.get("pastGrades").then(definePastGrades, onError)
+function definePastGrades(value) {; 
+    pastGrades = value.pastGrades; 
+    if(pastGrades == undefined) {
+        pastGrades = []
+        browser.storage.sync.set({pastGrades})
+    }
+    console.debug(pastGrades)
+}
+
 datacollected = false
 classesarray = []
 assignmentsarray = []
 gradesarray = []
-
-browser.storage.sync.get("test").then(loadTest, onError);
-function loadTest(value) {console.info(value.test)}
-function onError(error) {console.debug(error)}
 
 function loadSchoologyPlus() {
 
@@ -26,7 +46,7 @@ function loadSchoologyPlus() {
             }
         }
         ilink = grades[i].getElementsByClassName("sExtlink-processed")[0].href
-        gradesarray.push([iname,igrade, ilink])
+        gradesarray.push([iname,igrade,ilink])
     }
 
     classes = document.getElementsByClassName("sgy-card")
@@ -47,7 +67,6 @@ function loadSchoologyPlus() {
 
     assignments = document.getElementsByClassName("upcoming-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("event-title")
     assignmentsarray = []
-    console.debug(assignments)
     for(h = 0; h < assignments.length; h++) {
         hname = assignments[h].firstChild.innerHTML
         hdue = assignments[h].children[1].children[0].innerHTML
@@ -61,8 +80,6 @@ function loadSchoologyPlus() {
     //########################################################
         //Injecting Data
     //########################################################
-
-    document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
 
     //document.getElementById("wrapper").style.display = "none"
     document.getElementById("site-navigation-footer").style.display = "none"
@@ -89,7 +106,18 @@ function loadSchoologyPlus() {
 
     document.getElementById("gradelist").innerHTML = ""
     for(p=0; p < gradesarray.length; p++) {
-        addGrade(gradesarray[p][0],gradesarray[p][1],gradesarray[p][2])
+        addGrade(gradesarray[p][0],gradesarray[p][1],gradesarray[p][2],false)
+    }
+    for(p=0; p < pastGrades.length; p++) {
+        match = false;
+        for(c=0; c < gradesarray.length; c++) {
+            if(gradesarray[c][0] == pastGrades[p][0]) {
+                match = true;
+            }
+        }
+        if(!match) {
+            addGrade(pastGrades[p][0],pastGrades[p][1],pastGrades[p][2],true)
+        }
     }
 }
 

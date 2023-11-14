@@ -17,32 +17,36 @@ function addClass(name, link) {
 } 
 
 dates = []
+iteratable = 0
 function addAssignment(day, name, time, link) {
     container = document.getElementById("assignmentlist")
 
-    if(!(dates.includes(day, 0))) {
-        dayonly = day.substring(0,day.indexOf(","))
-        notday = day.substring(day.indexOf(","))
+    if(!checkedAssignments.includes(name)) {
+        if(!(dates.includes(day, 0))) {
+                dayonly = day.substring(0,day.indexOf(","))
+                notday = day.substring(day.indexOf(","))
+                container.innerHTML += `
+                <tr name="day" class="widthbox">
+                    <th style="width: 100%;">
+                        <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em>${dayonly}</em>${notday}</h2>
+                    </th>
+                </tr>
+                `
+                dates.push(day)
+            } 
+
         container.innerHTML += `
-        <tr name="day" class="widthbox">
-            <th style="width: 100%;">
-                <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em>${dayonly}</em>${notday}</h2>
-            </th>
+        <tr name="assignment" class="widthbox hov clickable">
+            <th><input style="margin-left: 20px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})"></th>
+            <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey;">${name}</h3></th>
+            <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
         </tr>
         `
-        dates.push(day)
-    } 
-
-    container.innerHTML += `
-    <tr name="assignment" class="widthbox hov clickable">
-        <th><input style="margin-left: 20px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="sus()"></th>
-        <th style="width: 100%;"><h3 onclick="openLink('${link}')" style="text-align: left; color: lightslategrey;">${name}</h3></th>
-        <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
-    </tr>
-    `
+        iteratable += 1
+    }
 }
 
-function addGrade(name,grade,link) {
+function addGrade(name,grade,link,fromPast) {
     container = document.getElementById("gradelist")
     if(grade >= 4.0) {
         color = "green"
@@ -52,6 +56,19 @@ function addGrade(name,grade,link) {
         color = "red"
     } else {
         color = "gray"
+    }
+
+    if(grade >= 0 && !fromPast) {
+        match2 = false;
+        for(h=0; h < pastGrades.length; h++) {
+            if(pastGrades[h][0] == name) {
+                match2 = true;
+            }
+        }
+        if(!match2) {
+            pastGrades.push([name,grade,link])
+            browser.storage.sync.set({pastGrades})
+        }
     }
 
     container.innerHTML += `
@@ -66,5 +83,25 @@ function addGrade(name,grade,link) {
 function openLink(link) {
     window.open(link, "_self")
 }
-
 exportFunction(openLink, window, { defineAs: "openLink" });
+
+function checkMe(name, id) {
+    if(!checkedAssignments.includes(name)) {
+        checkedAssignments.push(name)
+        document.getElementById(`assignment${id}`).style.textDecoration = "line-through";
+    } else {
+        checkedAssignments.splice(checkedAssignments.indexOf(name), 1);
+        document.getElementById(`assignment${id}`).style.textDecoration = "";
+    }
+    browser.storage.sync.set({checkedAssignments})
+}
+exportFunction(checkMe, window, { defineAs: "checkMe" });
+
+function refreshClrAssLst() {
+    checkedAssignments = []
+    browser.storage.sync.set({checkedAssignments})
+    location.reload();
+}
+exportFunction(refreshClrAssLst, window, { defineAs: "refreshClrAssLst" });
+
+function onError(error) {console.debug(error)}

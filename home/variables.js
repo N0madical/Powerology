@@ -1,3 +1,5 @@
+refresh = browser.runtime.getURL("icons/refresh.png");
+
 schoologyplusplusWeb = `
 <div id="centerbox">
     <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
@@ -8,6 +10,7 @@ schoologyplusplusWeb = `
     </div>
     <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
         <h1 class="header text-center">Assignments</h1>
+        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(160px,-22px); width: 15px; height: 15px;" onclick="refreshClrAssLst()"></img>
         <hr style="margin-bottom: 10px;">
         <table id="assignmentlist" style="width: 100%;">
             <tr name="day" class="widthbox">
@@ -30,7 +33,7 @@ schoologyplusplusWeb = `
         </table>
     </div>
 </div>
-`
+`;
 
 classcolors = {
     "Computer science 2023-24: Grade-12":"blue",  
