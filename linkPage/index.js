@@ -5,10 +5,10 @@ function fixLinks() {
             if(linkbutton[i].hasAttribute("href") && linkbutton[i].href != "") {
                 if(linkbutton[i].href.includes("path=")) {
                     link = decodeURIComponent(linkbutton[i].href.substring(linkbutton[i].href.indexOf("path=")+5))
-                    console.debug(linkbutton[i].href, link)
                     linkbutton[i].removeAttribute("href")
                     linkbutton[i].removeAttribute("target")
-                    linkbutton[i].onclick = function() { openLink(link); }
+                    console.debug(link)
+                    linkbutton[i].setAttribute("onclick", `openLink('${link}')`)// = function() { openLink(link); }
                     linkbutton[i].style = "cursor: pointer;"
                 }
             }
