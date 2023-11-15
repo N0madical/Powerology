@@ -4,12 +4,14 @@ function addClass(name, link) {
     if(name in classcolors) {
         color = classcolors[name]
     } else {
-        color = "gray"
+        color = "#808080"
     }
+
+    //<th onclick="javascript:sus()" class="classcolor" style="background-color: ;"></th>
 
     container.innerHTML += `
     <tr class="widthbox shadow hov clickable">
-        <th onclick="javascript:sus()" class="classcolor" style="background-color: ${color};"></th>
+        <th class="classcolor"><input type="color" value="${color}" onchange="setColor(value, '${name}')"/></th>
         <th onclick="openLink('${link}')" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
         <th onclick="openLink('${link}')" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
     </tr>
@@ -103,5 +105,32 @@ function refreshClrAssLst() {
     location.reload();
 }
 exportFunction(refreshClrAssLst, window, { defineAs: "refreshClrAssLst" });
+
+function setColor(value, name) {
+    classcolors[name] = value
+    browser.storage.sync.set({classcolors})
+    console.debug(classcolors)
+}
+exportFunction(setColor, window, { defineAs: "setColor" });
+
+function toggleCngBg() {
+    widget = document.getElementById("bgbox")
+    if(widget.style.visibility == "hidden") {
+        widget.style.visibility = ""
+    } else {
+        widget.style.visibility = "hidden"
+    }
+    console.debug(widget.style.visibility)
+}
+exportFunction(toggleCngBg, window, { defineAs: "toggleCngBg" });
+
+function saveBg() {
+    color = document.getElementById("bgcolor").value
+    link = document.getElementById("bgimg").value
+    blurbg = document.getElementById("bgblur").value
+    console.debug(color, link, blurbg)
+    toggleCngBg()
+}
+exportFunction(saveBg, window, { defineAs: "saveBg" });
 
 function onError(error) {console.debug(error)}

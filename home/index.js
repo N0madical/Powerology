@@ -22,6 +22,25 @@ function definePastGrades(value) {;
     console.debug(pastGrades)
 }
 
+browser.storage.sync.get("classcolors").then(loadColors, onError)
+function loadColors(value) {; 
+    classcolors = value.classcolors; 
+    if(classcolors == undefined) {
+        classcolors = defaultClasscolors
+        browser.storage.sync.set({classcolors})
+    }
+}
+
+backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
+browser.storage.sync.get("backGround").then(getBackGround, onError)
+function getBackGround(value) {; 
+    backGround = value.backGround; 
+    if(backGround == undefined) {
+        backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
+        browser.storage.sync.set({backGround})
+    }
+}
+
 datacollected = false
 classesarray = []
 assignmentsarray = []
@@ -92,6 +111,7 @@ function loadSchoologyPlus() {
     //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb;
     // }
 
+    document.getElementById("wrapper").style.width = "100%"
     document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
 
     document.getElementById("classlist").innerHTML = ""

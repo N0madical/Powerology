@@ -1,6 +1,19 @@
 refresh = browser.runtime.getURL("icons/refresh.png");
+cngbg = browser.runtime.getURL("icons/changebg_white.png");
 
 schoologyplusplusWeb = `
+<img src=${cngbg} alt="Change Background" width="25" height="25" onclick="toggleCngBg()" class="clickable" style="position: absolute; left:5px; margin-top:5px;">
+<div id="bgbox" class="shadow" style="visibility: hidden;">
+    <h1 class="text-center">Change Background</h1>
+    <hr style="transform: translate(0,0);">
+    <h2 class="text-center" style="margin-bottom: 5px;">Set Background<br> to Color</h2>
+    <input class="margin-center" type="color" id="bgcolor">
+    <h2 class="text-center" style="margin-top: 30px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
+    <input class="margin-center" class="text-center" value="https://" id="bgimg">
+    <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
+    <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1">
+    <button class="margin-center" onclick="saveBg()">Save</button>
+</div>
 <div id="centerbox">
     <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
         <h1 class="header text-center">Classes</h1>
@@ -35,16 +48,16 @@ schoologyplusplusWeb = `
 </div>
 `;
 
-classcolors = {
-    "Computer science 2023-24: Grade-12":"blue",  
-    "Creativity Activity Service : Class of 2024":"gold", 
-    "Español 11 y 12: Sección Intermedia":"green", 
-    "Extended Essay: Seniors":"red", 
-    "General Information: Community":"gray", 
-    "GPHC: Section D":"orange", 
-    "Language and Literature 23-24: A":"skyblue", 
-    "Math Analysis and Approaches SL: Seniors 2":"darkred", 
-    "Physics SL: Seniors":"purple", 
-    "Post Oak Press (School Newspaper): All Staff":"yellow", 
-    "Theory of Knowledge 12: Section H":"darkblue"
+defaultClasscolors = {
+    "Computer science 2023-24: Grade-12":"#4169E1",  
+    "Creativity Activity Service : Class of 2024":"#FFD700", 
+    "Español 11 y 12: Sección Intermedia":"#008000", 
+    "Extended Essay: Seniors":"#FF0000", 
+    "General Information: Community":"#808080", 
+    "GPHC: Section D":"#FFA500", 
+    "Language and Literature 23-24: A":"#87CEEB", 
+    "Math Analysis and Approaches SL: Seniors 2":"#8B0000", 
+    "Physics SL: Seniors":"#800080", 
+    "Post Oak Press (School Newspaper): All Staff":"#FFFF00", 
+    "Theory of Knowledge 12: Section H":"#00008B"
 }
