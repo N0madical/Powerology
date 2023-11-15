@@ -109,7 +109,6 @@ exportFunction(refreshClrAssLst, window, { defineAs: "refreshClrAssLst" });
 function setColor(value, name) {
     classcolors[name] = value
     browser.storage.sync.set({classcolors})
-    console.debug(classcolors)
 }
 exportFunction(setColor, window, { defineAs: "setColor" });
 
@@ -117,10 +116,12 @@ function toggleCngBg() {
     widget = document.getElementById("bgbox")
     if(widget.style.visibility == "hidden") {
         widget.style.visibility = ""
+        document.getElementById("bgcolor").value = backGround[0]
+        document.getElementById("bgimg").value = backGround[1]
+        document.getElementById("bgblur").value = backGround[2]
     } else {
         widget.style.visibility = "hidden"
     }
-    console.debug(widget.style.visibility)
 }
 exportFunction(toggleCngBg, window, { defineAs: "toggleCngBg" });
 
@@ -128,9 +129,46 @@ function saveBg() {
     color = document.getElementById("bgcolor").value
     link = document.getElementById("bgimg").value
     blurbg = document.getElementById("bgblur").value
-    console.debug(color, link, blurbg)
-    toggleCngBg()
+    document.body.style.backgroundColor = color
+    document.body.style.backgroundImage = `url('${link}')`
+    document.body.style.backdropFilter = `blur(${blurbg}px)`
+    backGround = [color, link, blurbg]
+    browser.storage.sync.set({backGround})
 }
 exportFunction(saveBg, window, { defineAs: "saveBg" });
+
+function editSavedGrades(argument="h", input=-1) {
+    if(argument == "h") {
+        console.info("a = add grade, r = remove grade, leave second argument blank for help")
+        console.info("Saved Grades:", pastGrades)
+    } else if (argument == "r") {
+        if(typeof input == "number") {
+            if(input < 0 || input > pastGrades.length) {
+                console.info("Please input a valid index to remove")
+            } else {
+                console.info("Success! Removed", pastGrades[input])
+                pastGrades.splice(input, 1)
+                browser.storage.sync.set({pastGrades})
+                location.reload();
+            }
+        } else {
+            console.info("Please input a valid index to remove")
+        }  
+    } else if (argument == "a") {
+        if (typeof input == "object") {
+            if(input.length == 3) {
+                pastGrades.push(input)
+                console.info("Success! Added", input)
+                browser.storage.sync.set({pastGrades})
+                location.reload();
+            } else {
+                console.info("Please input a valid array assignment to add (['Name','Grade','Link'])")
+            }
+        } else {
+            console.info("Please input a valid array assignment to add (['Name','Grade','Link'])")
+        }
+    }
+}
+exportFunction(editSavedGrades, window, { defineAs: "editSavedGrades" });
 
 function onError(error) {console.debug(error)}

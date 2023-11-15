@@ -158,4 +158,7 @@ body{
     padding: 0px;
     position: absolute;
     background-color: #ffffff;
+    left: 5px;
+    margin-top: 35px;
+    z-index: 100;
 }

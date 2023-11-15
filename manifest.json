@@ -22,6 +22,10 @@
         "matches": ["*://postoakschool.schoology.com/", "*://postoakschool.schoology.com/home*"],
         "css": ["styles.css", "fonts.css"],
         "js": ["home/functions.js", "home/variables.js", "home/index.js"]
+      },
+      {
+        "matches": ["*://postoakschool.schoology.com/course/*"],
+        "js": ["linkPage/index.js"]
       }
     ],
 

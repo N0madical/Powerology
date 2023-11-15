@@ -19,7 +19,6 @@ function definePastGrades(value) {;
         pastGrades = []
         browser.storage.sync.set({pastGrades})
     }
-    console.debug(pastGrades)
 }
 
 browser.storage.sync.get("classcolors").then(loadColors, onError)
@@ -39,6 +38,9 @@ function getBackGround(value) {;
         backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
         browser.storage.sync.set({backGround})
     }
+    document.body.style.backgroundColor = backGround[0]
+    document.body.style.backgroundImage = `url('${backGround[1]}')`
+    document.body.style.backdropFilter = `blur(${backGround[2]}px)`
 }
 
 datacollected = false
@@ -100,44 +102,49 @@ function loadSchoologyPlus() {
         //Injecting Data
     //########################################################
 
-    //document.getElementById("wrapper").style.display = "none"
-    document.getElementById("site-navigation-footer").style.display = "none"
-    document.getElementById("site-navigation-breadcrumbs").style.display = "none"
+    console.debug(classesarray)
+    if(classesarray.length > 0 && gradesarray.length > 0 && assignmentsarray.length > 0 && classcolors != undefined) {
+        //document.getElementById("wrapper").style.display = "none"
+        document.getElementById("site-navigation-footer").style.display = "none"
+        document.getElementById("site-navigation-breadcrumbs").style.display = "none"
 
-    // if(document.getElementById("schoologyplusplus")) {
-    //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb
-    // } else {
-    //     document.body.innerHTML += `<div id="schoologyplusplus"></div>`
-    //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb;
-    // }
+        // if(document.getElementById("schoologyplusplus")) {
+        //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb
+        // } else {
+        //     document.body.innerHTML += `<div id="schoologyplusplus"></div>`
+        //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb;
+        // }
 
-    document.getElementById("wrapper").style.width = "100%"
-    document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
+        document.getElementById("wrapper").style.width = "100%"
+        document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
 
-    document.getElementById("classlist").innerHTML = ""
-    for(p=0; p < classesarray.length; p++) {
-        addClass(classesarray[p][0],classesarray[p][1])
-    }
+        document.getElementById("classlist").innerHTML = ""
+        for(p=0; p < classesarray.length; p++) {
+            addClass(classesarray[p][0],classesarray[p][1])
+        }
 
-    document.getElementById("assignmentlist").innerHTML = ""
-    for(p=0; p < assignmentsarray.length; p++) {
-        addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
-    }
+        document.getElementById("assignmentlist").innerHTML = ""
+        for(p=0; p < assignmentsarray.length; p++) {
+            addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
+        }
 
-    document.getElementById("gradelist").innerHTML = ""
-    for(p=0; p < gradesarray.length; p++) {
-        addGrade(gradesarray[p][0],gradesarray[p][1],gradesarray[p][2],false)
-    }
-    for(p=0; p < pastGrades.length; p++) {
-        match = false;
-        for(c=0; c < gradesarray.length; c++) {
-            if(gradesarray[c][0] == pastGrades[p][0]) {
-                match = true;
+        document.getElementById("gradelist").innerHTML = ""
+        for(p=0; p < gradesarray.length; p++) {
+            addGrade(gradesarray[p][0],gradesarray[p][1],gradesarray[p][2],false)
+        }
+        for(p=0; p < pastGrades.length; p++) {
+            match = false;
+            for(c=0; c < gradesarray.length; c++) {
+                if(gradesarray[c][0] == pastGrades[p][0]) {
+                    match = true;
+                }
+            }
+            if(!match) {
+                addGrade(pastGrades[p][0],pastGrades[p][1],pastGrades[p][2],true)
             }
         }
-        if(!match) {
-            addGrade(pastGrades[p][0],pastGrades[p][1],pastGrades[p][2],true)
-        }
+
+        clearInterval(loadrepeat)
     }
 }
 
@@ -149,8 +156,7 @@ function loadSchoologyPlus() {
 var loadrepeat = window.setInterval(function(){
     if(document.getElementById("centerbox") == null) {
         loadSchoologyPlus()
-    }
-    if(classesarray.length > 0 || document.getElementById("centerbox") != null) {
+    } else {
         clearInterval(loadrepeat)
     }
-  }, 500);
+  }, 100);
