@@ -25,12 +25,20 @@ function addAssignment(day, name, time, link) {
 
     if(!checkedAssignments.includes(name)) {
         if(!(dates.includes(day, 0))) {
-                dayonly = day.substring(0,day.indexOf(","))
-                notday = day.substring(day.indexOf(","))
+                if(day == "overdue") {
+                    dayonly = "Overdue"
+                    notday = ""
+                    color = "color: darkred"
+                } else {
+                    dayonly = day.substring(0,day.indexOf(","))
+                    notday = day.substring(day.indexOf(","))
+                    color = ""
+                }
+                
                 container.innerHTML += `
                 <tr name="day" class="widthbox">
                     <th style="width: 100%;">
-                        <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em>${dayonly}</em>${notday}</h2>
+                        <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em style="${color}">${dayonly}</em>${notday}</h2>
                     </th>
                 </tr>
                 `

@@ -98,6 +98,15 @@ function loadSchoologyPlus() {
         assignmentsarray.push([hdate, hname, htime, hclass, hlink])
     }
 
+    overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("event-title")
+    overdueassignmentsarray = []
+    for(u = 0; u < overdueassignments.length; u++) {
+        uname = overdueassignments[u].firstChild.innerHTML
+        uclass = overdueassignments[u].children[1].children[1].innerHTML
+        ulink = overdueassignments[u].getElementsByClassName("sExtlink-processed")[0].href
+        overdueassignmentsarray.push([uname, uclass, ulink])
+    }
+
     //########################################################
         //Injecting Data
     //########################################################
@@ -124,6 +133,9 @@ function loadSchoologyPlus() {
         }
 
         document.getElementById("assignmentlist").innerHTML = ""
+        for(p=0; p < overdueassignments.length; p++) {
+            addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][2])
+        }
         for(p=0; p < assignmentsarray.length; p++) {
             addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
         }
