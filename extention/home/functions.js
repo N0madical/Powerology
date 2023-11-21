@@ -22,36 +22,47 @@ dates = []
 iteratable = 0
 function addAssignment(day, name, time, link) {
     container = document.getElementById("assignmentlist")
+    xicon = browser.runtime.getURL("icons/x.png")
 
-    if(!checkedAssignments.includes(name)) {
+    if(!checkedAssignments[1].includes(unEscape(name))) {
         if(!(dates.includes(day, 0))) {
-                if(day == "overdue") {
-                    dayonly = "Overdue"
-                    notday = ""
-                    color = "color: darkred"
-                } else {
-                    dayonly = day.substring(0,day.indexOf(","))
-                    notday = day.substring(day.indexOf(","))
-                    color = ""
-                }
-                
-                container.innerHTML += `
-                <tr name="day" class="widthbox">
-                    <th style="width: 100%;">
-                        <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em style="${color}">${dayonly}</em>${notday}</h2>
-                    </th>
-                </tr>
-                `
-                dates.push(day)
-            } 
+            if(day == "overdue") {
+                dayonly = "Overdue"
+                notday = ""
+                color = "color: darkred"
+            } else {
+                dayonly = day.substring(0,day.indexOf(","))
+                notday = day.substring(day.indexOf(","))
+                color = ""
+            }
+            
+            container.innerHTML += `
+            <tr name="day" class="widthbox">
+                <th style="width: 100%;">
+                    <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em style="${color}">${dayonly}</em>${notday}</h2>
+                </th>
+            </tr>
+            `
+            dates.push(day)
+        } 
+        
+        if(checkedAssignments[0].includes(unEscape(name))) {
+            checked = "checked=true";
+            textDec = "text-decoration: line-through;"
+        } else {
+            checked = "";
+            textDec = "text-decoration: none;"
+        }
 
         container.innerHTML += `
-        <tr name="assignment" class="widthbox hov clickable">
-            <th><input style="margin-left: 20px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})"></th>
-            <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey;">${name}</h3></th>
+        <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable">
+            <th><img src="${xicon}" onclick="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 10px; margin-top: 8px; margin-right: 2px;"></th>
+            <th><input style="margin-left: 2px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})" ${checked}></th>
+            <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey; ${textDec}">${name}</h3></th>
             <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
         </tr>
         `
+
         iteratable += 1
     }
 }
@@ -96,19 +107,26 @@ function openLink(link) {
 exportFunction(openLink, window, { defineAs: "openLink" });
 
 function checkMe(name, id) {
-    if(!checkedAssignments.includes(name)) {
-        checkedAssignments.push(name)
+    if(!checkedAssignments[0].includes(name)) {
+        checkedAssignments[0].push(name)
         document.getElementById(`assignment${id}`).style.textDecoration = "line-through";
     } else {
-        checkedAssignments.splice(checkedAssignments.indexOf(name), 1);
+        checkedAssignments[0].splice(checkedAssignments[0].indexOf(name), 1);
         document.getElementById(`assignment${id}`).style.textDecoration = "";
     }
     browser.storage.sync.set({checkedAssignments})
 }
 exportFunction(checkMe, window, { defineAs: "checkMe" });
 
+function xMe(name, id) {
+    checkedAssignments[1].push(name)
+    document.getElementById(`aslist${id}`).remove();
+    browser.storage.sync.set({checkedAssignments})
+}
+exportFunction(xMe, window, { defineAs: "xMe" });
+
 function refreshClrAssLst() {
-    checkedAssignments = []
+    checkedAssignments = [[],[]]
     browser.storage.sync.set({checkedAssignments})
     location.reload();
 }
@@ -178,5 +196,14 @@ function editSavedGrades(argument="h", input=-1) {
     }
 }
 exportFunction(editSavedGrades, window, { defineAs: "editSavedGrades" });
+
+function unEscape(htmlStr) {
+    htmlStr = htmlStr.replace(/&lt;/g , "<");	 
+    htmlStr = htmlStr.replace(/&gt;/g , ">");     
+    htmlStr = htmlStr.replace(/&quot;/g , "\"");  
+    htmlStr = htmlStr.replace(/&#39;/g , "\'");   
+    htmlStr = htmlStr.replace(/&amp;/g , "&");
+    return htmlStr;
+}
 
 function onError(error) {console.debug(error)}

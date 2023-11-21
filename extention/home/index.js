@@ -5,7 +5,7 @@ browser.storage.sync.get("checkedAssignments").then(defineAssignments, onError)
 function defineAssignments(value) {; 
     checkedAssignments = value.checkedAssignments; 
     if(checkedAssignments == undefined) {
-        checkedAssignments = []
+        checkedAssignments = [[],[]]
         browser.storage.sync.set({checkedAssignments})
     }
 }
