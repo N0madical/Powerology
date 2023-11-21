@@ -98,20 +98,21 @@ function loadSchoologyPlus() {
         assignmentsarray.push([hdate, hname, htime, hclass, hlink])
     }
 
-    overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("event-title")
+    overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
     overdueassignmentsarray = []
-    for(u = 0; u < overdueassignments.length; u++) {
-        uname = overdueassignments[u].firstChild.innerHTML
-        uclass = overdueassignments[u].children[1].children[1].innerHTML
-        ulink = overdueassignments[u].getElementsByClassName("sExtlink-processed")[0].href
-        overdueassignmentsarray.push([uname, uclass, ulink])
+    for(u = 0; u < overdueassignments.length-2; u += 2) {
+        uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
+        udue = overdueassignments[u].children[0].innerHTML
+        ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
+        if(Date.parse(udue) <= Date.now()) {
+            overdueassignmentsarray.push([uname, ulink])
+        }
     }
 
     //########################################################
         //Injecting Data
     //########################################################
 
-    console.debug(classesarray)
     if(classesarray.length > 0 && gradesarray.length > 0 && assignmentsarray.length > 0 && classcolors != undefined) {
         //document.getElementById("wrapper").style.display = "none"
         document.getElementById("site-navigation-footer").style.display = "none"
@@ -133,8 +134,8 @@ function loadSchoologyPlus() {
         }
 
         document.getElementById("assignmentlist").innerHTML = ""
-        for(p=0; p < overdueassignments.length; p++) {
-            addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][2])
+        for(p=0; p < overdueassignmentsarray.length; p++) {
+            addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
         }
         for(p=0; p < assignmentsarray.length; p++) {
             addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])

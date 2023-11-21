@@ -11,7 +11,8 @@
     },
 
     "permissions": [
-      "storage"
+      "storage",
+      "https://api.github.com/*"
     ],
 
     "web_accessible_resources": [
