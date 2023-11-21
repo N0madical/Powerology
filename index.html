@@ -26,21 +26,7 @@
         <h3>A Firefox Addon Developed to Fix Post Oak's Schoology</h3>
       </div>
     </header>
-    <main>
-      <table style="text-align: center; position: absolute; left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
-        <tr>
-          <td>
-            <img src="extention/icons/icon96.png" width="150" height="150">
-          </td>
-          <td style="padding-left: 20px;">
-            <h2>Version: <h2 id="version">4.4</h2></h2>
-            <a href="https://raw.githubusercontent.com/N0madical/Powerology/main/versions/Powerology-v4.4.xpi" style="text-decoration: none;">
-              <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;">Install</button>
-            </a>
-          </td>
-        </tr>
-      </table>
-      
+    <main id="body">
     </main>
     <footer></footer>
   </body>
@@ -48,9 +34,28 @@
     let versions = new XMLHttpRequest()
     versions.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/versions")
     versions.send()
-    console.debug(versions)
     versions.onload = () => {
-      console.log(JSON.parse(versions.response))
+      versionlist = JSON.parse(versions.response)
+      for(var i = 0; i < versionlist.length; i++) {
+        vname = versionlist[i].name
+        vnumber = vname.substring(vname.indexOf("-v")+2,vname.indexOf("-v")+5)
+        console.debug(vname,vnumber)
+        document.getElementById("body").insertAdjacentHTML("afterbegin", `
+        <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
+          <tr>
+            <td>
+              <img src="extention/icons/icon96.png" width="150" height="150">
+            </td>
+            <td style="padding-left: 20px;">
+              <h2>Version: <h2 id="version">${vnumber}</h2></h2>
+              <a href="${versionlist[i].download_url}" style="text-decoration: none;">
+                <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;">Install</button>
+              </a>
+            </td>
+          </tr>
+        </table>
+        `)
+      }
     }
 
   </script>
