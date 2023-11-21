@@ -34,7 +34,7 @@
           </td>
           <td style="padding-left: 20px;">
             <h2>Version: <h2 id="version">4.4</h2></h2>
-            <a href="Versions/Powerology-v4.4.xpi" style="text-decoration: none;">
+            <a href="https://raw.githubusercontent.com/N0madical/Powerology/main/versions/Powerology-v4.4.xpi" style="text-decoration: none;">
               <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;">Install</button>
             </a>
           </td>
@@ -44,4 +44,14 @@
     </main>
     <footer></footer>
   </body>
+  <script>
+    let versions = new XMLHttpRequest()
+    versions.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/versions")
+    versions.send()
+    console.debug(versions)
+    versions.onload = () => {
+      console.log(JSON.parse(versions.response))
+    }
+
+  </script>
 </html>
