@@ -40,6 +40,7 @@
           </td>
         </tr>
       </table>
+      <p style="display: none;" id="latestversion">1.0</p>
     </main>
     <footer></footer>
   </body>
@@ -67,6 +68,11 @@
           </tr>
         </table>
         `)
+        
+        latestversionp = document.getElementById("latestversion")
+        if(parseInt(latestversionp.innerHTML) <= parseInt(vnumber)) {
+          latestversionp.innerHTML = vnumber
+        }
       }
     }
 
