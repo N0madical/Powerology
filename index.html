@@ -39,7 +39,6 @@
       for(var i = 0; i < versionlist.length; i++) {
         vname = versionlist[i].name
         vnumber = vname.substring(vname.indexOf("-v")+2,vname.indexOf("-v")+5)
-        console.debug(vname,vnumber)
         document.getElementById("body").insertAdjacentHTML("afterbegin", `
         <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
           <tr>
@@ -48,7 +47,7 @@
             </td>
             <td style="padding-left: 20px;">
               <h2>Version: <h2 id="version">${vnumber}</h2></h2>
-              <a href="${versionlist[i].download_url}" style="text-decoration: none;">
+              <a href="versions/${vname}" style="text-decoration: none;">
                 <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;">Install</button>
               </a>
             </td>
