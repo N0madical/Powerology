@@ -5,7 +5,7 @@
     <meta name="description" content="Powerology Downloads Page">
     <meta name="author" content="Aiden">
     <meta name="keywords" content="Powerology" >
-    <link rel="shortcut icon" type="icon/ico" href="icon.ico"/>
+    <link rel="shortcut icon" type="icon/ico" href="images/icon.ico"/>
     <title>Powerology Extention</title>
     <title></title>
     <style>
@@ -22,6 +22,14 @@
         url(https://ui.schoology.com/design-system/assets/open-sans-latin-regular.bf2d0783515b7d75c35bde69e01b3135.woff)
         format("woff")
       }
+      
+      .image {
+        position: absolute; 
+        z-index: 100; 
+        transform: translate(-50%,-50%); 
+        width: 25vw; 
+        box-shadow: 5px 5px 3px 0px rgba(0, 0, 0, 0.15);
+      }
     </style>
   </head>
   <body style="margin: 0px;">
@@ -29,10 +37,11 @@
       <div style="width: 100%; text-align: center; font-family: var(--sgy-font-default); background-color: aquamarine; margin: 0; height: 200px; padding-top: 20px; padding-bottom: 20px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);">
         <h1 style="font-size: 100px; line-height: 10px;">Powerology</h1>
         <h3>A Firefox Addon Developed to Fix Post Oak's Schoology</h3>
+        <h5 style="color: rgba(0, 0, 0, 0.5); line-height: 5px;">Pay me $5 if you want me to port it to Chrome/Opera/Brave</h5>
       </div>
     </header>
     <main id="body">
-      <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
+      <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 25px; margin-bottom: 50px;">
         <tr>
           <td>
             <img src="extention/icons/icon96.png" width="150" height="150">
@@ -40,12 +49,18 @@
           <td style="padding-left: 20px;">
             <h2>Dev Release</h2>
             <a href="https://github.com/N0madical/Powerology/archive/refs/heads/main.zip" style="text-decoration: none;">
-              <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;">Download</button>
+              <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;"><img src="images/github.png" style="width: 15px; padding-right: 5px; transform: translateY(2px);">Download</button>
             </a>
           </td>
         </tr>
       </table>
+      <a href="https://github.com/N0madical/Powerology/issues" style="text-decoration: none;">
+        <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 25px; margin-bottom: 25px; text-decoration: none;">Submit Bug Report</button>
+      </a>
       <p style="display: none;" id="latestversion">1.0</p>
+      <img class="image" src="images/preview1.png" style="left: 5%; top: 40%; transform: rotate(-15deg);">
+      <img class="image" src="images/preview2.png" style="left: 70%; top: 60%; transform: rotate(15deg);">
+      <img class="image" src="images/preview3.png" style="left: 5%; top: 80%; transform: rotate(-10deg);">
     </main>
     <footer></footer>
   </body>
@@ -58,21 +73,42 @@
       for(var i = 0; i < versionlist.length; i++) {
         vname = versionlist[i].name
         vnumber = vname.substring(vname.indexOf("-v")+2,vname.indexOf("-v")+5)
-        document.getElementById("body").insertAdjacentHTML("afterbegin", `
-        <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
-          <tr>
-            <td>
-              <img src="extention/icons/icon96.png" width="150" height="150">
-            </td>
-            <td style="padding-left: 20px;">
-              <h2>Version: ${vnumber}</h2>
-              <a href="versions/${vname}" style="text-decoration: none;">
-                <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;">Install</button>
-              </a>
-            </td>
-          </tr>
-        </table>
-        `)
+        if(i == versionlist.length-1) {
+          document.getElementById("body").insertAdjacentHTML("afterbegin", `
+          <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
+            <tr>
+              <td>
+                <img src="extention/icons/icon96.png" width="150" height="150">
+              </td>
+              <td style="padding-left: 20px;">
+                <h2>Version: ${vnumber}</h2>
+                <a href="versions/${vname}" style="text-decoration: none;">
+                  <button style="display: block; margin-left: 50%; margin-right: 50%; transform: translateX(-50%); width: 200px; height: 50px; margin-top: 15%; text-decoration: none;"><img src="images/firefox.png" style="width: 15px; padding-right: 5px; transform: translateY(2px);">Install</button>
+                </a>
+              </td>
+            </tr>
+          </table>
+          `)
+        } else {
+          document.getElementById("body").insertAdjacentHTML("afterbegin", `
+          <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 0px; margin-top: 25px; width: 400px">
+            <tr>
+              <td>
+                <img src="extention/icons/icon96.png" width="50" height="50" style="padding-left: 20px;">
+              </td>
+              <td>
+                <h3>Version: ${vnumber}</h3>
+              </td>
+              <td style="padding-left: 20px;">
+                <a href="versions/${vname}" style="text-decoration: none;">
+                  <button style="display: block; margin-left: 25%; margin-right: 75%; transform: translateX(-50%); width: 100px; height: 25px; margin-top: 2.5%; text-decoration: none;">Install</button>
+                </a>
+              </td>
+            </tr>
+          </table>
+          `)
+        }
+        
         
         latestversionp = document.getElementById("latestversion")
         if(parseInt(latestversionp.innerHTML) <= parseInt(vnumber)) {
