@@ -1,6 +1,7 @@
 backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
 
 refresh = browser.runtime.getURL("icons/refresh.png");
+openext = browser.runtime.getURL("icons/openext.png");
 cngbg = browser.runtime.getURL("icons/changebg_white.png");
 
 schoologyplusplusWeb = `
@@ -17,19 +18,19 @@ schoologyplusplusWeb = `
     <button class="margin-center" onclick="saveBg()">Save</button>
 </div>
 <div id="centerbox">
-    <div id="classes" class="box shadow" style="width: 300px; height: fit-content; display: flex; flex-direction: column; max-height: 88vh;">
+    <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
-        <div style="width: 100%; overflow: scroll;">
+        <div style="width: 100%;">
             <table id="classlist" style="width: 100%;">
             </table>
         </div>
     </div>
-    <div id="assignments" class="box shadow" style="width: 500px; height: fit-content; display: flex; flex-direction: column; max-height: 88vh;">
+    <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
         <h1 class="header text-center">Assignments</h1>
-        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(150px,16px); width: 15px; height: 15px;" onclick="refreshClrAssLst()"></img>
+        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(150px,-22px); width: 15px; height: 15px;" onclick="refreshClrAssLst()"></img>
         <hr style="margin-bottom: 10px;">
-        <div style="width: 100%; overflow: scroll;">
+        <div style="width: 100%;">
             <table id="assignmentlist" style="width: 100%;">
                 <tr name="day" class="widthbox">
                     <th style="width: 100%;"><h2 style="padding-left: 10px; line-height: 5px; text-align: left;">Tuesday, March 3rd</h2></th>
@@ -47,8 +48,21 @@ schoologyplusplusWeb = `
     </div>
     <div>
         <div id="grades" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
+            <img class="clickable" src=${openext} style="position: absolute; left: 50%; transform:translate(570px,15px); width: 15px; height: 15px;" onclick="openGrades()"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
+            <div class="text-center">
+                <h3>Sort Grades: 
+                    <select name="Sort Grades" id="sgrades" onChange="sortGrades()">
+                        <option value="000|000">All Grades</option>
+                        <option value="0.0|5.0">Only Graded</option>
+                        <option value="0.0|3.5">0.0 to 3.5</option>
+                        <option value="3.5|4.0">3.5 to 4.0</option>
+                        <option value="4.0|4.5">4.0 to 4.5</option>
+                        <option value="4.5|5.0">4.5 to 5.0</option>
+                    </select>
+                </h3>
+            </div>
             <div style="width: 100%; overflow: scroll;">
                 <table id="gradelist" style="width: 100%;">
                 </table>

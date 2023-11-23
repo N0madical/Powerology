@@ -1,4 +1,5 @@
 function updateClasses() {
+    console.info("Updating Class List...")
     document.getElementById("classlist").innerHTML = ""
     for(p=0; p < classesarray.length; p++) {
         addClass(classesarray[p][0],classesarray[p][1])
@@ -6,25 +7,29 @@ function updateClasses() {
 }
 
 function updateAssignments() {
+    console.info("Updating Assignment List...")
     asdates = []
     tododates = []
     iteratable = 0
     document.getElementById("assignmentlist").innerHTML = ""
     document.getElementById("todolist").innerHTML = ""
-    console.debug("successfully running")
     for(p=0; p < overdueassignmentsarray.length; p++) {
         addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
     }
     for(p=0; p < assignmentsarray.length; p++) {
         addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
     }
-    console.debug(document.getElementById("assignments").style.height)
 }
 
 function updateGradeList() {
+    console.info("Updating Grades List...")
     document.getElementById("gradelist").innerHTML = ""
     for(p=0; p < gradesarray.length; p++) {
-        addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+        if(gradessort[1] == "0") {
+            addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+        } else if (parseFloat(gradesarray[p][1][1]) >= gradessort[0] && parseFloat(gradesarray[p][1][1]) <= gradessort[1]) {
+            addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+        }
     }
     for(p=0; p < pastGrades.length; p++) {
         let counter = (pastGrades.length-1) - p
@@ -35,7 +40,11 @@ function updateGradeList() {
             }
         }
         if(!match) {
-            addGrade(pastGrades[counter][0][0],pastGrades[counter][1][0],pastGrades[counter][1][1],pastGrades[counter][1][2],true)
+            if(gradessort[1] == "0") {
+                addGrade(pastGrades[counter][0][0],pastGrades[counter][1][0],pastGrades[counter][1][1],pastGrades[counter][1][2],true)
+            } else if (parseFloat(pastGrades[counter][1][1]) >= gradessort[0] && parseFloat(pastGrades[counter][1][1]) <= gradessort[1]) {
+                addGrade(pastGrades[counter][0][0],pastGrades[counter][1][0],pastGrades[counter][1][1],pastGrades[counter][1][2],true)
+            }
         }
     }
 }
@@ -113,10 +122,10 @@ function addAssignment(day, name, time, link) {
 
         container.innerHTML += `
         <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
+        <th><input style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})" ${checked}></th>
             <th><img class="hideuntilhover" src="${xicon}" onclick="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
-            <th><img class="hideuntilhover" src="${todoicon}" onclick="todoMe('${name}', '${iteratable}', ${checkedAssignments[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 4px;"></th>
-            <th><input style="margin-left: 2px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})" ${checked}></th>
-            <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey; ${textDec}">${name}</h3></th>
+            <th><img class="hideuntilhover" src="${todoicon}" onclick="todoMe('${name}', '${iteratable}', ${checkedAssignments[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
             <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
         </tr>
         `
@@ -169,6 +178,26 @@ function openLink(link) {
     window.open(link, "_self")
 }
 exportFunction(openLink, window, { defineAs: "openLink" });
+
+function openGrades() {
+    for(let i=0; i < classesarray.length; i++) {
+        console.debug(classesarray[i][0])
+        if(classesarray[i][0] != "General Information: Community" && !classesarray[i][0].includes("Extended Essay: Seniors") && !classesarray[i][0].includes("Creativity Activity Service")) {
+            window.open(classesarray[i][1].replace("materials", "student_grades"))
+        }
+    }
+}
+exportFunction(openGrades, window, { defineAs: "openGrades" });
+
+function sortGrades() {
+    let sortValue = document.getElementById("sgrades").value
+    let from = parseFloat(sortValue.substring(0,3))
+    let to = parseFloat(sortValue.substring(4))
+    
+    gradessort = [from,to]
+    updateGradeList()
+}
+exportFunction(sortGrades, window, { defineAs: "sortGrades" });
 
 function checkMe(name, id) {
     if(!checkedAssignments[0].includes(name)) {

@@ -51,6 +51,8 @@ datacollected = false
 classesarray = []
 assignmentsarray = []
 gradesarray = []
+gradessort = [0,0]
+let classcolors
 
 function loadSchoologyPlus() {
 
@@ -103,14 +105,16 @@ function loadSchoologyPlus() {
         assignmentsarray.push([hdate, hname, htime, hclass, hlink])
     }   
 
-    overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
-    overdueassignmentsarray = []
-    for(u = 0; u < overdueassignments.length-2; u += 2) {
-        uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
-        udue = overdueassignments[u].children[0].innerHTML
-        ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
-        if(Date.parse(udue) <= Date.now()) {
-            overdueassignmentsarray.push([uname, ulink])
+    if(document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0]) {
+        overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
+        overdueassignmentsarray = []
+        for(u = 0; u < overdueassignments.length-2; u += 2) {
+            uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
+            udue = overdueassignments[u].children[0].innerHTML
+            ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
+            if(Date.parse(udue) <= Date.now()) {
+                overdueassignmentsarray.push([uname, ulink])
+            }
         }
     }
 
@@ -132,6 +136,17 @@ function loadSchoologyPlus() {
 
         document.getElementById("wrapper").style.width = "100%"
         document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
+
+        buttons = document.getElementsByClassName("_13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw")
+        for(let h = 0; h < buttons.length; h++) {
+            if(buttons[h].hasAttribute("aria-label")) {
+                if(buttons[h].getAttribute("aria-label").includes("notifications")) {
+                    if(buttons[h].getElementsByClassName("_2JX1Q _2L4PN les2- USYsM tAI8z fioA9 _1tpub _3RmDr")[0]) {
+                        buttons[h].getElementsByClassName("_2JX1Q _2L4PN les2- USYsM tAI8z fioA9 _1tpub _3RmDr")[0].remove()
+                    }
+                }
+            }
+        }
 
         updateClasses()
         updateAssignments()

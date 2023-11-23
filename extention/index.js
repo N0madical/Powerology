@@ -10,7 +10,7 @@ function onGetnextCheck(value) {;
         nextCheck = Date.now()
         browser.storage.local.set({nextCheck})
     }
-    console.debug("It is currently", Date.now(), "ms, app will check for update at", nextCheck, "ms.")
+    console.info("It is currently", Date.now(), "ms, app will check for update at", nextCheck, "ms.")
     if(nextCheck <= Date.now()) {
         let gitHub = new XMLHttpRequest()
         gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/versions")
