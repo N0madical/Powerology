@@ -124,6 +124,14 @@ em {
     background-color: lightgray;
 }
 
+.hov:hover .hideuntilhover {
+    display: inherit;
+}
+
+.hov .hideuntilhover {
+    display: none;
+}
+
 .classcolor {
     top:0px;
     bottom: 0px;

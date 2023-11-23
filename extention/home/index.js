@@ -5,10 +5,13 @@ browser.storage.sync.get("checkedAssignments").then(defineAssignments, onError)
 function defineAssignments(value) {; 
     checkedAssignments = value.checkedAssignments; 
     if(checkedAssignments == undefined) {
-        checkedAssignments = [[],[]]
+        checkedAssignments = [[],[],[]]
         browser.storage.sync.set({checkedAssignments})
     }
 }
+
+// pastGrades = []
+// browser.storage.sync.set({pastGrades})
 
 pastGrades = []
 // browser.storage.sync.set({pastGrades})
@@ -19,6 +22,7 @@ function definePastGrades(value) {;
         pastGrades = []
         browser.storage.sync.set({pastGrades})
     }
+    pastGrades.sort((a, b) => a[0] - b[0])
 }
 
 browser.storage.sync.get("classcolors").then(loadColors, onError)
@@ -57,6 +61,7 @@ function loadSchoologyPlus() {
     grades = document.getElementsByClassName("recently-completed-event")
     gradesarray = []
     for(i = 0; i < grades.length; i++) {
+        itime = Date.now()
         iname = grades[i].getElementsByClassName("sExtlink-processed")[0].textContent
         igrade = grades[i].getElementsByClassName("recently-completed-grade")[0].textContent;
         if(!isNaN(igrade) && !isNaN(parseFloat(igrade))) {
@@ -67,7 +72,7 @@ function loadSchoologyPlus() {
             }
         }
         ilink = grades[i].getElementsByClassName("sExtlink-processed")[0].href
-        gradesarray.push([iname,igrade,ilink])
+        gradesarray.push([[itime],[iname,igrade,ilink]])
     }
 
     classes = document.getElementsByClassName("sgy-card")
@@ -96,7 +101,7 @@ function loadSchoologyPlus() {
         hclass = assignments[h].children[1].children[1].innerHTML
         hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
         assignmentsarray.push([hdate, hname, htime, hclass, hlink])
-    }
+    }   
 
     overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
     overdueassignmentsarray = []
@@ -113,7 +118,7 @@ function loadSchoologyPlus() {
         //Injecting Data
     //########################################################
 
-    if(classesarray.length > 0 && gradesarray.length > 0 && assignmentsarray.length > 0 && classcolors != undefined) {
+    if(classesarray.length > 0 && gradesarray.length > 0 && assignmentsarray.length > 0 && classcolors != null) {
         //document.getElementById("wrapper").style.display = "none"
         document.getElementById("site-navigation-footer").style.display = "none"
         document.getElementById("site-navigation-breadcrumbs").style.display = "none"
@@ -128,34 +133,9 @@ function loadSchoologyPlus() {
         document.getElementById("wrapper").style.width = "100%"
         document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
 
-        document.getElementById("classlist").innerHTML = ""
-        for(p=0; p < classesarray.length; p++) {
-            addClass(classesarray[p][0],classesarray[p][1])
-        }
-
-        document.getElementById("assignmentlist").innerHTML = ""
-        for(p=0; p < overdueassignmentsarray.length; p++) {
-            addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
-        }
-        for(p=0; p < assignmentsarray.length; p++) {
-            addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
-        }
-
-        document.getElementById("gradelist").innerHTML = ""
-        for(p=0; p < gradesarray.length; p++) {
-            addGrade(gradesarray[p][0],gradesarray[p][1],gradesarray[p][2],false)
-        }
-        for(p=0; p < pastGrades.length; p++) {
-            match = false;
-            for(c=0; c < gradesarray.length; c++) {
-                if(gradesarray[c][0] == pastGrades[p][0]) {
-                    match = true;
-                }
-            }
-            if(!match) {
-                addGrade(pastGrades[p][0],pastGrades[p][1],pastGrades[p][2],true)
-            }
-        }
+        updateClasses()
+        updateAssignments()
+        updateGradeList()
 
         clearInterval(loadrepeat)
     }

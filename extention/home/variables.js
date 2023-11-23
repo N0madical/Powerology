@@ -17,35 +17,51 @@ schoologyplusplusWeb = `
     <button class="margin-center" onclick="saveBg()">Save</button>
 </div>
 <div id="centerbox">
-    <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
+    <div id="classes" class="box shadow" style="width: 300px; height: fit-content; display: flex; flex-direction: column; max-height: 88vh;">
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
-        <table id="classlist" style="width: 100%;">
-        </table>
+        <div style="width: 100%; overflow: scroll;">
+            <table id="classlist" style="width: 100%;">
+            </table>
+        </div>
     </div>
-    <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
+    <div id="assignments" class="box shadow" style="width: 500px; height: fit-content; display: flex; flex-direction: column; max-height: 88vh;">
         <h1 class="header text-center">Assignments</h1>
-        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(160px,-22px); width: 15px; height: 15px;" onclick="refreshClrAssLst()"></img>
+        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(150px,16px); width: 15px; height: 15px;" onclick="refreshClrAssLst()"></img>
         <hr style="margin-bottom: 10px;">
-        <table id="assignmentlist" style="width: 100%;">
-            <tr name="day" class="widthbox">
-                <th style="width: 100%;"><h2 style="padding-left: 10px; line-height: 5px; text-align: left;">Tuesday, March 3rd</h2></th>
-            </tr>
-            <tr name="assignment" onclick="javascript:sus2()" class="widthbox hov clickable">
-                <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left;">Assignment One</h3></th>
-                <th><h4 style="padding-right: 20px; text-align: right;">12:00pm</h4></th>
-            </tr>
-            <tr name="assignment" onclick="javascript:sus2()" class="widthbox hov clickable">
-                <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left;">Assignment Two</h3></th>
-                <th><h4 style="padding-right: 20px; text-align: right;">12:00pm</h4></th>
-            </tr>
-        </table>
+        <div style="width: 100%; overflow: scroll;">
+            <table id="assignmentlist" style="width: 100%;">
+                <tr name="day" class="widthbox">
+                    <th style="width: 100%;"><h2 style="padding-left: 10px; line-height: 5px; text-align: left;">Tuesday, March 3rd</h2></th>
+                </tr>
+                <tr name="assignment" onclick="javascript:sus2()" class="widthbox hov clickable">
+                    <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left;">Assignment One</h3></th>
+                    <th><h4 style="padding-right: 20px; text-align: right;">12:00pm</h4></th>
+                </tr>
+                <tr name="assignment" onclick="javascript:sus2()" class="widthbox hov clickable">
+                    <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left;">Assignment Two</h3></th>
+                    <th><h4 style="padding-right: 20px; text-align: right;">12:00pm</h4></th>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div id="grades" class="box shadow" style="width: 400px; height: fit-content;">
-        <h1 class="header text-center">Grades</h1>
-        <hr style="margin-bottom: 10px;">
-        <table id="gradelist" style="width: 100%;">
-        </table>
+    <div>
+        <div id="grades" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
+            <h1 class="header text-center">Grades</h1>
+            <hr style="margin-bottom: 10px;">
+            <div style="width: 100%; overflow: scroll;">
+                <table id="gradelist" style="width: 100%;">
+                </table>
+            </div>
+        </div>
+        <div id="todo" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 36vh; display:none;">
+            <h1 class="header text-center">For Later</h1>
+            <hr style="margin-bottom: 10px;">
+            <div style="width: 100%; overflow: scroll; flex-grow: 1">
+                <table id="todolist" style="width: 100%;">
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 `;

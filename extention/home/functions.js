@@ -1,3 +1,45 @@
+function updateClasses() {
+    document.getElementById("classlist").innerHTML = ""
+    for(p=0; p < classesarray.length; p++) {
+        addClass(classesarray[p][0],classesarray[p][1])
+    }
+}
+
+function updateAssignments() {
+    asdates = []
+    tododates = []
+    iteratable = 0
+    document.getElementById("assignmentlist").innerHTML = ""
+    document.getElementById("todolist").innerHTML = ""
+    console.debug("successfully running")
+    for(p=0; p < overdueassignmentsarray.length; p++) {
+        addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
+    }
+    for(p=0; p < assignmentsarray.length; p++) {
+        addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
+    }
+    console.debug(document.getElementById("assignments").style.height)
+}
+
+function updateGradeList() {
+    document.getElementById("gradelist").innerHTML = ""
+    for(p=0; p < gradesarray.length; p++) {
+        addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+    }
+    for(p=0; p < pastGrades.length; p++) {
+        let counter = (pastGrades.length-1) - p
+        match = false;
+        for(c=0; c < gradesarray.length; c++) {
+            if(gradesarray[c][1][0] == pastGrades[counter][1][0]) {
+                match = true;
+            }
+        }
+        if(!match) {
+            addGrade(pastGrades[counter][0][0],pastGrades[counter][1][0],pastGrades[counter][1][1],pastGrades[counter][1][2],true)
+        }
+    }
+}
+
 function addClass(name, link) {
     container = document.getElementById("classlist")
     carat = browser.runtime.getURL("icons/carat.png");
@@ -18,11 +60,16 @@ function addClass(name, link) {
     `
 } 
 
-dates = []
-iteratable = 0
 function addAssignment(day, name, time, link) {
-    container = document.getElementById("assignmentlist")
+    if(!checkedAssignments[2].includes(unEscape(name))) {
+        container = document.getElementById("assignmentlist")
+        dates = asdates
+    } else {
+        container = document.getElementById("todolist")
+        dates = tododates
+    }
     xicon = browser.runtime.getURL("icons/x.png")
+    todoicon = browser.runtime.getURL("icons/todo.png")
 
     if(!checkedAssignments[1].includes(unEscape(name))) {
         if(!(dates.includes(day, 0))) {
@@ -43,7 +90,17 @@ function addAssignment(day, name, time, link) {
                 </th>
             </tr>
             `
-            dates.push(day)
+
+            if(!checkedAssignments[2].includes(unEscape(name))) {
+                asdates.push(day)
+            } else {
+                tododates.push(day)
+            }
+            if(tododates.length > 0) {
+                document.getElementById("todo").style.display = "flex"
+            } else {
+                document.getElementById("todo").style.display = "none"
+            }
         } 
         
         if(checkedAssignments[0].includes(unEscape(name))) {
@@ -55,8 +112,9 @@ function addAssignment(day, name, time, link) {
         }
 
         container.innerHTML += `
-        <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable">
-            <th><img src="${xicon}" onclick="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 10px; margin-top: 8px; margin-right: 2px;"></th>
+        <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
+            <th><img class="hideuntilhover" src="${xicon}" onclick="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            <th><img class="hideuntilhover" src="${todoicon}" onclick="todoMe('${name}', '${iteratable}', ${checkedAssignments[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 4px;"></th>
             <th><input style="margin-left: 2px; margin-top: 8px; margin-right: 20px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})" ${checked}></th>
             <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey; ${textDec}">${name}</h3></th>
             <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
@@ -67,7 +125,7 @@ function addAssignment(day, name, time, link) {
     }
 }
 
-function addGrade(name,grade,link,fromPast) {
+function addGrade(date,name,grade,link,fromPast) {
     container = document.getElementById("gradelist")
     if(grade >= 4.0) {
         color = "green"
@@ -82,12 +140,18 @@ function addGrade(name,grade,link,fromPast) {
     if(grade >= 0 && !fromPast) {
         match2 = false;
         for(h=0; h < pastGrades.length; h++) {
-            if(pastGrades[h][0] == name) {
-                match2 = true;
+            if(pastGrades[h][1][0] == name) {
+                if(pastGrades[h][1][1] != grade) {
+                    console.info("Found same name with different grade:", name, ":", pastGrades[h][1][1], "=>", grade)
+                    pastGrades.splice(h,1)
+                } else {
+                    match2 = true;
+                }
             }
         }
         if(!match2) {
-            pastGrades.push([name,grade,link])
+            pastGrades.push([[date],[name,grade,link]])
+            pastGrades.sort((a, b) => a[0] - b[0])
             browser.storage.sync.set({pastGrades})
         }
     }
@@ -109,24 +173,34 @@ exportFunction(openLink, window, { defineAs: "openLink" });
 function checkMe(name, id) {
     if(!checkedAssignments[0].includes(name)) {
         checkedAssignments[0].push(name)
-        document.getElementById(`assignment${id}`).style.textDecoration = "line-through";
     } else {
         checkedAssignments[0].splice(checkedAssignments[0].indexOf(name), 1);
-        document.getElementById(`assignment${id}`).style.textDecoration = "";
     }
+    updateAssignments();
     browser.storage.sync.set({checkedAssignments})
 }
 exportFunction(checkMe, window, { defineAs: "checkMe" });
 
 function xMe(name, id) {
-    checkedAssignments[1].push(name)
-    document.getElementById(`aslist${id}`).remove();
-    browser.storage.sync.set({checkedAssignments})
+    checkedAssignments[1].push(name);
+    updateAssignments();
+    browser.storage.sync.set({checkedAssignments});
 }
 exportFunction(xMe, window, { defineAs: "xMe" });
 
+function todoMe(name, id, remove) {
+    if(!remove) {
+        checkedAssignments[2].push(name)
+    } else {
+        checkedAssignments[2].splice(checkedAssignments[2].indexOf(name), 1)
+    }
+    updateAssignments();
+    browser.storage.sync.set({checkedAssignments})
+}
+exportFunction(todoMe, window, { defineAs: "todoMe" });
+
 function refreshClrAssLst() {
-    checkedAssignments = [[],[]]
+    checkedAssignments = [[],[],[]]
     browser.storage.sync.set({checkedAssignments})
     location.reload();
 }
@@ -182,13 +256,13 @@ function editSavedGrades(argument="h", input=-1) {
         }  
     } else if (argument == "a") {
         if (typeof input == "object") {
-            if(input.length == 3) {
+            if(input.length == 2 && input[1].length == 3) {
                 pastGrades.push(input)
                 console.info("Success! Added", input)
                 browser.storage.sync.set({pastGrades})
                 location.reload();
             } else {
-                console.info("Please input a valid array assignment to add (['Name','Grade','Link'])")
+                console.info("Please input a valid array assignment to add (['Epoch ms'],['Name','Grade','Link'])")
             }
         } else {
             console.info("Please input a valid array assignment to add (['Name','Grade','Link'])")
