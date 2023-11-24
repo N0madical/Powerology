@@ -25,7 +25,7 @@
       
       .image {
         position: absolute; 
-        z-index: 100; 
+        z-index: -20; 
         transform: translate(-50%,-50%); 
         width: 25vw; 
         box-shadow: 5px 5px 3px 0px rgba(0, 0, 0, 0.15);
@@ -116,6 +116,19 @@
         }
       }
     }
+
+    addEventListener("resize", (event) => {
+      images = document.getElementsByClassName("image")
+      if(window.innerWidth <= 1200) {
+        for(i=0; i < images.length; i++) {
+          images[i].style.display = "none"
+        }
+      } else {
+        for(i=0; i < images.length; i++) {
+          images[i].style.display = "inherit"
+        }
+      }
+    })
 
   </script>
 </html>
