@@ -53,6 +53,7 @@ assignmentsarray = []
 gradesarray = []
 gradessort = [0,0]
 let classcolors
+errorlist = []
 
 function loadSchoologyPlus() {
 
@@ -103,9 +104,11 @@ function loadSchoologyPlus() {
             htime = hdue.substr(hdue.indexOf(" at ") + 4)
             hclass = assignments[h].children[1].children[1].innerHTML
             hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
+            console.debug([hdate, hname, htime, hclass, hlink])
             assignmentsarray.push([hdate, hname, htime, hclass, hlink])
         } catch(err) {
-            assignmentsarray.push([3137983740, `Error: ${err}`, "-", "-", ""])
+            console.debug("Error in parsing assignments:", err)
+            errorlist.push(`<h3 class="text-center">Error reading assignment #: ${h}</h3>`)
         }
     }   
 
