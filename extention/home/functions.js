@@ -19,9 +19,12 @@ function updateAssignments() {
     for(p=0; p < assignmentsarray.length; p++) {
         addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
     }
-    for(let o = 0; o < errorlist.length; o++) {
-        document.getElementById("assignments").innerHTML += errorlist[o]
+    if(!document.getElementById("assignments").getElementsByClassName("errornotice")[0]) {
+        for(let o = 0; o < errorlist.length; o++) {
+            document.getElementById("assignments").innerHTML += errorlist[o]
+        }
     }
+    
 }
 
 function updateGradeList() {
