@@ -96,13 +96,17 @@ function loadSchoologyPlus() {
     assignments = document.getElementsByClassName("upcoming-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("event-title")
     assignmentsarray = []
     for(h = 0; h < assignments.length; h++) {
-        hname = assignments[h].firstChild.innerHTML
-        hdue = assignments[h].children[1].children[0].innerHTML
-        hdate = hdue.substr(4,hdue.indexOf(" at ")-10)
-        htime = hdue.substr(hdue.indexOf(" at ") + 4)
-        hclass = assignments[h].children[1].children[1].innerHTML
-        hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
-        assignmentsarray.push([hdate, hname, htime, hclass, hlink])
+        try {
+            hname = assignments[h].firstChild.innerHTML
+            hdue = assignments[h].children[1].children[0].innerHTML
+            hdate = hdue.substr(4,hdue.indexOf(" at ")-10)
+            htime = hdue.substr(hdue.indexOf(" at ") + 4)
+            hclass = assignments[h].children[1].children[1].innerHTML
+            hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
+            assignmentsarray.push([hdate, hname, htime, hclass, hlink])
+        } catch(err) {
+            assignmentsarray.push([3137983740, `Error: ${err}`, "-", "-", ""])
+        }
     }   
 
     if(document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0]) {
