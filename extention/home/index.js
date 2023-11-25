@@ -11,16 +11,16 @@ function defineAssignments(value) {;
 }
 
 // pastGrades = []
-// browser.storage.sync.set({pastGrades})
+// browser.storage.local.set({pastGrades})
 
 pastGrades = []
-// browser.storage.sync.set({pastGrades})
-browser.storage.sync.get("pastGrades").then(definePastGrades, onError)
+// browser.storage.local.set({pastGrades})
+browser.storage.local.get("pastGrades").then(definePastGrades, onError)
 function definePastGrades(value) {; 
     pastGrades = value.pastGrades; 
     if(pastGrades == undefined) {
         pastGrades = []
-        browser.storage.sync.set({pastGrades})
+        browser.storage.local.set({pastGrades})
     }
     pastGrades.sort((a, b) => a[0] - b[0])
 }

@@ -142,9 +142,9 @@ function addGrade(date,name,grade,link,fromPast) {
     if(grade >= 4.0) {
         color = "green"
     } else if (grade >= 3.5) {
-        color = "yellow"
+        color = "gold"
     } else if (grade >= 0) {
-        color = "red"
+        color = "crimson"
     } else {
         color = "gray"
     }
@@ -164,7 +164,7 @@ function addGrade(date,name,grade,link,fromPast) {
         if(!match2) {
             pastGrades.push([[date],[name,grade,link]])
             pastGrades.sort((a, b) => a[0] - b[0])
-            browser.storage.sync.set({pastGrades})
+            browser.storage.local.set({pastGrades})
         }
     }
 
@@ -265,7 +265,7 @@ function saveBg() {
     document.body.style.backgroundImage = `url('${link}')`
     document.body.style.backdropFilter = `blur(${blurbg}px)`
     backGround = [color, link, blurbg]
-    browser.storage.sync.set({backGround})
+    browser.storage.local.set({backGround})
 }
 exportFunction(saveBg, window, { defineAs: "saveBg" });
 
@@ -280,7 +280,7 @@ function editSavedGrades(argument="h", input=-1) {
             } else {
                 console.info("Success! Removed", pastGrades[input])
                 pastGrades.splice(input, 1)
-                browser.storage.sync.set({pastGrades})
+                browser.storage.local.set({pastGrades})
                 location.reload();
             }
         } else {
@@ -291,7 +291,7 @@ function editSavedGrades(argument="h", input=-1) {
             if(input.length == 2 && input[1].length == 3) {
                 pastGrades.push(input)
                 console.info("Success! Added", input)
-                browser.storage.sync.set({pastGrades})
+                browser.storage.local.set({pastGrades})
                 location.reload();
             } else {
                 console.info("Please input a valid array assignment to add (['Epoch ms'],['Name','Grade','Link'])")
