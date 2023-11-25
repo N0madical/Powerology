@@ -32,22 +32,28 @@ document.getElementById("overallgrade").innerHTML = avgGrade
 //########################################################
 
 pastGrades = []
-// browser.storage.sync.set({pastGrades})
-browser.storage.sync.get("pastGrades").then(definePastGrades, onError)
+// browser.storage.local.set({pastGrades})
+browser.storage.local.get("pastGrades").then(definePastGrades, onError)
 function definePastGrades(value) {; 
     pastGrades = value.pastGrades; 
     if(pastGrades == undefined) {
         pastGrades = []
-        browser.storage.sync.set({pastGrades})
+        browser.storage.local.set({pastGrades})
     }
 
     let gradelist = document.getElementsByClassName("item-row")
     for(i = 0; i < gradelist.length; i++) {
         if(gradelist[i].getElementsByClassName("rounded-grade")[0]) {
+            console.debug(gradelist[i])
             let name = gradelist[i].getElementsByClassName("title")[0].textContent.substring(0,gradelist[i].getElementsByClassName("title")[0].textContent.indexOf("assignment"))
             let link = gradelist[i].getElementsByClassName("title")[0].children[0].href
-            let duedate = gradelist[i].getElementsByClassName("due-date")[0].textContent.substring(4)
-            let duedatems = Date.parse(duedate.substring(0,duedate.indexOf(" ")))
+            let duedatems
+            if(gradelist[i].getElementsByClassName("due-date")[0]) {
+                let duedate = gradelist[i].getElementsByClassName("due-date")[0].textContent.substring(4)
+                duedatems = Date.parse(duedate.substring(0,duedate.indexOf(" ")))
+            } else {
+                duedatems = parseInt(Date.now())-604800000
+            }
             let grade = parseFloat(gradelist[i].getElementsByClassName("rounded-grade")[0].innerHTML).toFixed(1)
 
             let match2 = false
@@ -64,8 +70,13 @@ function definePastGrades(value) {;
             if(!match2) {
                 pastGrades.push([[duedatems],[name,grade,link]])
                 pastGrades.sort((a, b) => a[0] - b[0])
-                browser.storage.sync.set({pastGrades})
+                console.debug(`${pastGrades}`)
+                // browser.storage.local.getBytesInUse("pastGrades").then(printBytes, onError)
+                // function printBytes(input) {console.debug("Storage used:", input)}
+                console.debug()
+                browser.storage.local.set({pastGrades})
             }
         }
     }
 }
+
