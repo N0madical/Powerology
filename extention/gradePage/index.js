@@ -4,10 +4,14 @@
 
 let grades = document.getElementsByClassName("rounded-grade")
 let total = 0
+let divby = 0
 for(let i = 0; i < grades.length; i++) {
-    total += parseFloat(grades[i].innerHTML)
+    if(!grades[i].innerHTML.includes("%") && (grades[i].innerHTML <= 5 && grades[i].innerHTML >= 0)) {
+        total += parseFloat(grades[i].innerHTML)
+        divby++
+    }
 }
-avgGrade = (total/grades.length).toFixed(1)
+avgGrade = (total/divby).toFixed(1)
 
 console.debug("i'm working")
 
