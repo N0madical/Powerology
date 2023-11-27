@@ -24,14 +24,16 @@
             } else {
                 widget.style.visibility = "hidden"
             }
-            console.debug(widget.style.visibility)
         }
         function saveBg() {
             color = document.getElementById("bgcolor").value
             link = document.getElementById("bgimg").value
             blurbg = document.getElementById("bgblur").value
-            console.debug(color, link, blurbg)
             toggleCngBg()
         }
+
+        let sus = "hello"
+        eval("sus = 'world'")
+        console.debug(eval("sus"))
     </script>
  </html>

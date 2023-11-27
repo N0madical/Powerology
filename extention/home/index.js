@@ -116,12 +116,15 @@ function loadSchoologyPlus() {
         overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
         overdueassignmentsarray = []
         for(u = 0; u < overdueassignments.length-2; u += 2) {
-            uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
-            udue = overdueassignments[u].children[0].innerHTML
-            ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
-            if(Date.parse(udue) <= Date.now()) {
-                overdueassignmentsarray.push([uname, ulink])
+            if(overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) {
+                uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
+                udue = overdueassignments[u].children[0].innerHTML
+                ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
+                if(Date.parse(udue) <= Date.now()) {
+                    overdueassignmentsarray.push([uname, ulink])
+                }
             }
+            
         }
     }
 

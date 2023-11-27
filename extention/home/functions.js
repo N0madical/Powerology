@@ -180,6 +180,25 @@ function addGrade(date,name,grade,link,fromPast) {
     `
 }
 
+//storage_types: sync, local
+// function browserGet(variable_name, storage_type, default_value = []) {
+//     if(typeof variable_name == "string") {
+//         eval(`${variable_name} = ${default_value}`)
+//         eval(`
+//         browser.storage.sync.get("checkedAssignments").then(defineAssignments, onError)
+//         function defineAssignments(value) {; 
+//             checkedAssignments = value.checkedAssignments; 
+//             if(checkedAssignments == undefined) {
+//                 checkedAssignments = [[],[],[]]
+//                 browser.storage.sync.set({checkedAssignments})
+//             }
+//         }
+//         `)
+//     } else {
+//         console.error("browserGet: variable_name (input 0) must be type String")
+//     }
+// }
+
 function openLink(link) {
     window.open(link, "_self")
 }
