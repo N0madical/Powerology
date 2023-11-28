@@ -1,9 +1,12 @@
 function updateClasses() {
+    classiteratable = 0
     console.info("Updating Class List...")
     document.getElementById("classlist").innerHTML = ""
     for(p=0; p < classesarray.length; p++) {
         addClass(classesarray[p][0],classesarray[p][1])
     }
+
+    addEventListeners(document.getElementById("classlist"))
 }
 
 function updateAssignments() {
@@ -25,6 +28,8 @@ function updateAssignments() {
         }
     }
     
+    addEventListeners(document.getElementById("assignmentlist"))
+    addEventListeners(document.getElementById("todolist"))
 }
 
 function updateGradeList() {
@@ -53,11 +58,15 @@ function updateGradeList() {
             }
         }
     }
+
+    addEventListeners(document.getElementById("gradelist"))
 }
 
 function addClass(name, link) {
     container = document.getElementById("classlist")
-    carat = browser.runtime.getURL("icons/carat.png");
+    eval?.(`
+    carat = ${storageapi}.runtime.getURL("icons/carat.png");
+    `)
     if(name in classcolors) {
         color = classcolors[name]
     } else {
@@ -68,11 +77,13 @@ function addClass(name, link) {
 
     container.innerHTML += `
     <tr class="widthbox shadow hov clickable">
-        <th class="classcolor"><input type="color" value="${color}" onchange="setColor(value, '${name}')"/></th>
-        <th onclick="openLink('${link}')" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
-        <th onclick="openLink('${link}')" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
+        <th class="classcolor"><input id="color_${classiteratable}" class="onchangeClickable" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')"/></th>
+        <th class="clickable" onclickevent="openLink('${link}')" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
+        <th class="clickable" onclickevent="openLink('${link}')" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
     </tr>
     `
+
+    classiteratable++
 } 
 
 function addAssignment(day, name, time, link) {
@@ -83,8 +94,11 @@ function addAssignment(day, name, time, link) {
         container = document.getElementById("todolist")
         dates = tododates
     }
-    xicon = browser.runtime.getURL("icons/x.png")
-    todoicon = browser.runtime.getURL("icons/todo.png")
+
+    eval?.(`
+    xicon = ${storageapi}.runtime.getURL("icons/x.png")
+    todoicon = ${storageapi}.runtime.getURL("icons/todo.png")
+    `)
 
     if(!checkedAssignments[1].includes(unEscape(name))) {
         if(!(dates.includes(day, 0))) {
@@ -128,11 +142,11 @@ function addAssignment(day, name, time, link) {
 
         container.innerHTML += `
         <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
-        <th><input style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclick="checkMe('${name}', ${iteratable})" ${checked}></th>
-            <th><img class="hideuntilhover" src="${xicon}" onclick="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
-            <th><img class="hideuntilhover" src="${todoicon}" onclick="todoMe('${name}', '${iteratable}', ${checkedAssignments[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
-            <th style="width: 100%;"><h3 id="assignment${iteratable}" onclick="openLink('${link}')" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
-            <th><h4 onclick="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
+        <th><input class="clickable" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclickevent="checkMe('${name}', ${iteratable})" ${checked}></th>
+            <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${name}', '${iteratable}', ${checkedAssignments[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
+            <th><h4 class="clickable" onclickevent="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
         </tr>
         `
 
@@ -167,7 +181,7 @@ function addGrade(date,name,grade,link,fromPast) {
         if(!match2) {
             pastGrades.push([[date],[name,grade,link]])
             pastGrades.sort((a, b) => a[0] - b[0])
-            browser.storage.local.set({pastGrades})
+            browserSet("pastGrades","local")
         }
     }
 
@@ -180,30 +194,6 @@ function addGrade(date,name,grade,link,fromPast) {
     `
 }
 
-//storage_types: sync, local
-// function browserGet(variable_name, storage_type, default_value = []) {
-//     if(typeof variable_name == "string") {
-//         eval(`${variable_name} = ${default_value}`)
-//         eval(`
-//         browser.storage.sync.get("checkedAssignments").then(defineAssignments, onError)
-//         function defineAssignments(value) {; 
-//             checkedAssignments = value.checkedAssignments; 
-//             if(checkedAssignments == undefined) {
-//                 checkedAssignments = [[],[],[]]
-//                 browser.storage.sync.set({checkedAssignments})
-//             }
-//         }
-//         `)
-//     } else {
-//         console.error("browserGet: variable_name (input 0) must be type String")
-//     }
-// }
-
-function openLink(link) {
-    window.open(link, "_self")
-}
-exportFunction(openLink, window, { defineAs: "openLink" });
-
 function openGrades() {
     for(let i=0; i < classesarray.length; i++) {
         console.debug(classesarray[i][0])
@@ -212,9 +202,8 @@ function openGrades() {
         }
     }
 }
-exportFunction(openGrades, window, { defineAs: "openGrades" });
 
-function sortGrades() {
+function filterGrades() {
     let sortValue = document.getElementById("sgrades").value
     let from = parseFloat(sortValue.substring(0,3))
     let to = parseFloat(sortValue.substring(4))
@@ -222,7 +211,6 @@ function sortGrades() {
     gradessort = [from,to]
     updateGradeList()
 }
-exportFunction(sortGrades, window, { defineAs: "sortGrades" });
 
 function checkMe(name, id) {
     if(!checkedAssignments[0].includes(name)) {
@@ -231,16 +219,14 @@ function checkMe(name, id) {
         checkedAssignments[0].splice(checkedAssignments[0].indexOf(name), 1);
     }
     updateAssignments();
-    browser.storage.sync.set({checkedAssignments})
+    browserSet("checkedAssignments", "sync")
 }
-exportFunction(checkMe, window, { defineAs: "checkMe" });
 
 function xMe(name, id) {
     checkedAssignments[1].push(name);
     updateAssignments();
-    browser.storage.sync.set({checkedAssignments});
+    browserSet("checkedAssignments","sync");
 }
-exportFunction(xMe, window, { defineAs: "xMe" });
 
 function todoMe(name, id, remove) {
     if(!remove) {
@@ -249,22 +235,20 @@ function todoMe(name, id, remove) {
         checkedAssignments[2].splice(checkedAssignments[2].indexOf(name), 1)
     }
     updateAssignments();
-    browser.storage.sync.set({checkedAssignments})
+    browserSet("checkedAssignments","sync")
 }
-exportFunction(todoMe, window, { defineAs: "todoMe" });
 
 function refreshClrAssLst() {
     checkedAssignments = [[],[],[]]
-    browser.storage.sync.set({checkedAssignments})
+    browserSet("checkedAssignments","sync")
     location.reload();
 }
-exportFunction(refreshClrAssLst, window, { defineAs: "refreshClrAssLst" });
 
-function setColor(value, name) {
-    classcolors[name] = value
-    browser.storage.sync.set({classcolors})
+function setColor(id, name) {
+    classcolors[name] = document.getElementById(id).value
+    console.debug(classcolors[name])
+    browserSet("classcolors","sync")
 }
-exportFunction(setColor, window, { defineAs: "setColor" });
 
 function toggleCngBg() {
     widget = document.getElementById("bgbox")
@@ -277,7 +261,6 @@ function toggleCngBg() {
         widget.style.visibility = "hidden"
     }
 }
-exportFunction(toggleCngBg, window, { defineAs: "toggleCngBg" });
 
 function saveBg() {
     color = document.getElementById("bgcolor").value
@@ -287,9 +270,8 @@ function saveBg() {
     document.body.style.backgroundImage = `url('${link}')`
     document.body.style.backdropFilter = `blur(${blurbg}px)`
     backGround = [color, link, blurbg]
-    browser.storage.local.set({backGround})
+    browserSet("backGround","sync")
 }
-exportFunction(saveBg, window, { defineAs: "saveBg" });
 
 function editSavedGrades(argument="h", input=-1) {
     if(argument == "h") {
@@ -302,7 +284,7 @@ function editSavedGrades(argument="h", input=-1) {
             } else {
                 console.info("Success! Removed", pastGrades[input])
                 pastGrades.splice(input, 1)
-                browser.storage.local.set({pastGrades})
+                browserSet("pastGrades","local")
                 location.reload();
             }
         } else {
@@ -313,7 +295,7 @@ function editSavedGrades(argument="h", input=-1) {
             if(input.length == 2 && input[1].length == 3) {
                 pastGrades.push(input)
                 console.info("Success! Added", input)
-                browser.storage.local.set({pastGrades})
+                browserSet("pastGrades","local")
                 location.reload();
             } else {
                 console.info("Please input a valid array assignment to add (['Epoch ms'],['Name','Grade','Link'])")
@@ -323,7 +305,6 @@ function editSavedGrades(argument="h", input=-1) {
         }
     }
 }
-exportFunction(editSavedGrades, window, { defineAs: "editSavedGrades" });
 
 function unEscape(htmlStr) {
     htmlStr = htmlStr.replace(/&lt;/g , "<");	 
@@ -334,4 +315,4 @@ function unEscape(htmlStr) {
     return htmlStr;
 }
 
-function onError(error) {console.debug(error)}
+function onError(error) {console.debug("Error:", error)}

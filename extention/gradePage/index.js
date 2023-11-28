@@ -18,7 +18,7 @@ console.debug("i'm working")
 if(document.getElementById("averageBox") == null) {
     document.getElementById("content-wrapper").insertAdjacentHTML("afterbegin", `
         <div id="averageBox">
-            <h1 class="text-center">Overall Grade</h1>
+            <h1 class="text-center" style="display: inherit !important;">Overall Grade</h1>
             <h2 id="overallgrade" class="text-center">-</h2>
         </div>
     `)
@@ -31,16 +31,10 @@ document.getElementById("overallgrade").innerHTML = avgGrade
     //Saving Grades
 //########################################################
 
-pastGrades = []
+//pastGrades = []
 // browser.storage.local.set({pastGrades})
-browser.storage.local.get("pastGrades").then(definePastGrades, onError)
-function definePastGrades(value) {; 
-    pastGrades = value.pastGrades; 
-    if(pastGrades == undefined) {
-        pastGrades = []
-        browser.storage.local.set({pastGrades})
-    }
-
+browserGet("pastGrades", "local", "[]", "definePastGrades")
+function definePastGrades() {; 
     let gradelist = document.getElementsByClassName("item-row")
     for(i = 0; i < gradelist.length; i++) {
         if(gradelist[i].getElementsByClassName("rounded-grade")[0]) {
@@ -74,7 +68,7 @@ function definePastGrades(value) {;
                 // browser.storage.local.getBytesInUse("pastGrades").then(printBytes, onError)
                 // function printBytes(input) {console.debug("Storage used:", input)}
                 console.debug()
-                browser.storage.local.set({pastGrades})
+                browserSet("pastGrades", "local")
             }
         }
     }

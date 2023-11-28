@@ -1,7 +1,7 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Powerology",
-    "version": "5.2",
+    "version": "6.0",
   
     "description": "Visually modifies the Post Oak Schoology page to look and act more like Powerschool",
   
@@ -11,19 +11,25 @@
     },
 
     "permissions": [
-      "storage",
+      "storage"
+    ],
+
+    "host_permissions": [
       "https://api.github.com/*"
     ],
 
     "web_accessible_resources": [
-      "icons/*"
+      {
+      "resources": ["icons/*"],
+      "matches": ["*://postoakschool.schoology.com/*"]
+      }
     ],
   
     "content_scripts": [
       {
         "matches": ["*://postoakschool.schoology.com/*"],
         "css": ["styles.css", "fonts.css"],
-        "js": ["index.js"]
+        "js": ["globalFunctions.js", "globalIndex.js"]
       },
       {
         "matches": ["*://postoakschool.schoology.com/", "*://postoakschool.schoology.com/home*"],
@@ -41,6 +47,10 @@
       {
         "matches": ["*://powerology.aidencunningham.com/"],
         "js": ["powerologyWeb/index.js"]
+      },
+      {
+        "matches": ["*://postoakschool.schoology.com/settings/account/sethome"],
+        "js": ["settingsPage/index.js"]
       }
     ],
 

@@ -1,47 +1,15 @@
-document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
+//document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
 
-checkedAssignments = []
-browser.storage.sync.get("checkedAssignments").then(defineAssignments, onError)
-function defineAssignments(value) {; 
-    checkedAssignments = value.checkedAssignments; 
-    if(checkedAssignments == undefined) {
-        checkedAssignments = [[],[],[]]
-        browser.storage.sync.set({checkedAssignments})
-    }
-}
+browserGet("checkedAssignments", "sync", "[[],[],[]]")
 
-// pastGrades = []
-// browser.storage.local.set({pastGrades})
+browserGet("pastGrades", "local", "[]", "sortPastGrades")
+function sortPastGrades() {pastGrades.sort((a, b) => a[0] - b[0])}
 
-pastGrades = []
-// browser.storage.local.set({pastGrades})
-browser.storage.local.get("pastGrades").then(definePastGrades, onError)
-function definePastGrades(value) {; 
-    pastGrades = value.pastGrades; 
-    if(pastGrades == undefined) {
-        pastGrades = []
-        browser.storage.local.set({pastGrades})
-    }
-    pastGrades.sort((a, b) => a[0] - b[0])
-}
+browserGet("classcolors", "sync", "defaultClasscolors")
 
-browser.storage.sync.get("classcolors").then(loadColors, onError)
-function loadColors(value) {; 
-    classcolors = value.classcolors; 
-    if(classcolors == undefined) {
-        classcolors = defaultClasscolors
-        browser.storage.sync.set({classcolors})
-    }
-}
-
-backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
-browser.storage.sync.get("backGround").then(getBackGround, onError)
-function getBackGround(value) {; 
-    backGround = value.backGround; 
-    if(backGround == undefined) {
-        backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
-        browser.storage.sync.set({backGround})
-    }
+defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
+browserGet("backGround", "sync", "defaultBackGround", "setBackground")
+function setBackground() {
     document.body.style.backgroundColor = backGround[0]
     document.body.style.backgroundImage = `url('${backGround[1]}')`
     document.body.style.backdropFilter = `blur(${backGround[2]}px)`
@@ -104,7 +72,6 @@ function loadSchoologyPlus() {
             htime = hdue.substr(hdue.indexOf(" at ") + 4)
             hclass = assignments[h].children[1].children[1].innerHTML
             hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
-            console.debug([hdate, hname, htime, hclass, hlink])
             assignmentsarray.push([hdate, hname, htime, hclass, hlink])
         } catch(err) {
             console.debug("Error in parsing assignments:", err)
@@ -115,14 +82,13 @@ function loadSchoologyPlus() {
     if(document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0]) {
         overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
         overdueassignmentsarray = []
-        for(u = 0; u < overdueassignments.length-2; u += 2) {
-            if(overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) {
-                uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
-                udue = overdueassignments[u].children[0].innerHTML
-                ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
-                if(Date.parse(udue) <= Date.now()) {
-                    overdueassignmentsarray.push([uname, ulink])
-                }
+        for(u = 0; u < overdueassignments.length-1; u += 2) {
+            while(overdueassignments[u].id != "overdue_submissions" && (u < overdueassignments.length-1)) {u++}
+            uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
+            udue = overdueassignments[u].children[0].innerHTML
+            ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
+            if(Date.parse(udue) <= Date.now()) {
+                overdueassignmentsarray.push([uname, ulink])
             }
             
         }
@@ -158,9 +124,21 @@ function loadSchoologyPlus() {
             }
         }
 
+        addEventListeners(document)
+
         updateClasses()
         updateAssignments()
         updateGradeList()
+
+        let clickable = document.getElementsByClassName("onchangeClickable")
+        for(let b = 0; b < clickable.length; b++) {
+            if(clickable[b].hasAttribute("onchangeevent")) {
+                let func = clickable[b].getAttribute("onchangeevent")
+                clickable[b].addEventListener("change", () => {
+                    eval?.(`${func}`)
+                });
+            }
+        }
 
         clearInterval(loadrepeat)
     }
@@ -173,7 +151,12 @@ function loadSchoologyPlus() {
 
 var loadrepeat = window.setInterval(function(){
     if(document.getElementById("centerbox") == null) {
-        loadSchoologyPlus()
+        if(!document.getElementById("home-feed-container")) {
+            loadSchoologyPlus()
+        } else {
+            openLink("https://postoakschool.schoology.com/settings/account/sethome")
+            clearInterval(loadrepeat)
+        }
     } else {
         clearInterval(loadrepeat)
     }

@@ -4,12 +4,13 @@ function fixLinks() {
         for(var i = 0; i < linkbutton.length; i++) {
             if(linkbutton[i].hasAttribute("href") && linkbutton[i].href != "") {
                 if(linkbutton[i].href.includes("path=")) {
-                    link = decodeURIComponent(linkbutton[i].href.substring(linkbutton[i].href.indexOf("path=")+5))
+                    let link = decodeURIComponent(linkbutton[i].href.substring(linkbutton[i].href.indexOf("path=")+5))
                     linkbutton[i].removeAttribute("href")
                     linkbutton[i].removeAttribute("target")
-                    console.debug(link)
-                    linkbutton[i].setAttribute("onclick", `openLink('${link}')`)// = function() { openLink(link); }
                     linkbutton[i].style = "cursor: pointer;"
+                    linkbutton[i].addEventListener("click", () => {
+                        openLink(link)
+                    });
                 }
             }
             
@@ -20,7 +21,6 @@ function fixLinks() {
 function openLink(inputLink) {
     window.open(inputLink)
 }
-exportFunction(openLink, window, { defineAs: "openLink" });
 
 var fixrepeat = window.setInterval(function(){
         fixLinks()

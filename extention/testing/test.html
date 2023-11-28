@@ -17,23 +17,12 @@
         </div>
     </body>
     <script>
-        function toggleCngBg() {
-            widget = document.getElementById("bgbox")
-            if(widget.style.visibility == "hidden") {
-                widget.style.visibility = "unset"
-            } else {
-                widget.style.visibility = "hidden"
-            }
+        let myVar = "no"
+        function renameMyVar(input) {
+            document.input = "yes"
         }
-        function saveBg() {
-            color = document.getElementById("bgcolor").value
-            link = document.getElementById("bgimg").value
-            blurbg = document.getElementById("bgblur").value
-            toggleCngBg()
-        }
+        renameMyVar(myVar)
 
-        let sus = "hello"
-        eval("sus = 'world'")
-        console.debug(eval("sus"))
+        console.debug(myVar)
     </script>
  </html>

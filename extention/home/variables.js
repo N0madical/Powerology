@@ -1,11 +1,21 @@
 backGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
 
-refresh = browser.runtime.getURL("icons/refresh.png");
-openext = browser.runtime.getURL("icons/openext.png");
-cngbg = browser.runtime.getURL("icons/changebg_white.png");
+eval?.(`
+refresh = ${storageapi}.runtime.getURL("icons/refresh.png");
+openext = ${storageapi}.runtime.getURL("icons/openext.png");
+cngbg = ${storageapi}.runtime.getURL("icons/changebg_white.png");
+`)
+
 
 schoologyplusplusWeb = `
-<img src=${cngbg} alt="Change Background" width="25" height="25" onclick="toggleCngBg()" class="clickable" style="position: absolute; left:5px; margin-top:5px;">
+<script type="text/javascript">
+function passFunctionCall(call) {
+    document.getElementById('codeportal').innerHTML = call;
+}
+console.debug("hey i work")
+</script>
+<p id="codeportal" style="display: none;" value="sus"></p>
+<img src=${cngbg} alt="Change Background" width="25" height="25" onclickevent="toggleCngBg()" class="clickable" style="position: absolute; left:5px; margin-top:5px;">
 <div id="bgbox" class="shadow" style="visibility: hidden;">
     <h1 class="text-center">Change Background</h1>
     <hr style="transform: translate(0,0);">
@@ -15,7 +25,7 @@ schoologyplusplusWeb = `
     <input class="margin-center" class="text-center" value="${backGround[1]}" id="bgimg">
     <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
     <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${backGround[2]}">
-    <button class="margin-center" onclick="saveBg()">Save</button>
+    <button class="margin-center clickable" onclickevent="saveBg()">Save</button>
 </div>
 <div id="centerbox">
     <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
@@ -28,32 +38,21 @@ schoologyplusplusWeb = `
     </div>
     <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
         <h1 class="header text-center">Assignments</h1>
-        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(150px,-22px); width: 15px; height: 15px;" onclick="refreshClrAssLst()"></img>
+        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(150px,-22px); width: 15px; height: 15px;" onclickevent="refreshClrAssLst()"></img>
         <hr style="margin-bottom: 10px;">
         <div style="width: 100%;">
             <table id="assignmentlist" style="width: 100%;">
-                <tr name="day" class="widthbox">
-                    <th style="width: 100%;"><h2 style="padding-left: 10px; line-height: 5px; text-align: left;">Tuesday, March 3rd</h2></th>
-                </tr>
-                <tr name="assignment" onclick="javascript:sus2()" class="widthbox hov clickable">
-                    <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left;">Assignment One</h3></th>
-                    <th><h4 style="padding-right: 20px; text-align: right;">12:00pm</h4></th>
-                </tr>
-                <tr name="assignment" onclick="javascript:sus2()" class="widthbox hov clickable">
-                    <th style="width: 100%;"><h3 style="padding-left: 40px; text-align: left;">Assignment Two</h3></th>
-                    <th><h4 style="padding-right: 20px; text-align: right;">12:00pm</h4></th>
-                </tr>
             </table>
         </div>
     </div>
     <div>
         <div id="grades" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
-            <img class="clickable" src=${openext} style="position: absolute; left: 50%; transform:translate(570px,15px); width: 15px; height: 15px;" onclick="openGrades()"></img>
+            <img class="clickable" src=${openext} style="position: absolute; left: 50%; transform:translate(570px,15px); width: 15px; height: 15px;" onclickevent="openGrades()"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
             <div class="text-center">
                 <h3>Sort Grades: 
-                    <select name="Sort Grades" id="sgrades" onChange="sortGrades()">
+                    <select name="Sort Grades" id="sgrades" class="onchangeClickable" onchangeevent="filterGrades()">
                         <option value="000|000">All Grades</option>
                         <option value="0.0|5.0">Only Graded</option>
                         <option value="0.0|3.5">0.0 to 3.5</option>
@@ -63,7 +62,7 @@ schoologyplusplusWeb = `
                     </select>
                 </h3>
             </div>
-            <div style="width: 100%; overflow: scroll;">
+            <div style="width: 100%; overflow-y: scroll;">
                 <table id="gradelist" style="width: 100%;">
                 </table>
             </div>
