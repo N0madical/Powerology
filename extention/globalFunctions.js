@@ -1,54 +1,71 @@
 //storage_types: sync, local
-function browserGet(variable_name, storage_type, default_value = "[]", on_return = "") {
-    // let obj = {}
-    // obj[variable_name] = variable_name
+function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFunctions) {
+    this.name = name;
+    this.value = defaultValue;
+    this.defaultValue = defaultValue;
+    this.runAfter = onCompleteFunctions;
+
+    if(storageType == "sync") {
+        this.sync = true
+    } else {
+        this.sync = false
+    }
+    
     if (typeof browser !== "undefined") {
-        storageapi = "browser";
+        storageapi = browser;
     } else {
-        storageapi = "chrome";
+        storageapi = chrome;
     }
-    onReturn = "'bruh'"
-    if(on_return != "") {
-        onReturn = on_return
-    }
-    if(typeof variable_name == "string") {
-        eval?.(`
-        try {
-            ${variable_name} = ${default_value}
-        } catch {
-            let ${variable_name} = ${default_value}
-        }
+
+    this.get = function() {
         if(typeof browser !== "undefined") {
-            ${storageapi}.storage.${storage_type}.get('${variable_name}').then(browserGet_${variable_name}, onError)
+            if(this.sync) {
+                browser.storage.sync.get(`${this.name}`).then(this.internalGet, this.error)
+            } else {
+                browser.storage.local.get(`${this.name}`).then(this.internalGet, this.error)
+            }
         } else {
-            ${storageapi}.storage.${storage_type}.get('${variable_name}', browserGet_${variable_name})
-        }
-        function browserGet_${variable_name}(value) {
-            ${variable_name} = value.${variable_name}; 
-            if(${variable_name} == undefined) {
-                ${variable_name} = ${default_value}
-                ${storageapi}.storage.${storage_type}.set({${variable_name}})
-            }
-            if(typeof ${onReturn} == "function") {
-                ${onReturn}()
+            if(this.sync) {
+                chrome.storage.sync.get(`${this.name}`, this.internalGet)
+            } else {
+                chrome.storage.local.get(`${this.name}`, this.internalGet)
             }
         }
-        `)
-    } else {
-        console.error("browserGet: variable_name (input 0) must be type String")
+    };
+
+    this.set = function() {
+        if(this.sync) {
+            storageapi.storage.sync.set({[this.name]:this.value})
+        } else {
+            storageapi.storage.local.set({[this.name]:this.value})
+        }
+    };
+
+    let self = this
+
+    this.internalGet = function(value) {
+        self.value = value[self.name];
+        if(self.value == undefined) {
+            self.value = self.defaultValue
+            if(self.sync) {
+                console.debug("Value was undefined, Sync setting:", self.name)
+                storageapi.storage.sync.set({[name]:self.value})
+            } else {
+                storageapi.storage.local.set({[name]:self.value})
+            }
+        }
+        if(self.runAfter) {for(self.i = 0; self.i < self.runAfter.length; self.i++) {
+                try {
+                    self.runAfter[self.i]()
+                } catch {console.error("Tried to run invalid function", self.runAfter[self.i], "after getting variable", self.name)}
+        }   }
+        
+    };
+
+    this.error = function(value) {
+        console.error(`Browser storage had error: ${value}`)
     }
 }
-
-function browserSet(variable_name, storage_type) {
-    if (typeof browser !== "undefined") {
-        storageapi = "browser";
-    } else {
-        storageapi = "chrome";
-    }
-    eval?.(`
-        ${storageapi}.storage.${storage_type}.set({${variable_name}})
-    `)
-} 
 
 function openLink(link) {
     window.open(link, "_self")
@@ -57,12 +74,12 @@ function openLink(link) {
 function addEventListeners(object) {
     let clickable = object.getElementsByClassName("clickable")
     for(let b = 0; b < clickable.length; b++) {
-        //console.debug(clickable[b])
         if(clickable[b].hasAttribute("onclickevent")) {
-            //console.debug(clickable[b].getAttribute("onclickevent"))
-            let func = clickable[b].getAttribute("onclickevent")
+            let func = clickable[b].getAttribute("onclickevent");
+            let funcname = func.substring(0,func.indexOf("("));
+            let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
             clickable[b].addEventListener("click", () => {
-                eval?.(`${func}`)
+                buttonfunctions[funcname].apply(null, funcargs)
             });
         }
     }

@@ -1,17 +1,18 @@
 if (typeof browser !== "undefined") {
-    storageapi = "browser";
+    storageapi = browser;
 } else {
-    storageapi = "chrome";
+    storageapi = chrome;
 }
 
 if(document.getElementById("app-run-5922356464") != null) {
     document.getElementById("app-run-5922356464").remove()
 }
 
-browserGet("nextCheck", "local", `${Date.now()}`, "onGetNextCheck")
+nextCheck = new browserStorage("nextCheck", "local", Date.now(), onGetNextCheck)
+nextCheck.get()
 function onGetNextCheck(value) {;
-    console.info("It is currently", Date.now(), "ms, app will check for update at", nextCheck, "ms.")
-    if(nextCheck <= Date.now()) {
+    console.info("It is currently", Date.now(), "ms, app will check for update at", nextCheck.value, "ms.")
+    if(nextCheck.value <= Date.now()) {
         let gitHub = new XMLHttpRequest()
         gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/versions")
         gitHub.send()
@@ -28,8 +29,8 @@ function onGetNextCheck(value) {;
                     window.open("https://powerology.aidencunningham.com/")
                 }
             }
-            nextCheck = Date.now() + 86400000
-            browserSet("nextCheck", "local")
+            nextCheck.value = Date.now() + 86400000
+            nextCheck.set()
         }
     }
 }

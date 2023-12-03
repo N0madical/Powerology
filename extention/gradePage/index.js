@@ -33,7 +33,9 @@ document.getElementById("overallgrade").innerHTML = avgGrade
 
 //pastGrades = []
 // browser.storage.local.set({pastGrades})
-browserGet("pastGrades", "local", "[]", "definePastGrades")
+pastGrades = new browserStorage("pastGrades", "local", [], definePastGrades)
+pastGrades.get()
+
 function definePastGrades() {; 
     let gradelist = document.getElementsByClassName("item-row")
     for(i = 0; i < gradelist.length; i++) {
@@ -51,24 +53,23 @@ function definePastGrades() {;
             let grade = parseFloat(gradelist[i].getElementsByClassName("rounded-grade")[0].innerHTML).toFixed(1)
 
             let match2 = false
-            for(let h=0; h < pastGrades.length; h++) {
-                if(pastGrades[h][1][0] == name) {
-                    if(pastGrades[h][1][1] != grade) {
-                        console.info("Found same name with different grade:", name, ":", pastGrades[h][1][1], "=>", grade)
-                        pastGrades.splice(h,1)
+            for(let h=0; h < pastGrades.value.length; h++) {
+                if(pastGrades.value[h][1][0] == name) {
+                    if(pastGrades.value[h][1][1] != grade) {
+                        console.info("Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
+                        pastGrades.value.splice(h,1)
                     } else {
                         match2 = true;
                     }
                 }
             }
             if(!match2) {
-                pastGrades.push([[duedatems],[name,grade,link]])
-                pastGrades.sort((a, b) => a[0] - b[0])
-                console.debug(`${pastGrades}`)
+                pastGrades.value.push([[duedatems],[name,grade,link]])
+                pastGrades.value.sort((a, b) => a[0] - b[0])
+                console.debug(`${pastGrades.value}`)
                 // browser.storage.local.getBytesInUse("pastGrades").then(printBytes, onError)
                 // function printBytes(input) {console.debug("Storage used:", input)}
-                console.debug()
-                browserSet("pastGrades", "local")
+                pastGrades.set()
             }
         }
     }

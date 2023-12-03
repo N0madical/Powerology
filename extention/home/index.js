@@ -1,26 +1,10 @@
 //document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
 
-browserGet("checkedAssignments", "sync", "[[],[],[]]")
-
-browserGet("pastGrades", "local", "[]", "sortPastGrades")
-function sortPastGrades() {pastGrades.sort((a, b) => a[0] - b[0])}
-
-browserGet("classcolors", "sync", "defaultClasscolors")
-
-defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
-browserGet("backGround", "sync", "defaultBackGround", "setBackground")
-function setBackground() {
-    document.body.style.backgroundColor = backGround[0]
-    document.body.style.backgroundImage = `url('${backGround[1]}')`
-    document.body.style.backdropFilter = `blur(${backGround[2]}px)`
-}
-
 datacollected = false
 classesarray = []
 assignmentsarray = []
 gradesarray = []
 gradessort = [0,0]
-let classcolors
 errorlist = []
 
 function loadSchoologyPlus() {
@@ -98,7 +82,7 @@ function loadSchoologyPlus() {
         //Injecting Data
     //########################################################
 
-    if(classesarray.length > 0 && gradesarray.length > 0 && assignmentsarray.length > 0 && classcolors != null) {
+    if(classesarray.length > 0 && gradesarray.length > 0 && assignmentsarray.length > 0 && classColors.value) {
         //document.getElementById("wrapper").style.display = "none"
         document.getElementById("site-navigation-footer").style.display = "none"
         document.getElementById("site-navigation-breadcrumbs").style.display = "none"
@@ -133,9 +117,11 @@ function loadSchoologyPlus() {
         let clickable = document.getElementsByClassName("onchangeClickable")
         for(let b = 0; b < clickable.length; b++) {
             if(clickable[b].hasAttribute("onchangeevent")) {
-                let func = clickable[b].getAttribute("onchangeevent")
+                let func = clickable[b].getAttribute("onchangeevent");
+                let funcname = func.substring(0,func.indexOf("("));
+                let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
                 clickable[b].addEventListener("change", () => {
-                    eval?.(`${func}`)
+                    buttonfunctions[funcname].apply(null, funcargs)
                 });
             }
         }
