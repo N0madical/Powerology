@@ -60,7 +60,7 @@ function updateGradeList() {
     }
 
     addEventListeners(document.getElementById("gradelist"))
-}
+    }
 
 function addClass(name, link) {
     container = document.getElementById("classlist")
@@ -168,22 +168,24 @@ function addGrade(date,name,grade,link,fromPast) {
         color = "gray"
     }
 
-    if(grade >= 0 && !fromPast) {
-        match2 = false;
-        for(h=0; h < pastGrades.value.length; h++) {
-            if(pastGrades.value[h][1][0] == name) {
-                if(pastGrades.value[h][1][1] != grade) {
-                    console.info("Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
-                    pastGrades.value.splice(h,1)
-                } else {
-                    match2 = true;
+    if(date == -1) {
+        if(grade >= 0 && !fromPast) {
+            match2 = false;
+            for(h=0; h < pastGrades.value.length; h++) {
+                if(pastGrades.value[h][1][0] == name) {
+                    if(pastGrades.value[h][1][1] != grade) {
+                        console.info("Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
+                        pastGrades.value.splice(h,1)
+                    } else {
+                        match2 = true;
+                    }
                 }
             }
-        }
-        if(!match2) {
-            pastGrades.value.push([[date],[name,grade,link]])
-            pastGrades.value.sort((a, b) => a[0] - b[0])
-            pastGrades.set()
+            if(!match2) {
+                pastGrades.value.push([[date],[name,grade,link]])
+                pastGrades.value.sort((a, b) => a[0] - b[0])
+                pastGrades.set()
+            }
         }
     }
 
@@ -198,7 +200,6 @@ function addGrade(date,name,grade,link,fromPast) {
 
 function openGrades() {
     for(let i=0; i < classesarray.length; i++) {
-        console.debug(classesarray[i][0])
         if(classesarray[i][0] != "General Information: Community" && !classesarray[i][0].includes("Extended Essay: Seniors") && !classesarray[i][0].includes("Creativity Activity Service")) {
             window.open(classesarray[i][1].replace("materials", "student_grades"))
         }
@@ -215,7 +216,6 @@ function filterGrades() {
 }
 
 function checkMe(name, id) {
-    console.debug("trying to check", name)
     if(!checkedAssignments.value[0].includes(name)) {
         checkedAssignments.value[0].push(name)
     } else {
@@ -249,7 +249,6 @@ function refreshClrAssLst() {
 
 function setColor(id, name) {
     classColors.value[name] = document.getElementById(id).value
-    console.debug(classColors.value[name])
     classColors.set()
 }
 

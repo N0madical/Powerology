@@ -18,26 +18,34 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
     }
 
     this.get = function() {
-        if(typeof browser !== "undefined") {
-            if(this.sync) {
-                browser.storage.sync.get(`${this.name}`).then(this.internalGet, this.error)
+        try {
+            if(typeof browser !== "undefined") {
+                if(this.sync) {
+                    browser.storage.sync.get(`${this.name}`).then(this.internalGet, this.error)
+                } else {
+                    browser.storage.local.get(`${this.name}`).then(this.internalGet, this.error)
+                }
             } else {
-                browser.storage.local.get(`${this.name}`).then(this.internalGet, this.error)
+                if(this.sync) {
+                    chrome.storage.sync.get(`${this.name}`, this.internalGet)
+                } else {
+                    chrome.storage.local.get(`${this.name}`, this.internalGet)
+                }
             }
-        } else {
-            if(this.sync) {
-                chrome.storage.sync.get(`${this.name}`, this.internalGet)
-            } else {
-                chrome.storage.local.get(`${this.name}`, this.internalGet)
-            }
+        } catch (error) {
+            console.error(`Error retreiving browser storage\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
         }
     };
 
     this.set = function() {
-        if(this.sync) {
-            storageapi.storage.sync.set({[this.name]:this.value})
-        } else {
-            storageapi.storage.local.set({[this.name]:this.value})
+        try{
+            if(this.sync) {
+                storageapi.storage.sync.set({[this.name]:this.value})
+            } else {
+                storageapi.storage.local.set({[this.name]:this.value})
+            }
+        } catch (error) {
+            console.error(`Error setting browser storage\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
         }
     };
 
@@ -57,13 +65,15 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
         if(self.runAfter) {for(self.i = 0; self.i < self.runAfter.length; self.i++) {
                 try {
                     self.runAfter[self.i]()
-                } catch {console.error("Tried to run invalid function", self.runAfter[self.i], "after getting variable", self.name)}
+                } catch {
+                    console.error("Tried to run invalid function\n-----\n", self.runAfter[self.i], "\n-----\nafter getting variable", self.name)
+                }
         }   }
         
     };
 
     this.error = function(value) {
-        console.error(`Browser storage had error: ${value}`)
+        console.error(`Browser storage ${name} had error: ${value}`)
     }
 }
 
@@ -72,15 +82,20 @@ function openLink(link) {
 }
 
 function addEventListeners(object) {
-    let clickable = object.getElementsByClassName("clickable")
-    for(let b = 0; b < clickable.length; b++) {
-        if(clickable[b].hasAttribute("onclickevent")) {
-            let func = clickable[b].getAttribute("onclickevent");
-            let funcname = func.substring(0,func.indexOf("("));
-            let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
-            clickable[b].addEventListener("click", () => {
-                buttonfunctions[funcname].apply(null, funcargs)
-            });
+    try{
+        let clickable = object.getElementsByClassName("clickable")
+        for(let b = 0; b < clickable.length; b++) {
+            if(clickable[b].hasAttribute("onclickevent")) {
+                let func = clickable[b].getAttribute("onclickevent");
+                let funcname = func.substring(0,func.indexOf("("));
+                let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
+                clickable[b].addEventListener("click", () => {
+                    buttonfunctions[funcname].apply(null, funcargs)
+                });
+            }
         }
+    } catch (error) {
+        console.error(`Error setting event listeners: ${error}`)
     }
+    
 }
