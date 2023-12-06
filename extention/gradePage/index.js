@@ -19,6 +19,7 @@ if(document.getElementById("averageBox") == null) {
     document.getElementById("content-wrapper").insertAdjacentHTML("afterbegin", `
         <div id="averageBox">
             <h1 class="text-center" style="display: inherit !important;">Overall Grade</h1>
+            <h4 class="text-center" style="display: inherit !important;">Includes Exec Func</h4>
             <h2 id="overallgrade" class="text-center">-</h2>
         </div>
     `)

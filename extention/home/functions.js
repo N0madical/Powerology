@@ -198,10 +198,27 @@ function addGrade(date,name,grade,link,fromPast) {
     `
 }
 
-function openGrades() {
+function openGrades(type) {
+    let clsblacklist = [
+        "General Information",
+        "Extended Essay",
+        "Creativity Activity Service"
+    ]
+    let includes = false
     for(let i=0; i < classesarray.length; i++) {
-        if(classesarray[i][0] != "General Information: Community" && !classesarray[i][0].includes("Extended Essay: Seniors") && !classesarray[i][0].includes("Creativity Activity Service")) {
-            window.open(classesarray[i][1].replace("materials", "student_grades"))
+        includes = false
+        for(let h=0; h < clsblacklist.length; h++) {
+            if(classesarray[i][0].includes(clsblacklist[h])) {
+                includes = true
+            }
+        }
+        if(!includes) {
+            if(type == "mastery") {
+                window.open(classesarray[i][1].replace("materials", "student_district_mastery"))
+            } else {
+                window.open(classesarray[i][1].replace("materials", "student_grades"))
+            }
+            
         }
     }
 }

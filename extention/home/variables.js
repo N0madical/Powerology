@@ -1,5 +1,6 @@
 refresh = storageapi.runtime.getURL("icons/refresh.png");
 openext = storageapi.runtime.getURL("icons/openext.png");
+opengrd = storageapi.runtime.getURL("icons/grades.png");
 cngbg = storageapi.runtime.getURL("icons/changebg_white.png");
 
 defaultClasscolors = {
@@ -57,6 +58,7 @@ console.debug("hey i work")
 </div>
 <div id="centerbox">
     <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
+        <img class="clickable" src=${opengrd} style="position: absolute; left: 50%; transform:translate(-350px,15px); width: 15px; height: 15px;" onclickevent="openGrades('mastery')"></img>
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
         <div style="width: 100%;">
@@ -75,7 +77,7 @@ console.debug("hey i work")
     </div>
     <div>
         <div id="grades" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
-            <img class="clickable" src=${openext} style="position: absolute; left: 50%; transform:translate(570px,15px); width: 15px; height: 15px;" onclickevent="openGrades()"></img>
+            <img class="clickable" src=${openext} style="position: absolute; left: 50%; transform:translate(570px,15px); width: 15px; height: 15px;" onclickevent="openGrades('grade')"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
             <div class="text-center">
