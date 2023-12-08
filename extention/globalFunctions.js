@@ -77,8 +77,13 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
     }
 }
 
-function openLink(link) {
-    window.open(link, "_self")
+function openLink(link, newtab=false) {
+    if(!newtab) {
+        window.open(link, "_self")
+    } else {
+        window.open(link)
+    }
+    
 }
 
 function addEventListeners(object) {
@@ -91,6 +96,15 @@ function addEventListeners(object) {
                 let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
                 clickable[b].addEventListener("click", () => {
                     buttonfunctions[funcname].apply(null, funcargs)
+                });
+            }
+            if(clickable[b].hasAttribute("onrightclickevent")) {
+                let func = clickable[b].getAttribute("onrightclickevent");
+                let funcname = func.substring(0,func.indexOf("("));
+                let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
+                clickable[b].addEventListener("contextmenu", (e) => {
+                    buttonfunctions[funcname].apply(null, funcargs)
+                    e.preventDefault()
                 });
             }
         }

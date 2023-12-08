@@ -1,7 +1,7 @@
 function updateClasses() {
     classiteratable = 0
-    console.info("Updating Class List...")
-    document.getElementById("classlist").innerHTML = ""
+    console.info("Powerology: Updating Class List...")
+    document.getElementById("classlist").textContent = ""
     for(p=0; p < classesarray.length; p++) {
         addClass(classesarray[p][0],classesarray[p][1])
     }
@@ -10,12 +10,12 @@ function updateClasses() {
 }
 
 function updateAssignments() {
-    console.info("Updating Assignment List...")
+    console.info("Powerology: Updating Assignment List...")
     asdates = []
     tododates = []
     iteratable = 0
-    document.getElementById("assignmentlist").innerHTML = ""
-    document.getElementById("todolist").innerHTML = ""
+    document.getElementById("assignmentlist").textContent = ""
+    document.getElementById("todolist").textContent = ""
     for(p=0; p < overdueassignmentsarray.length; p++) {
         addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
     }
@@ -24,7 +24,7 @@ function updateAssignments() {
     }
     if(!document.getElementById("assignments").getElementsByClassName("errornotice")[0]) {
         for(let o = 0; o < errorlist.length; o++) {
-            document.getElementById("assignments").innerHTML += errorlist[o]
+            document.getElementById("assignments").insertAdjacentHTML("beforeend", errorlist[o])
         }
     }
     
@@ -33,8 +33,8 @@ function updateAssignments() {
 }
 
 function updateGradeList() {
-    console.info("Updating Grades List...")
-    document.getElementById("gradelist").innerHTML = ""
+    console.info("Powerology: Updating Grades List...")
+    document.getElementById("gradelist").textContent = ""
     for(p=0; p < gradesarray.length; p++) {
         if(gradessort[1] == "0") {
             addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
@@ -79,13 +79,13 @@ function addClass(name, link) {
 
     //<th onclick="javascript:sus()" class="classcolor" style="background-color: ;"></th>
 
-    container.innerHTML += `
+    container.insertAdjacentHTML("beforeend", `
     <tr class="widthbox shadow hov clickable">
         <th class="classcolor"><input id="color_${classiteratable}" class="onchangeClickable" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/></th>
-        <th class="clickable" onclickevent="openLink('${link}')" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
-        <th class="clickable" onclickevent="openLink('${link}')" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
+        <th class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
+        <th class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
     </tr>
-    `
+    `)
 
     classiteratable++
 } 
@@ -114,13 +114,13 @@ function addAssignment(day, name, time, link) {
                 color = ""
             }
             
-            container.innerHTML += `
+            container.insertAdjacentHTML("beforeend", `
             <tr name="day" class="widthbox">
                 <th style="width: 100%;">
                     <h2 style="padding-left: 15px; line-height: 5px; text-align: left; font-style: italic;"><em style="${color}">${dayonly}</em>${notday}</h2>
                 </th>
             </tr>
-            `
+            `)
 
             if(!checkedAssignments.value[2].includes(unEscape(name))) {
                 asdates.push(day)
@@ -142,15 +142,15 @@ function addAssignment(day, name, time, link) {
             textDec = "text-decoration: none;"
         }
 
-        container.innerHTML += `
+        container.insertAdjacentHTML("beforeend",  `
         <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
         <th><input class="clickable" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclickevent="checkMe('${name}', ${iteratable})" ${checked}></th>
             <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
             <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${name}', '${iteratable}', ${checkedAssignments.value[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
-            <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
-            <th><h4 class="clickable" onclickevent="openLink('${link}')" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h4></th>
+            <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
+            <th><h5 class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h5></th>
         </tr>
-        `
+        `)
 
         iteratable += 1
     }
@@ -158,11 +158,12 @@ function addAssignment(day, name, time, link) {
 
 function addGrade(date,name,grade,link,fromPast) {
     container = document.getElementById("gradelist")
-    if(grade >= 4.0) {
+    colorgrade = (grade > 5.0) ? (grade/20):grade
+    if(colorgrade >= 4.0) {
         color = "green"
-    } else if (grade >= 3.5) {
+    } else if (colorgrade >= 3.5) {
         color = "gold"
-    } else if (grade >= 0) {
+    } else if (colorgrade >= 0) {
         color = "crimson"
     } else {
         color = "gray"
@@ -174,7 +175,7 @@ function addGrade(date,name,grade,link,fromPast) {
             for(h=0; h < pastGrades.value.length; h++) {
                 if(pastGrades.value[h][1][0] == name) {
                     if(pastGrades.value[h][1][1] != grade) {
-                        console.info("Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
+                        console.info("Powerology: Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
                         pastGrades.value.splice(h,1)
                     } else {
                         match2 = true;
@@ -189,38 +190,39 @@ function addGrade(date,name,grade,link,fromPast) {
         }
     }
 
-    container.innerHTML += `
-    <tr name="grade" onclickevent="openLink('${link}')" class="widthbox hov clickable">
+    container.insertAdjacentHTML("beforeend", `
+    <tr name="grade" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" class="widthbox hov clickable">
         <th style="width: 100%;"><h3 style="padding-left: 20px; text-align: left;">${name}</h3></th>
         <th><h3 style="padding-right: 5px; text-align: right;">${grade}</h3></th>
         <th><div class="gradebox" style="background-color: ${color};"></div></th>
     </tr>
-    `
+    `)
 }
 
 function openGrades(type) {
-    let clsblacklist = [
-        "General Information",
-        "Extended Essay",
-        "Creativity Activity Service"
-    ]
-    let includes = false
-    for(let i=0; i < classesarray.length; i++) {
-        includes = false
-        for(let h=0; h < clsblacklist.length; h++) {
-            if(classesarray[i][0].includes(clsblacklist[h])) {
-                includes = true
+    if(type == "mastery") {
+        let clsblacklist = [
+            "General Information",
+            "Extended Essay",
+            "Creativity Activity Service",
+            "Post Oak Press",
+        ]
+        let includes = false
+        for(let i=0; i < classesarray.length; i++) {
+            includes = false
+            for(let h=0; h < clsblacklist.length; h++) {
+                if(classesarray[i][0].includes(clsblacklist[h])) {
+                    includes = true
+                }
+            }
+            if(!includes) {
+                window.open(classesarray[i][1].replace("materials", "student_district_mastery")) 
             }
         }
-        if(!includes) {
-            if(type == "mastery") {
-                window.open(classesarray[i][1].replace("materials", "student_district_mastery"))
-            } else {
-                window.open(classesarray[i][1].replace("materials", "student_grades"))
-            }
-            
-        }
+    } else {
+        window.open("/grades/grades", "_self")
     }
+    
 }
 
 function filterGrades() {
@@ -269,16 +271,21 @@ function setColor(id, name) {
     classColors.set()
 }
 
-function toggleCngBg() {
+function toggleCngBg(force = false) {
     widget = document.getElementById("bgbox")
-    if(widget.style.visibility == "hidden") {
-        widget.style.visibility = ""
-        document.getElementById("bgcolor").value = backGround.value[0]
-        document.getElementById("bgimg").value = backGround.value[1]
-        document.getElementById("bgblur").value = backGround.value[2]
-    } else {
+    if (force) {
         widget.style.visibility = "hidden"
+    } else {
+        if(widget.style.visibility == "hidden") {
+            widget.style.visibility = ""
+            document.getElementById("bgcolor").value = backGround.value[0]
+            document.getElementById("bgimg").value = backGround.value[1]
+            document.getElementById("bgblur").value = backGround.value[2]
+        } else {
+            widget.style.visibility = "hidden"
+        }
     }
+    
 }
 
 function saveBg() {
@@ -290,6 +297,13 @@ function saveBg() {
     document.body.style.backdropFilter = `blur(${blurbg}px)`
     backGround.value = [color, link, blurbg]
     backGround.set()
+}
+
+function closeBox(event) {
+    console.debug(event.clientX, event.clientY)
+    if(event.clientX >= 210 || event.clientY >= 500) {
+        toggleCngBg(true)
+    }
 }
 
 function editSavedGrades(argument="h", input=-1) {
@@ -334,7 +348,7 @@ function unEscape(htmlStr) {
     return htmlStr;
 }
 
-function onError(error) {console.debug("Error:", error)}
+function onError(error) {console.debug("Powerology: Error:", error)}
 
 buttonfunctions = {
     "openGrades" : openGrades,
@@ -348,3 +362,5 @@ buttonfunctions = {
     "filterGrades" : filterGrades,
     "openLink" : openLink,
 }
+
+document.addEventListener("click", closeBox);

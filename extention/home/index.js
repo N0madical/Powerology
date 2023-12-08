@@ -33,7 +33,7 @@ function loadSchoologyPlus() {
             gradesarray.push([[itime],[iname,igrade,ilink]])
         }
     } catch (error) {
-        console.error("Error reading grades from Schoology page:\n", error)
+        console.error("Powerology: Error reading grades from Schoology page:\n", error)
         gradesarray.push([[-1],["Error - Check Console (f12) & Report to Aiden","-","/home"]])
     }
 
@@ -54,7 +54,7 @@ function loadSchoologyPlus() {
             classesarray.push([jname,jlink,jimage])
         }
     } catch (error) {
-        console.error("Error reading classes from Schoology page:\n", error)
+        console.error("Powerology: Error reading classes from Schoology page:\n", error)
         classesarray.push(["Error - Check Console (f12) & Report to Aiden","/home",""])
     }
 
@@ -71,12 +71,12 @@ function loadSchoologyPlus() {
                 hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
                 assignmentsarray.push([hdate, hname, htime, hclass, hlink])
             } catch(err) {
-                console.debug("Error in parsing assignments:", err)
+                console.debug("Powerology: Error in parsing assignments:", err)
                 errorlist.push(`<h3 class="text-center">Error reading assignment #: ${h}</h3>`)
             }
         }   
     } catch (error) {
-        console.error("Error reading assignments from Schoology page:\n", error)
+        console.error("Powerology: Error reading assignments from Schoology page:\n", error)
         assignmentsarray.push(["Error", "Error - Check Console (f12) & Report to Aiden", "-", "", "/home"])
     }
 
@@ -96,7 +96,7 @@ function loadSchoologyPlus() {
             }
         }
     } catch (error) {
-        console.error("Error reading overdue assignments from Schoology page:\n", error)
+        console.error("Powerology: Error reading overdue assignments from Schoology page:\n", error)
         overdueassignmentsarray.push(["Error - Check Console (f12) & Report to Aiden", "/home"])
     }
 

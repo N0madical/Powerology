@@ -3,10 +3,10 @@ setTimeout(checkVersion, 1000)
 function checkVersion() {
     if(!document.getElementById("vtext")) {
         document.getElementById("body").insertAdjacentHTML("afterbegin", `
-            <h4 style="text-align: center;" id="vtext">Current installed version: v${version}</h4>
+            <h5 style="text-align: center;" id="vtext">Current installed version: v${version}</h5>
         `)
     } else {
-        document.getElementById("vtext").innerHTML = `Current installed version: v${version}`
+        document.getElementById("vtext").textContent = `Current installed version: v${version}`
     }
     if(version < parseFloat(document.getElementById("latestversion").innerHTML)) {
         if(!document.getElementById("utext")) {

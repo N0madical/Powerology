@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Powerology",
-    "version": "6.3",
+    "version": "6.4",
   
     "description": "Visually modifies the Post Oak Schoology page to look and act more like Powerschool",
   
@@ -56,6 +56,10 @@
       {
         "matches": ["*://postoakschool.schoology.com/settings/account/sethome"],
         "js": ["settingsPage/index.js"]
+      },
+      {
+        "matches": ["*://postoakschool.schoology.com/grades/grades"],
+        "js": ["gradeOverview/index.js"]
       }
     ],
 

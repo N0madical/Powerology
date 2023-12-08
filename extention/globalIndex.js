@@ -10,7 +10,7 @@ if (typeof browser !== "undefined") {
 
 
 //########################################################
-    //Removing unwanted UI elements
+    //Removing unwanted UI elements & Fixing Others
 //########################################################
 
 buttons = document.getElementsByClassName("_13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw")
@@ -26,6 +26,15 @@ for(let h = 0; h < buttons.length; h++) {
 
 if(document.getElementById("app-run-5922356464") != null) {
     document.getElementById("app-run-5922356464").remove()
+}
+
+headerbuttons = document.getElementById("header").querySelector("nav").querySelectorAll("button")
+for(let i = 0; i < headerbuttons.length; i++) {
+    if(headerbuttons[i].innerHTML == "Grades") {
+        headerbuttons[i].parentElement.innerHTML = `
+        <a class="_13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-pds-icon-default-2kZM7 _1SIMq _2kpZl _3OAXJ _3_bfp _3v0y7 _2s0LQ util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y sExtlink-processed" href="/grades/grades">Grades</a>
+        `
+    }
 }
 
 
@@ -58,8 +67,8 @@ function onGetNextCheck() {
             }
             nextCheck.value = Date.now() + 86400000
             nextCheck.set()
-            console.info("Current version is", vnumber, "and most recent Git version is", chrome.runtime.getManifest().version)
+            console.info("Powerology: Current version is", vnumber, "and most recent Git version is", chrome.runtime.getManifest().version)
         }
     }
-    console.info("It is currently", Date.now(), "ms, app will check for update at", nextCheck.value, "ms.")
+    console.info("Powerology: It is currently", Date.now(), "ms, app will check for update at", nextCheck.value, "ms.")
 }

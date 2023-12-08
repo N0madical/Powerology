@@ -41,13 +41,12 @@ schoologyplusplusWeb = `
 function passFunctionCall(call) {
     document.getElementById('codeportal').innerHTML = call;
 }
-console.debug("hey i work")
 </script>
 <p id="codeportal" style="display: none;" value="sus"></p>
 <img src=${cngbg} alt="Change Background" width="25" height="25" onclickevent="toggleCngBg()" class="clickable" style="position: absolute; left:5px; margin-top:5px;">
 <div id="bgbox" class="shadow" style="visibility: hidden;">
     <h1 class="text-center">Change Background</h1>
-    <hr style="transform: translate(0,0);">
+    <hr style="transform: translate(10px,0);">
     <h2 class="text-center" style="margin-bottom: 5px;">Set Background<br> to Color</h2>
     <input class="margin-center" type="color" id="bgcolor" value="${backGround.value[0]}">
     <h2 class="text-center" style="margin-top: 30px; margin-bottom: 5px;">Set Background to Image (Url)</h2>

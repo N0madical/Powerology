@@ -13,26 +13,26 @@ function showAverage() {
             let total = 0
             let divby = 0
             for(let i = 0; i < grades.length; i++) {
-                if(!grades[i].querySelectorAll("span")[0].innerHTML.includes("EF") && parseFloat(grades[i].querySelector('[id=district-mastery-grade-title]').innerHTML) <= 5.0) {
+                if(!grades[i].querySelectorAll("span")[0].innerHTML.includes("EF") && parseFloat(grades[i].querySelector('[id=district-mastery-grade-title]').innerHTML) <= 10.0) {
                     total += parseFloat(grades[i].querySelector('[id=district-mastery-grade-title]').innerHTML)
                     divby++
                 }
             }
 
-            avgGrade = (total/divby).toFixed(1)
+            avgGrade = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":(total/divby).toFixed(1)
 
             let efgrades = document.getElementById("learning-objectives-cards-container").children
             let eftotal = 0
             let efdivby = 0
             for(let i = 0; i < efgrades.length; i++) {
-                if(grades[i].querySelectorAll("span")[0].innerHTML.includes("EF") && parseFloat(efgrades[i].querySelector('[id=district-mastery-grade-title]').innerHTML) <= 5.0) {
+                if(grades[i].querySelectorAll("span")[0].innerHTML.includes("EF") && parseFloat(efgrades[i].querySelector('[id=district-mastery-grade-title]').innerHTML) <= 10.0) {
                     console.debug(parseFloat(efgrades[i].querySelector('[id=district-mastery-grade-title]').innerHTML))
                     eftotal += parseFloat(efgrades[i].querySelector('[id=district-mastery-grade-title]').innerHTML)
                     efdivby++
                 }
             }
 
-            efAvgGrade = (eftotal/efdivby).toFixed(1)
+            efAvgGrade = (isNaN(eftotal/efdivby)) ? "Not Avaliable - Try Reloading Page":(eftotal/efdivby).toFixed(1)
 
             if(document.getElementById("averageBox") == null) {
                 document.getElementById("learning-objectives-cards-container").insertAdjacentHTML("afterbegin", `
@@ -49,8 +49,8 @@ function showAverage() {
                 `)
             }
 
-            document.getElementById("overallgrade").innerHTML = avgGrade
-            document.getElementById("overallEFgrade").innerHTML = efAvgGrade
+            document.getElementById("overallgrade").textContent = avgGrade
+            document.getElementById("overallEFgrade").textContent = efAvgGrade
         }
 
         if(document.getElementById("averageBox")) {
