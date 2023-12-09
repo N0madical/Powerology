@@ -1,32 +1,66 @@
- document.getElementById("past-selector").innerHTML += `<p style="float: right; margin-top: 5px;">Overall Grade (Including Executive Functions)</p>`
- 
- let classeslist = document.getElementById("main-inner").getElementsByClassName("gradebook-course")
- for(let i = 0; i < classeslist.length; i++) {
-    grades = classeslist[i].getElementsByClassName("item-row")
-    let avgvar = 0
-    let count = 0
-    let avg = "Not Avaliable"
-    for(let j = 0; j < grades.length; j++) {
-        if(grades[j].getElementsByClassName("rounded-grade").length > 0) {
-            avgvar += parseFloat(grades[j].getElementsByClassName("rounded-grade")[0].innerHTML)
-            count++
+
+//########################################################
+    //Showing Grade Overviews
+//######################################################## 
+
+intval = false
+evntlstn = false
+
+masteryGrades = new browserStorage("masteryGrades", "local", [], defineMasteryGrades)
+masteryGrades.get()
+
+function defineMasteryGrades() {
+    if(!intval) {
+        document.getElementById("past-selector").innerHTML += `<p style="float: right; margin-top: 5px;">Overall Grade (Only shows when Mastery has been opened in the past day)</p>`
+        loadrepeat = window.setInterval(function(){
+            masteryGrades.get()
+        }, 3000);
+        intval = true
+    }
+
+    showGrades()
+    
+}
+
+function showGrades() {
+    let openext = storageapi.runtime.getURL("icons/openext.png");
+    let classeslist = document.getElementById("main-inner").getElementsByClassName("gradebook-course")
+    for(let i = 0; i < classeslist.length; i++) {
+        let selClassName = classeslist[i].getElementsByClassName("sExtlink-processed")[0].childNodes[1].data
+        let selClassId = classeslist[i].id.substring(classeslist[i].id.length-10)
+        let gradeAv = false
+        for(let j = 0; j < masteryGrades.value.length; j++) {
+            if(masteryGrades.value[j][0] == selClassName){
+                if(masteryGrades.value[j][1] >= Date.now()-86400000) {
+                    gradeAv = true
+                    avg = parseFloat(masteryGrades.value[j][2]).toFixed(1)
+                }
+            }
         }
+
+        if(!document.getElementsByClassName(`open_${selClassId}`)[0]) {
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].innerHTML += `<img src="${openext}" class="clickable open_${selClassId}" style="width: 15px; height: 15px; float: right; margin-left:10px; margin-top: 2px;" onclickevent="openLink('https://postoakschool.schoology.com/course/${selClassId}/student_district_mastery', true)">`
+        }
+
+        if(gradeAv && !document.getElementsByClassName(`grade_${selClassId}`)[0]) {
+            let color = "gray"
+            if(avg >= 4.0 && avg <= 5.0) {
+                color = "green"
+            } else if (avg >= 3.5 && avg < 4.0) {
+                color = "gold"
+            } else if (avg >= 0.0 && avg < 3.5) {
+                color = "crimson"
+            }
+    
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].innerHTML += `<div class="grade_${selClassId}" style="width: 20px; height: 20px; float:right; background-color: ${color}; margin-left: 10px"></div><h3 style="float: right; line-height: 9px">${avg}</h3>`
+        }
+
     }
 
-    if((avgvar/count) <= 100) {
-        avg = (avgvar/count).toFixed(1)
+    if(!evntlstn) {
+        addEventListeners(document.getElementById("main-inner"))
     }
-
-    let color = "gray"
-    if(avg >= 4.0 && avg <= 5.0) {
-        color = "green"
-    } else if (avg >= 3.5 && avg < 4.0) {
-        color = "gold"
-    } else if (avg >= 0.0 && avg < 3.5) {
-        color = "crimson"
-    }
-
-    classeslist[i].getElementsByClassName("gradebook-course-title")[0].innerHTML += `<div style="width: 20px; height: 20px; float:right; background-color: ${color}; margin-left: 10px"></div><h3 style="float: right; line-height: 9px">${avg}</h3>`
+    evntlstn = true
 }
 
 

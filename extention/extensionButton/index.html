@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .guibutton {
+            margin-top: 10px;
+            padding: 2px 20px;
+        }
+        .warning {
+            background-color: darkred;
+            color: white;
+        }
+    </style>
+    <body style="width: 300px; background-color: #1B2932;">
+        <h1 class="text-center" style="color: white;">Powerology Settings</h1>
+        <hr style="color: white; left: 0; margin: 20px 0px;">
+        <input id="clearcol" class="margin-center guibutton" type="button" value="Reset Saved Class Colors">
+        <input id="clearass" class="margin-center guibutton" type="button" value="Reset Saved Assignment Modifications">
+        <input id="clearcus" class="margin-center guibutton" type="button" value="Reset Saved Custom Assignments">
+        <input id="clearsav" class="margin-center guibutton" type="button" value="Reset Saved Grades">
+        <input id="clearall" class="margin-center guibutton warning" type="button" value="Reset All Local and Sync Storage">
+        <hr style="color: white; left: 0; margin: 20px 0px;">
+        <input id="debugfile" class="margin-center guibutton" type="button" value="Generate Debug File">
+
+        <p id="output" style="color: white; text-align: center;"></p>
+    </body>
+    <script src="../globalFunctions.js"></script>
+    <script src="index.js"></script>
+</html>

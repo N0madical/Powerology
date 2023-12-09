@@ -98,6 +98,7 @@ em {
 
 .clickable {
     cursor: pointer;
+    text-decoration: none;
 }
 
 /* ######################################################## */
@@ -168,5 +169,11 @@ body{
     background-color: #ffffff;
     left: 5px;
     margin-top: 35px;
+    z-index: 100;
+}
+
+#bgboxbox {
+    position: absolute;
+    top: 60px;
     z-index: 100;
 }

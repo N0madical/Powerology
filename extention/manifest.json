@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Powerology",
-    "version": "6.4",
+    "version": "7.0",
   
     "description": "Visually modifies the Post Oak Schoology page to look and act more like Powerschool",
   
@@ -24,6 +24,16 @@
       "matches": ["*://postoakschool.schoology.com/*"]
       }
     ],
+
+    "action": {
+      "default_icon": {
+        "48": "icons/icon48.png",
+        "96": "icons/icon96.png"
+      },
+      "default_title": "Powerology Settings",
+      "default_popup": "extensionButton/index.html"
+    },
+  
   
     "content_scripts": [
       {
@@ -38,11 +48,6 @@
       {
         "matches": ["*://postoakschool.schoology.com/course/*"],
         "js": ["linkPage/index.js"]
-      },
-      {
-        "matches": ["*://postoakschool.schoology.com/course/*/student_grades"],
-        "css": ["gradePage/styles.css"],
-        "js": ["gradePage/index.js"]
       },
       {
         "matches": ["*://postoakschool.schoology.com/course/*/student_district_mastery/*", "*://postoakschool.schoology.com/course/*/student_district_mastery"],

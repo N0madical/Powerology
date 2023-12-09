@@ -1,5 +1,7 @@
 //document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
 
+console.debug(Date.now())
+
 datacollected = false
 classesarray = []
 assignmentsarray = []
@@ -119,7 +121,9 @@ function loadSchoologyPlus() {
         document.getElementById("wrapper").style.width = "100%"
         document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
 
-        addEventListeners(document)
+        addEventListeners(document.getElementById("body"))
+
+        customAssignments.get()
 
         updateClasses()
         updateAssignments()

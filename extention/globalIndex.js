@@ -1,4 +1,47 @@
 //########################################################
+    //Setting Background
+//########################################################
+
+defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true]
+backGround = new browserStorage("backGround", "sync", defaultBackGround, setBackground)
+backGround.get()
+function setBackground() {
+    if(backGround.value[3] || window.location.href.includes("home")) {
+        document.body.style.backgroundColor = backGround.value[0]
+        document.body.style.backgroundImage = `url('${backGround.value[1]}')`
+        document.body.style.backdropFilter = `blur(${backGround.value[2]}px)`
+        if(!window.location.href.includes("home")) {
+            document.getElementById("wrapper").style.backgroundColor = "#faf9f7"
+            document.getElementById("wrapper").classList.add("shadow")
+        }
+    }
+
+    cngbg = storageapi.runtime.getURL("icons/changebg_white.png");
+
+    document.body.insertAdjacentHTML('afterbegin', `<div id="bgboxbox">
+    <img src=${cngbg} alt="Change Background" width="25" height="25" onclickevent="toggleCngBg()" class="clickable" style="position: absolute; left:5px; top:5px; cursor: pointer;">
+    <div id="bgbox" class="shadow" style="visibility: hidden;">
+        <h1 class="text-center">Change Background</h1>
+        <hr style="transform: translate(10px,0);">
+        <h2 class="text-center" style="margin-bottom: 5px;">Set Background<br> to Color</h2>
+        <input class="margin-center" type="color" id="bgcolor" value="${backGround.value[0]}">
+        <h2 class="text-center" style="margin-top: 30px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
+        <input class="margin-center" class="text-center" value="${backGround.value[1]}" id="bgimg">
+        <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
+        <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${backGround.value[2]}">
+        <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Active On All Pages</h3>
+        <input type="checkbox" class="margin-center" id="bgall" style="margin-bottom: 20px;">
+        <button class="margin-center clickable" onclickevent="saveBg()">Save</button>
+    </div>
+    </div>`)
+
+    document.getElementById("bgall").checked = backGround.value[3]
+
+    addEventListeners(document.getElementById("bgboxbox"))
+}
+
+
+//########################################################
     //Defining API
 //########################################################
 
@@ -72,3 +115,22 @@ function onGetNextCheck() {
     }
     console.info("Powerology: It is currently", Date.now(), "ms, app will check for update at", nextCheck.value, "ms.")
 }
+
+browser.runtime.onMessage.addListener((request) => {
+    if(request.action == "debugprint") {
+        const file = new File([document.getElementsByTagName('html')[0].innerHTML], `PowerologyDebug-v${browser.runtime.getManifest().version}.html`, {
+            type: 'text/plain',
+        })
+          
+        const link = document.createElement('a')
+        const url = URL.createObjectURL(file)
+        
+        link.href = url
+        link.download = file.name
+        document.body.appendChild(link)
+        link.click()
+        
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+    }
+});

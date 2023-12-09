@@ -20,7 +20,7 @@ function updateAssignments() {
         addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
     }
     for(p=0; p < assignmentsarray.length; p++) {
-        addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4])
+        addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4],(assignmentsarray[p][3]=="custom"))
     }
     if(!document.getElementById("assignments").getElementsByClassName("errornotice")[0]) {
         for(let o = 0; o < errorlist.length; o++) {
@@ -60,7 +60,27 @@ function updateGradeList() {
     }
 
     addEventListeners(document.getElementById("gradelist"))
+}
+
+function intCustomAss(assignment) {
+    let d1
+    let d2
+    let thisd
+    let thisdate = new Date()
+    let year = thisdate.getFullYear()
+    for(let i = 0; i < assignmentsarray.length; i++) {
+        d1 = (i == 0) ? 0:Date.parse(`${assignmentsarray[i][0].substring(assignmentsarray[i][0].indexOf(",")).trim()}, ${year}`)
+        d2 = (assignmentsarray[i+1]) ? Date.parse(`${assignmentsarray[i+1][0].substring(assignmentsarray[i+1][0].indexOf(",")).trim()}, ${year}`):d1
+        thisd = Date.parse(`${assignment[0].substring(assignment[0].indexOf(",")).trim()}, ${year}`)
+        console.debug(d1,d2,thisd,assignment[1],assignmentsarray[i])
+        if (thisd >= d1 && thisd <= d2) {
+            assignmentsarray.splice(i, 0, assignment)
+            return
+        }
     }
+    assignmentsarray.splice(assignmentsarray.length+1, 0, assignment)
+    return
+}
 
 function addClass(name, link) {
     container = document.getElementById("classlist")
@@ -90,7 +110,7 @@ function addClass(name, link) {
     classiteratable++
 } 
 
-function addAssignment(day, name, time, link) {
+function addAssignment(day, name, time, link, isCustom) {
     if(!checkedAssignments.value[2].includes(unEscape(name))) {
         container = document.getElementById("assignmentlist")
         dates = asdates
@@ -145,7 +165,7 @@ function addAssignment(day, name, time, link) {
         container.insertAdjacentHTML("beforeend",  `
         <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
         <th><input class="clickable" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclickevent="checkMe('${name}', ${iteratable})" ${checked}></th>
-            <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${name}', '${iteratable}')" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${name}', ${isCustom})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
             <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${name}', '${iteratable}', ${checkedAssignments.value[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
             <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
             <th><h5 class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h5></th>
@@ -244,10 +264,25 @@ function checkMe(name, id) {
     checkedAssignments.set()
 }
 
-function xMe(name, id) {
-    checkedAssignments.value[1].push(name);
+function xMe(name, isCustom) {
+    if(isCustom) {
+        for(let i = 0; i < customAssignments.value.length; i++) {
+            if(customAssignments.value[i][1] == name) {
+                customAssignments.value.splice(i, 1)
+                customAssignments.set()
+            }
+        }
+        for(let i = 0; i < assignmentsarray.length; i++) {
+            if(assignmentsarray[i][1] == name) {
+                assignmentsarray.splice(i, 1)
+            }
+        }
+        console.info("Powerology: Removed custom assignment")
+    } else {
+        checkedAssignments.value[1].push(name);
+        checkedAssignments.set();
+    }
     updateAssignments();
-    checkedAssignments.set();
 }
 
 function todoMe(name, id, remove) {
@@ -271,36 +306,57 @@ function setColor(id, name) {
     classColors.set()
 }
 
-function toggleCngBg(force = false) {
-    widget = document.getElementById("bgbox")
+function toggleAddGrd(force = false) {
+    let widget = document.getElementById("addbox")
     if (force) {
-        widget.style.visibility = "hidden"
+        widget.style.display = "none"
+        document.getElementById("caName").style.background = ""
+        document.getElementById("caDate").style.background = ""
     } else {
-        if(widget.style.visibility == "hidden") {
-            widget.style.visibility = ""
-            document.getElementById("bgcolor").value = backGround.value[0]
-            document.getElementById("bgimg").value = backGround.value[1]
-            document.getElementById("bgblur").value = backGround.value[2]
+        if(widget.style.display == "none") {
+            widget.style.display = "inherit"
         } else {
-            widget.style.visibility = "hidden"
+            widget.style.display = "none"
+            document.getElementById("caName").style.background = ""
+            document.getElementById("caDate").style.background = ""
         }
     }
-    
 }
 
-function saveBg() {
-    color = document.getElementById("bgcolor").value
-    link = document.getElementById("bgimg").value
-    blurbg = document.getElementById("bgblur").value
-    document.body.style.backgroundColor = color
-    document.body.style.backgroundImage = `url('${link}')`
-    document.body.style.backdropFilter = `blur(${blurbg}px)`
-    backGround.value = [color, link, blurbg]
-    backGround.set()
+function addCustomAss() {
+    let name = document.getElementById("caName").value
+    let date = new Date(document.getElementById("caDate").value)
+    let link = document.getElementById("caLink").value
+    let daynames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let monthnames = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    if(name != "" && document.getElementById("caDate").value != "") {
+        let day = `${daynames[date.getDay()]}, ${monthnames[date.getMonth()]} ${date.getDate()}`
+        let time
+        if(date.getHours() <= 12) {
+            time = `${date.getHours()}:${date.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})} am`
+        } else {
+            time = `${date.getHours()-12}:${date.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})} pm`
+        }
+        customAssignments.value.push([day, name, time, "custom", link])
+        intCustomAss([day, name, time, "custom", link])
+        customAssignments.set()
+        updateAssignments()
+        toggleAddGrd()
+    } else {
+        let tempdate = document.getElementById("caDate").value
+        document.getElementById("caName").style.background = (name == "") ? "#ffcccb":""
+        document.getElementById("caDate").style.background = (tempdate == "") ? "#ffcccb":""
+    }
+}
+
+function parseCustomAss() {
+    for (let i = 0; i < customAssignments.value.length; i++) {
+        intCustomAss(customAssignments.value[i])
+    }
+    updateAssignments()
 }
 
 function closeBox(event) {
-    console.debug(event.clientX, event.clientY)
     if(event.clientX >= 210 || event.clientY >= 500) {
         toggleCngBg(true)
     }
@@ -348,7 +404,9 @@ function unEscape(htmlStr) {
     return htmlStr;
 }
 
-function onError(error) {console.debug("Powerology: Error:", error)}
+function onError(error) {console.error("Powerology: Generic Error:", error)}
+
+document.addEventListener("click", closeBox);
 
 buttonfunctions = {
     "openGrades" : openGrades,
@@ -360,7 +418,7 @@ buttonfunctions = {
     "toggleCngBg" : toggleCngBg,
     "saveBg" : saveBg,
     "filterGrades" : filterGrades,
+    "toggleAddGrd" : toggleAddGrd,
+    "addCustomAss" : addCustomAss,
     "openLink" : openLink,
 }
-
-document.addEventListener("click", closeBox);

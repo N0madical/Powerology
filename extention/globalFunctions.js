@@ -33,7 +33,7 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
                 }
             }
         } catch (error) {
-            console.error(`Error retreiving browser storage\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
+            console.error(`Error retreiving browser storage for ${this.name}\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
         }
     };
 
@@ -45,9 +45,21 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
                 storageapi.storage.local.set({[this.name]:this.value})
             }
         } catch (error) {
-            console.error(`Error setting browser storage\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
+            console.error(`Error setting browser storage for ${this.name}\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
         }
     };
+
+    this.clear = function() {
+        try{
+            if(this.sync) {
+                storageapi.storage.sync.remove(`${this.name}`)
+            } else {
+                storageapi.storage.local.remove(`${this.name}`)
+            }
+        } catch (error) {
+            console.error(`Error clearing browser storage for ${this.name}\nIs Cloud Storage: ${this.sync}\nError: ${error}`)
+        }
+    }
 
     let self = this
 
@@ -65,8 +77,8 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
         if(self.runAfter) {for(self.i = 0; self.i < self.runAfter.length; self.i++) {
                 try {
                     self.runAfter[self.i]()
-                } catch {
-                    console.error("Tried to run invalid function\n-----\n", self.runAfter[self.i], "\n-----\nafter getting variable", self.name)
+                } catch (error) {
+                    console.error("Tried to run invalid function with error\n-----\n", self.runAfter[self.i], "\n-----\n", error ,"\n-----\nafter getting variable", self.name)
                 }
         }   }
         
@@ -112,4 +124,51 @@ function addEventListeners(object) {
         console.error(`Error setting event listeners: ${error}`)
     }
     
+}
+
+function toggleCngBg(force = false) {
+    let widget = document.getElementById("bgbox")
+    if (force) {
+        widget.style.visibility = "hidden"
+    } else {
+        if(widget.style.visibility == "hidden") {
+            widget.style.visibility = ""
+            document.getElementById("bgcolor").value = backGround.value[0]
+            document.getElementById("bgimg").value = backGround.value[1]
+            document.getElementById("bgblur").value = backGround.value[2]
+        } else {
+            widget.style.visibility = "hidden"
+        }
+    }
+    
+}
+
+function saveBg() {
+    color = document.getElementById("bgcolor").value
+    link = document.getElementById("bgimg").value
+    blurbg = document.getElementById("bgblur").value
+    onall = document.getElementById("bgall").checked
+    if(onall || window.location.href.includes("home")) {
+        document.body.style.backgroundColor = color
+        document.body.style.backgroundImage = `url('${link}')`
+        document.body.style.backdropFilter = `blur(${blurbg}px)`
+        if(!window.location.href.includes("home")) {
+            document.getElementById("wrapper").style.backgroundColor = "#faf9f7"
+            document.getElementById("wrapper").classList.add("shadow")
+        }
+    } else {
+        document.body.style.backgroundColor = "#faf9f7"
+        document.body.style.backgroundImage = ``
+        document.body.style.backdropFilter = ``
+        document.getElementById("wrapper").classList.remove("shadow")
+    }
+    
+    backGround.value = [color, link, blurbg, onall]
+    backGround.set()
+}
+
+buttonfunctions = {
+    "toggleCngBg" : toggleCngBg,
+    "saveBg" : saveBg,
+    "openLink" : openLink,
 }

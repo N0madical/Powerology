@@ -1,7 +1,7 @@
 refresh = storageapi.runtime.getURL("icons/refresh.png");
 openext = storageapi.runtime.getURL("icons/openext.png");
 opengrd = storageapi.runtime.getURL("icons/grades.png");
-cngbg = storageapi.runtime.getURL("icons/changebg_white.png");
+plusicon = storageapi.runtime.getURL("icons/plus.png");
 
 defaultClasscolors = {
     "Computer science 2023-24: Grade-12":"#4169E1",  
@@ -20,21 +20,17 @@ defaultClasscolors = {
 checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
 checkedAssignments.get()
 
+customAssignments = new browserStorage("customAssignments", "sync", [], parseCustomAss)
+
 pastGrades = new browserStorage("pastGrades", "local", [], sortPastGrades)
 pastGrades.get()
-function sortPastGrades() {pastGrades.value.sort((a, b) => a[0] - b[0]);}
+function sortPastGrades() {pastGrades.value.sort((a, b) => a[0] - b[0]); updateGradeList();}
 
 classColors = new browserStorage("classColors", "sync", defaultClasscolors)
 classColors.get()
 
-defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10]
-backGround = new browserStorage("backGround", "sync", defaultBackGround, setBackground)
-backGround.get()
-function setBackground() {
-    document.body.style.backgroundColor = backGround.value[0]
-    document.body.style.backgroundImage = `url('${backGround.value[1]}')`
-    document.body.style.backdropFilter = `blur(${backGround.value[2]}px)`
-}
+dateobj = new Date()
+datenow = dateobj.toISOString().substring(0,10)
 
 schoologyplusplusWeb = `
 <script type="text/javascript">
@@ -43,18 +39,6 @@ function passFunctionCall(call) {
 }
 </script>
 <p id="codeportal" style="display: none;" value="sus"></p>
-<img src=${cngbg} alt="Change Background" width="25" height="25" onclickevent="toggleCngBg()" class="clickable" style="position: absolute; left:5px; margin-top:5px;">
-<div id="bgbox" class="shadow" style="visibility: hidden;">
-    <h1 class="text-center">Change Background</h1>
-    <hr style="transform: translate(10px,0);">
-    <h2 class="text-center" style="margin-bottom: 5px;">Set Background<br> to Color</h2>
-    <input class="margin-center" type="color" id="bgcolor" value="${backGround.value[0]}">
-    <h2 class="text-center" style="margin-top: 30px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
-    <input class="margin-center" class="text-center" value="${backGround.value[1]}" id="bgimg">
-    <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
-    <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${backGround.value[2]}">
-    <button class="margin-center clickable" onclickevent="saveBg()">Save</button>
-</div>
 <div id="centerbox">
     <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
         <img class="clickable" src=${opengrd} style="position: absolute; left: 50%; transform:translate(-350px,15px); width: 15px; height: 15px;" onclickevent="openGrades('mastery')"></img>
@@ -67,8 +51,29 @@ function passFunctionCall(call) {
     </div>
     <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
         <h1 class="header text-center">Assignments</h1>
-        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(150px,-22px); width: 15px; height: 15px;" onclickevent="refreshClrAssLst()"></img>
+        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(-270px,-22px); width: 15px; height: 15px;" onclickevent="refreshClrAssLst()"></img>
+        <img class="clickable" src=${plusicon} style="position: absolute; left: 50%; transform:translate(150px,-20px); width: 13px; height: 13px;" onclickevent="toggleAddGrd()"></img>
         <hr style="margin-bottom: 10px;">
+        <div id="addbox" style="display: none;">
+            <h1 style="margin-bottom: 0px;" class="text-center">Add Task</h1>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
+                <h2 class="" style="margin-bottom: 0px; display: inline-block; left: 0; margin-right: 100px;">Name</h2>
+                <input id="caName" class="margin-center" value="" id="bgimg" style="display: inline-block; width: 215px;">
+            </div>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
+                <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 75px;">Due Date</h2>
+                <input id="caDate" type="datetime-local" class="margin-center" value="${datenow}T12:00" id="bgimg" style="display: inline-block;">
+            </div>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
+                <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 33px;">Link (Optional)</h2>
+                <input id="caLink" class="margin-center" value="" id="bgimg" style="display: inline-block; width: 215px;">
+            </div>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content; margin-top: 25px; margin-bottom: 20px;">
+                <button class="clickable" style="width: 100px; display: inline-block; color: #556370;" onclickevent="toggleAddGrd(true)">Close</button>
+                <button class="clickable" style="width: 100px; display: inline-block; color: #556370;" onclickevent="addCustomAss(true)">Add</button>
+            </div>
+            <hr style="margin-left: 50%; transform: translate(-50%, 0);">
+        </div>
         <div style="width: 100%;">
             <table id="assignmentlist" style="width: 100%;">
             </table>

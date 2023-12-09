@@ -4,25 +4,25 @@
     </head>
     <body>
         <img src="../icons/changebg.png" alt="Change Background" width="30" height="30" onclick="toggleCngBg()" class="clickable" style="position: absolute;">
-        <div id="bgbox" class="shadow" style="visibility: hidden;">
-            <h1 class="text-center">Change Background</h1>
+        <div id="bgbox" class="shadow" style="width: 400px; padding-left: 20px; padding-right: 20px;">
+            <h1 style="margin-bottom: 0px;" class="text-center">Add Task</h1>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
+                <h2 class="" style="margin-bottom: 0px; display: inline-block; left: 0; margin-right: 100px;">Name</h2>
+                <input class="margin-center" value="Type Here" id="bgimg" style="display: inline-block;">
+            </div>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
+                <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 75px;">Due Date</h2>
+                <input class="margin-center" value="Type Here" id="bgimg" style="display: inline-block;">
+            </div>
+            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
+                <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 24px;">Link (Optional)</h2>
+                <input class="margin-center" value="Type Here" id="bgimg" style="display: inline-block;">
+            </div>
+            <button class="margin-center" style="margin-top: 25px; margin-bottom: 20px;" onclick="saveBg()">Save</button>
             <hr style="transform: translate(0,0);">
-            <h2 class="text-center" style="margin-bottom: 5px;">Set Background<br> to Color</h2>
-            <input class="margin-center" type="color" id="bgcolor">
-            <h2 class="text-center" style="margin-top: 30px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
-            <input class="margin-center" class="text-center" value="https://" id="bgimg">
-            <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
-            <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1">
-            <button class="margin-center" onclick="saveBg()">Save</button>
         </div>
     </body>
     <script>
-        let myVar = "no"
-        function renameMyVar(input) {
-            document.input = "yes"
-        }
-        renameMyVar(myVar)
 
-        console.debug(myVar)
     </script>
  </html>
