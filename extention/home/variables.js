@@ -41,7 +41,7 @@ function passFunctionCall(call) {
 <p id="codeportal" style="display: none;" value="sus"></p>
 <div id="centerbox">
     <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
-        <img class="clickable" src=${opengrd} style="position: absolute; left: 50%; transform:translate(-350px,15px); width: 15px; height: 15px;" onclickevent="openGrades('mastery')"></img>
+        <img class="clickable" src=${opengrd} style="position: absolute; left: calc(var(--vpl) + 280px); transform:translateY(12px); width: 15px; height: 15px;" onclickevent="openGrades('mastery')"></img>
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
         <div style="width: 100%;">
@@ -51,8 +51,8 @@ function passFunctionCall(call) {
     </div>
     <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
         <h1 class="header text-center">Assignments</h1>
-        <img class="clickable" src=${refresh} style="position: absolute; left: 50%; transform:translate(-270px,-22px); width: 15px; height: 15px;" onclickevent="refreshClrAssLst()"></img>
-        <img class="clickable" src=${plusicon} style="position: absolute; left: 50%; transform:translate(150px,-20px); width: 13px; height: 13px;" onclickevent="toggleAddGrd()"></img>
+        <img class="clickable" src=${refresh} style="position: absolute; left: calc(var(--vpl) + 355px); transform:translateY(-22px); width: 15px; height: 15px;" onclickevent="refreshClrAssLst()"></img>
+        <img class="clickable" src=${plusicon} style="position: absolute; left: calc(var(--vpl) + 790px); transform:translateY(-20px); width: 13px; height: 13px;" onclickevent="toggleAddGrd()"></img>
         <hr style="margin-bottom: 10px;">
         <div id="addbox" style="display: none;">
             <h1 style="margin-bottom: 0px;" class="text-center">Add Task</h1>
@@ -81,7 +81,7 @@ function passFunctionCall(call) {
     </div>
     <div>
         <div id="grades" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
-            <img class="clickable" src=${openext} style="position: absolute; left: 50%; transform:translate(570px,15px); width: 15px; height: 15px;" onclickevent="openGrades('grade')"></img>
+            <img class="clickable" src=${openext} style="position: absolute; left: calc(var(--vpl) + 1215px); transform:translateY(15px); width: 15px; height: 15px;" onclickevent="openLink('/grades/grades')" onrightclickevent="openLink('/grades/grades', true)"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
             <div class="text-center">

@@ -82,9 +82,9 @@ function showAverage() {
             }, 1000);
         }
     } catch (error) {
-        // if(document.getElementsByClassName("district-mastery-report-empty-wrapper-K3ciF")[0]) {
-        //     location.reload()
-        // }
+        if(document.getElementsByClassName("district-mastery-report-empty-wrapper-K3ciF")[0]) {
+            setTimeout(()=>{location.reload()}, Math.floor(Math.random() * 2000))
+        }
         //console.debug(error)
     }
 }

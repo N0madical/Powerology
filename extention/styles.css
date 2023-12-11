@@ -1,3 +1,7 @@
+:root {
+    --vpl: 0;
+}
+
 /* ######################################################## */
 /* Element Allignment */
 
@@ -111,14 +115,11 @@ em {
 
 #centerbox {
     padding-top: 10px;
-    width: fit-content;
+    width: max-content;
     height: fit-content;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0);
+    margin: 0 auto;
     overflow: hidden;
     display: flex;
-    width: 100%;
 }
 
 .hov:hover {

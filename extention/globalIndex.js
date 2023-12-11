@@ -10,9 +10,12 @@ function setBackground() {
         document.body.style.backgroundColor = backGround.value[0]
         document.body.style.backgroundImage = `url('${backGround.value[1]}')`
         document.body.style.backdropFilter = `blur(${backGround.value[2]}px)`
-        if(!window.location.href.includes("home")) {
+        if(!window.location.href.includes("home") && !window.location.href.includes("powerology")) {
             document.getElementById("wrapper").style.backgroundColor = "#faf9f7"
             document.getElementById("wrapper").classList.add("shadow")
+        } else if (window.location.href.includes("powerology")) {
+            document.getElementById("container").style.margin = 0
+            document.getElementById("main").style.minHeight = "91vh"
         }
     }
 
@@ -79,6 +82,11 @@ for(let i = 0; i < headerbuttons.length; i++) {
         `
     }
 }
+
+headerbuttonsbox = document.getElementById("header").querySelector("nav").querySelector("ul")
+headerbuttonsbox.insertAdjacentHTML("beforeend", `
+<a class="_13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-pds-icon-default-2kZM7 _1SIMq _2kpZl _3OAXJ _3_bfp _3v0y7 _2s0LQ util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y sExtlink-processed" href="/home/recent-activity/powerology">Messages</a>
+`)
 
 
 //########################################################

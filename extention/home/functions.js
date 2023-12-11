@@ -161,12 +161,21 @@ function addAssignment(day, name, time, link, isCustom) {
             checked = "";
             textDec = "text-decoration: none;"
         }
+        
+        let kbutton = ""
+        if(name.toLowerCase().includes("libro de trabajo")) {
+            knowticon = storageapi.runtime.getURL("icons/knowt.png")
+            kbutton = `
+            <th><img class="hideuntilhover clickable" src="${knowticon}" onclickevent="openLink('https://knowt.com/', true)" width="15px" height="15px" style="margin-left: 6px; margin-top: 8px; margin-right: 2px;"></th>
+            `
+        }
 
         container.insertAdjacentHTML("beforeend",  `
         <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
         <th><input class="clickable" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclickevent="checkMe('${name}', ${iteratable})" ${checked}></th>
             <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${name}', ${isCustom})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
             <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${name}', '${iteratable}', ${checkedAssignments.value[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            ${kbutton}
             <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
             <th><h5 class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h5></th>
         </tr>

@@ -118,8 +118,9 @@ function loadSchoologyPlus() {
         //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb;
         // }
 
-        document.getElementById("wrapper").style.width = "100%"
-        document.getElementById("wrapper").innerHTML = schoologyplusplusWeb
+        //document.getElementById("wrapper").style.width = "100%"
+        document.getElementById("wrapper").insertAdjacentHTML("beforebegin", schoologyplusplusWeb)
+        document.getElementById("wrapper").style.display = "none"
 
         addEventListeners(document.getElementById("body"))
 
@@ -141,6 +142,10 @@ function loadSchoologyPlus() {
             }
         }
 
+        let mgleft = window.getComputedStyle(document.getElementById("centerbox")).getPropertyValue("margin-left");
+        var r = document.querySelector(':root')
+        r.style.setProperty('--vpl', mgleft);
+
         clearInterval(loadrepeat)
     }
 }
@@ -155,10 +160,22 @@ var loadrepeat = window.setInterval(function(){
         if(!document.getElementById("home-feed-container")) {
             loadSchoologyPlus()
         } else {
-            openLink("https://postoakschool.schoology.com/settings/account/sethome")
-            clearInterval(loadrepeat)
+            if(!window.location.href.includes("powerology")) {
+                openLink("https://postoakschool.schoology.com/settings/account/sethome")
+                clearInterval(loadrepeat)
+            } else {
+                document.getElementById("right-column").remove()
+                document.getElementsByClassName("sgy-tabbed-navigation")[0].remove()
+                document.getElementById("main").style.width = "100%"
+            }
         }
     } else {
         clearInterval(loadrepeat)
     }
-  }, 100);
+}, 100);
+
+onresize = () => {
+    let mgleft = window.getComputedStyle(document.getElementById("centerbox")).getPropertyValue("margin-left");
+    var r = document.querySelector(':root')
+    r.style.setProperty('--vpl', mgleft);
+};
