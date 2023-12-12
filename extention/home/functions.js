@@ -425,7 +425,7 @@ function onError(error) {console.error("Powerology: Generic Error:", error)}
 
 document.addEventListener("click", closeBox);
 
-buttonfunctions = {
+buttonfunctions = Object.assign({}, buttonfunctions, {
     "openGrades" : openGrades,
     "checkMe" : checkMe,
     "xMe" : xMe,
@@ -438,4 +438,4 @@ buttonfunctions = {
     "toggleAddGrd" : toggleAddGrd,
     "addCustomAss" : addCustomAss,
     "openLink" : openLink,
-}
+})

@@ -57,6 +57,40 @@ function showGrades() {
 
     }
 
+    if(document.getElementById("averageBox") == null) {
+        document.getElementById("main").insertAdjacentHTML("beforeend", `
+            <h1 class="text-center" style="margin-top: 50px">Average GPAs (Only Out Of Currently Visible)</h1>
+            <div id="averageBox">
+                <div class="avgBox">
+                    <h1 class="text-center" style="display: inherit !important;">Out Of 5.0</h1>
+                    <h2 id="avg5" class="text-center">-</h2>
+                </div>
+                <div class="avgBox">
+                    <h1 class="text-center" style="display: inherit !important;">Out Of 4.0</h1>
+                    <h2 id="avg4" class="text-center">-</h2>
+                </div>
+                <div class="avgBox">
+                    <h1 class="text-center" style="display: inherit !important;">Out Of 100</h1>
+                    <h2 id="avg100" class="text-center">-</h2>
+                </div>
+            </div>
+        `)
+    }
+
+    let count = 0
+    let totalAvg = 0
+    for(let j = 0; j < masteryGrades.value.length; j++) {
+        if((masteryGrades.value[j][1] >= Date.now()-86400000) && (parseFloat(masteryGrades.value[j][2]) <= 5.0) && (parseFloat(masteryGrades.value[j][2]) >= 0.0)) {
+            totalAvg += parseFloat(masteryGrades.value[j][2])
+            count++
+            console.debug(parseFloat(masteryGrades.value[j][2]))
+        }
+    }
+    let gpa = totalAvg/count
+    document.getElementById("avg5").textContent = (gpa.toFixed(2))
+    document.getElementById("avg4").textContent = (gpa*0.8).toFixed(2)
+    document.getElementById("avg100").textContent = Math.round(gpa*20)
+
     if(!evntlstn) {
         addEventListeners(document.getElementById("main-inner"))
     }

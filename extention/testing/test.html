@@ -1,25 +1,39 @@
  <!DOCTYPE html>
     <head>
+        <link rel="stylesheet" href="../fonts.css">
         <link rel="stylesheet" href="../styles.css">
     </head>
     <body>
-        <img src="../icons/changebg.png" alt="Change Background" width="30" height="30" onclick="toggleCngBg()" class="clickable" style="position: absolute;">
-        <div id="bgbox" class="shadow" style="width: 400px; padding-left: 20px; padding-right: 20px;">
-            <h1 style="margin-bottom: 0px;" class="text-center">Add Task</h1>
-            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
-                <h2 class="" style="margin-bottom: 0px; display: inline-block; left: 0; margin-right: 100px;">Name</h2>
-                <input class="margin-center" value="Type Here" id="bgimg" style="display: inline-block;">
+        <div class="shadow" style="width: 600px; max-height: 1000px; min-height: max-content; margin: auto auto;">
+            <div style="width: 100%; height: 80px; background-color: rgb(54, 87, 59); margin: 0;">
+                <h1 style="text-align: center; color: white; font-size: 30px; padding-top: 20px;">Powerology Info</h1>
             </div>
-            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
-                <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 75px;">Due Date</h2>
-                <input class="margin-center" value="Type Here" id="bgimg" style="display: inline-block;">
+            <div style="box-sizing: border-box; background-color: #faf9f7; width: 100%; max-height: calc(100% - 80px); min-height: max-content; overflow-y: scroll; padding: 10px 20px; font-size: medium;">
+                <h2 style="font-size: 30px;">Powerology Features:</h2>
+                <ul>
+                    <li>Home Page Styling</li>
+                    <li>Custom Class Color Coding (Click to change)</li>
+                    <li>Assignment management!</li>
+                    <li>Show all grades on home page</li>
+                    <li>Custom backgrounds</li>
+                    <li>Add custom assignments</li>
+                    <li>Show overall mastery grades & GPA on grades page</li>
+                    <li>Entirely client-side</li>
+                    <li>Browser storage for easy preference saving</li>
+                    <li>Sort grades by grade range!</li>
+                    <li>Open all mastery tabs in new tabs</li>
+                    <li>Right-click to open in new tab instantly</li>
+                    <li>Instant links</li>
+                    <li>Bypass glitched mastery pages</li>
+                    <li>And much more...</li>
+                </ul>
+                <h2 style="font-size: 30px; padding-top: 20px;">Contributors:</h2>
+                <ul>
+                    <li><b>Creator, Developer:</b> Aiden</li>
+                    <li><b>Early Debugging:</b> Sabrina & Eli C.</li>
+                    <li><b>Feature Fixes:</b> Mateo, Everest, Mr. Grisbee, Max F. & Isa P.</li>
+                </ul>
             </div>
-            <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
-                <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 24px;">Link (Optional)</h2>
-                <input class="margin-center" value="Type Here" id="bgimg" style="display: inline-block;">
-            </div>
-            <button class="margin-center" style="margin-top: 25px; margin-bottom: 20px;" onclick="saveBg()">Save</button>
-            <hr style="transform: translate(0,0);">
         </div>
     </body>
     <script>

@@ -88,6 +88,13 @@ headerbuttonsbox.insertAdjacentHTML("beforeend", `
 <a class="_13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-pds-icon-default-2kZM7 _1SIMq _2kpZl _3OAXJ _3_bfp _3v0y7 _2s0LQ util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y sExtlink-processed" href="/home/recent-activity/powerology">Messages</a>
 `)
 
+headerbuttonsbox = document.getElementById("header").querySelector("nav").querySelectorAll("ul")[1]
+powerologyinfo = storageapi.runtime.getURL("icons/powerology_white.png");
+headerbuttonsbox.insertAdjacentHTML("afterbegin", `
+<a id="powerologyinfobutton" class="clickable _13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-pds-icon-default-2kZM7 _1SIMq _2kpZl _3OAXJ _3_bfp _3v0y7 _2s0LQ util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y" onclickevent="toggleInfo()"><img src="${powerologyinfo}" width="25px" height="25px" style="margin-top: 17px"></a>
+`)
+addEventListeners(document.getElementById("header"))
+
 
 //########################################################
     //Checking for updates
@@ -124,10 +131,41 @@ function onGetNextCheck() {
     console.info("Powerology: It is currently", Date.now(), "ms, app will check for update at", nextCheck.value, "ms.")
 }
 
+
+//########################################################
+    //Debugging
+//########################################################
+
+checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
+checkedAssignments.get()
+
+customAssignments = new browserStorage("customAssignments", "sync", [])
+customAssignments.get()
+
+pastGrades = new browserStorage("pastGrades", "local", [])
+pastGrades.get()
+
 browser.runtime.onMessage.addListener((request) => {
-    console.debug(request)
+    console.debug(request, assignmentsarray)
     if(request.action == "debugprint") {
-        const file = new File([document.getElementsByTagName('html')[0].innerHTML], `PowerologyDebug-v${browser.runtime.getManifest().version}.html`, {
+        let output = (document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0]) ? `Powerology Debug For User: ${document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0].textContent}`:"Powerology Debug For Undefined User"
+        output += "\n\n--\n\nAssignments:\n"
+        output += (assignmentsarray) ? assignmentsarray:""
+        output += "\n\n--\n\nOverdue Assignments:\n"
+        output += (overdueassignmentsarray) ? overdueassignmentsarray:""
+        output += "\n\n--\n\nClasses:\n"
+        output += (classesarray) ? classesarray:""
+        output += "\n\n--\n\nGrades:\n"
+        output += (gradesarray) ? gradesarray:""
+        output += "\n\n--\n\nCloud Checked:\n"
+        output += (checkedAssignments.value) ? checkedAssignments.value:""
+        output += "\n\n--\n\nCloud Custom:\n"
+        output += (customAssignments.value) ? customAssignments.value:""
+        output += "\n\n--\n\nCloud Past Grades:\n"
+        output += (pastGrades.value) ? pastGrades.value:""
+        output += "\n\n--\n\nHTML:\n"
+        output += (document.getElementsByTagName('html')[0].innerHTML)
+        const file = new File([output], `PowerologyDebug-v${browser.runtime.getManifest().version}.html`, {
             type: 'text/plain',
         })
           
