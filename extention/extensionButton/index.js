@@ -8,7 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById("debugfile").addEventListener('click', function() {
-        outputDebug();
+        outputDebug("debugprint");
+    });
+
+    document.getElementById("debugvars").addEventListener('click', function() {
+        outputDebug("storageprint");
+    });
+
+    document.getElementById("opensc").addEventListener('click', function() {
+        window.open("https://postoakschool.schoology.com/");
     });
     
 });
@@ -44,29 +52,33 @@ function clearItem(index) {
     
 }
 
-function outputDebug() {
-    if (typeof browser !== "undefined") {
-        storageapi = browser;
-    } else {
-        storageapi = chrome;
-    }
-    browser.tabs
-    .query({
-      currentWindow: true,
-      active: true,
-    })
-    .then(sendMessageToTabs)
-    .catch(onError);
-}
-  
-function sendMessageToTabs(tabs) {
-    for (const tab of tabs) {
+function outputDebug(message) {
+    try{
+        message = message
+        if (typeof browser !== "undefined") {
+            storageapi = browser;
+        } else {
+            storageapi = chrome;
+        }
         browser.tabs
-        .sendMessage(tab.id, { action: "debugprint" })
+        .query({
+        currentWindow: true,
+        active: true,
+        })
+        .then(function sendMessageToTabs(tabs) {
+            output(message)
+            for (const tab of tabs) {
+                browser.tabs
+                .sendMessage(tab.id, { action: `${message}` })
+                .catch(onError);
+            }
+        })
         .catch(onError);
+    } catch (error) {
+        output(error)
     }
 }
 
 function onError(error) {
-    console.error(`Error: ${error}`);
+    output(`Error: ${error}`);
 }

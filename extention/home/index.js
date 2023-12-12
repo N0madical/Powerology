@@ -71,7 +71,8 @@ function loadSchoologyPlus() {
                 htime = hdue.substr(hdue.indexOf(" at ") + 4)
                 hclass = assignments[h].children[1].children[1].innerHTML
                 hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
-                assignmentsarray.push([hdate, hname, htime, hclass, hlink])
+                hid = hlink.substr(hlink.length-10)
+                assignmentsarray.push([hdate, hname, htime, hclass, hlink, hid])
             } catch(err) {
                 console.debug("Powerology: Error in parsing assignments:", err)
                 errorlist.push(`<h3 class="text-center">Error reading assignment #: ${h}</h3>`)
@@ -91,8 +92,9 @@ function loadSchoologyPlus() {
                 uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
                 udue = overdueassignments[u].children[0].innerHTML
                 ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
+                uid = ulink.substr(ulink.length-10)
                 if(Date.parse(udue) <= Date.now()) {
-                    overdueassignmentsarray.push([uname, ulink])
+                    overdueassignmentsarray.push([uname, ulink, uid])
                 }
                 
             }

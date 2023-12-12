@@ -125,6 +125,7 @@ function onGetNextCheck() {
 }
 
 browser.runtime.onMessage.addListener((request) => {
+    console.debug(request)
     if(request.action == "debugprint") {
         const file = new File([document.getElementsByTagName('html')[0].innerHTML], `PowerologyDebug-v${browser.runtime.getManifest().version}.html`, {
             type: 'text/plain',
@@ -140,5 +141,17 @@ browser.runtime.onMessage.addListener((request) => {
         
         document.body.removeChild(link)
         window.URL.revokeObjectURL(url)
+    }
+
+    if(request.action == "storageprint") {
+        console.debug("Dumping Stored Variables:")
+        checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]], () => {console.debug("Modified Assignments:", checkedAssignments.value)})
+        checkedAssignments.get()
+
+        customAssignments = new browserStorage("customAssignments", "sync", [], () => {console.debug("Custom Assignments:", customAssignments.value)})
+        customAssignments.get()
+
+        pastGrades = new browserStorage("pastGrades", "local", [], () => {console.debug("Past Grades:", pastGrades.value)})
+        pastGrades.get()
     }
 });

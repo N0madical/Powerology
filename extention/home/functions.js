@@ -17,10 +17,10 @@ function updateAssignments() {
     document.getElementById("assignmentlist").textContent = ""
     document.getElementById("todolist").textContent = ""
     for(p=0; p < overdueassignmentsarray.length; p++) {
-        addAssignment("overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1])
+        addAssignment(overdueassignmentsarray[p][2],"overdue",overdueassignmentsarray[p][0],"",overdueassignmentsarray[p][1],false)
     }
     for(p=0; p < assignmentsarray.length; p++) {
-        addAssignment(assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4],(assignmentsarray[p][3]=="custom"))
+        addAssignment(assignmentsarray[p][5],assignmentsarray[p][0],assignmentsarray[p][1],assignmentsarray[p][2],assignmentsarray[p][4],(assignmentsarray[p][3]=="custom"))
     }
     if(!document.getElementById("assignments").getElementsByClassName("errornotice")[0]) {
         for(let o = 0; o < errorlist.length; o++) {
@@ -33,33 +33,36 @@ function updateAssignments() {
 }
 
 function updateGradeList() {
-    console.info("Powerology: Updating Grades List...")
-    document.getElementById("gradelist").textContent = ""
-    for(p=0; p < gradesarray.length; p++) {
-        if(gradessort[1] == "0") {
-            addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
-        } else if (parseFloat(gradesarray[p][1][1]) >= gradessort[0] && parseFloat(gradesarray[p][1][1]) <= gradessort[1]) {
-            addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
-        }
-    }
-    for(p=0; p < pastGrades.value.length; p++) {
-        let counter = (pastGrades.value.length-1) - p
-        match = false;
-        for(c=0; c < gradesarray.length; c++) {
-            if(gradesarray[c][1][0] == pastGrades.value[counter][1][0]) {
-                match = true;
-            }
-        }
-        if(!match) {
+    if(document.getElementById("gradelist")) {
+        console.info("Powerology: Updating Grades List...")
+        document.getElementById("gradelist").textContent = ""
+        for(p=0; p < gradesarray.length; p++) {
             if(gradessort[1] == "0") {
-                addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],true)
-            } else if (parseFloat(pastGrades.value[counter][1][1]) >= gradessort[0] && parseFloat(pastGrades.value[counter][1][1]) <= gradessort[1]) {
-                addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],true)
+                addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+            } else if (parseFloat(gradesarray[p][1][1]) >= gradessort[0] && parseFloat(gradesarray[p][1][1]) <= gradessort[1]) {
+                addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
             }
         }
-    }
+        for(p=0; p < pastGrades.value.length; p++) {
+            let counter = (pastGrades.value.length-1) - p
+            match = false;
+            for(c=0; c < gradesarray.length; c++) {
+                if(gradesarray[c][1][0] == pastGrades.value[counter][1][0]) {
+                    match = true;
+                }
+            }
+            if(!match) {
+                if(gradessort[1] == "0") {
+                    addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],true)
+                } else if (parseFloat(pastGrades.value[counter][1][1]) >= gradessort[0] && parseFloat(pastGrades.value[counter][1][1]) <= gradessort[1]) {
+                    addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],true)
+                }
+            }
+        }
 
-    addEventListeners(document.getElementById("gradelist"))
+        addEventListeners(document.getElementById("gradelist"))
+    }
+    
 }
 
 function intCustomAss(assignment) {
@@ -68,11 +71,11 @@ function intCustomAss(assignment) {
     let thisd
     let thisdate = new Date()
     let year = thisdate.getFullYear()
+    console.debug(assignmentsarray)
     for(let i = 0; i < assignmentsarray.length; i++) {
         d1 = (i == 0) ? 0:Date.parse(`${assignmentsarray[i][0].substring(assignmentsarray[i][0].indexOf(",")).trim()}, ${year}`)
         d2 = (assignmentsarray[i+1]) ? Date.parse(`${assignmentsarray[i+1][0].substring(assignmentsarray[i+1][0].indexOf(",")).trim()}, ${year}`):d1
         thisd = Date.parse(`${assignment[0].substring(assignment[0].indexOf(",")).trim()}, ${year}`)
-        console.debug(d1,d2,thisd,assignment[1],assignmentsarray[i])
         if (thisd >= d1 && thisd <= d2) {
             assignmentsarray.splice(i, 0, assignment)
             return
@@ -85,10 +88,11 @@ function intCustomAss(assignment) {
 function addClass(name, link) {
     container = document.getElementById("classlist")
     carat = storageapi.runtime.getURL("icons/carat.png");
-    if(name in classColors.value) {
-        color = classColors.value[name]
-    } else {
-        color = "#808080"
+    let color = "#808080"
+    for(let key in classColors.value) {
+        if((name).toLowerCase().includes(key.toLowerCase())) {
+            color = classColors.value[key]
+        }
     }
 
     if(typeof browser !== "undefined") {
@@ -96,8 +100,6 @@ function addClass(name, link) {
     } else {
         colorwidth = "10px"
     }
-
-    //<th onclick="javascript:sus()" class="classcolor" style="background-color: ;"></th>
 
     container.insertAdjacentHTML("beforeend", `
     <tr class="widthbox shadow hov clickable">
@@ -110,8 +112,8 @@ function addClass(name, link) {
     classiteratable++
 } 
 
-function addAssignment(day, name, time, link, isCustom) {
-    if(!checkedAssignments.value[2].includes(unEscape(name))) {
+function addAssignment(id, day, name, time, link, isCustom) {
+    if(!checkedAssignments.value[2].includes(id)) {
         container = document.getElementById("assignmentlist")
         dates = asdates
     } else {
@@ -122,7 +124,7 @@ function addAssignment(day, name, time, link, isCustom) {
     xicon = storageapi.runtime.getURL("icons/x.png")
     todoicon = storageapi.runtime.getURL("icons/todo.png")
 
-    if(!checkedAssignments.value[1].includes(unEscape(name))) {
+    if(!checkedAssignments.value[1].includes(id)) {
         if(!(dates.includes(day, 0))) {
             if(day == "overdue") {
                 dayonly = "Overdue"
@@ -142,7 +144,7 @@ function addAssignment(day, name, time, link, isCustom) {
             </tr>
             `)
 
-            if(!checkedAssignments.value[2].includes(unEscape(name))) {
+            if(!checkedAssignments.value[2].includes(id)) {
                 asdates.push(day)
             } else {
                 tododates.push(day)
@@ -154,7 +156,7 @@ function addAssignment(day, name, time, link, isCustom) {
             }
         } 
         
-        if(checkedAssignments.value[0].includes(unEscape(name))) {
+        if(checkedAssignments.value[0].includes(id)) {
             checked = "checked=true";
             textDec = "text-decoration: line-through;"
         } else {
@@ -163,7 +165,7 @@ function addAssignment(day, name, time, link, isCustom) {
         }
         
         let kbutton = ""
-        if(name.toLowerCase().includes("libro de trabajo")) {
+        if(name.toLowerCase().includes("prueba")) {
             knowticon = storageapi.runtime.getURL("icons/knowt.png")
             kbutton = `
             <th><img class="hideuntilhover clickable" src="${knowticon}" onclickevent="openLink('https://knowt.com/', true)" width="15px" height="15px" style="margin-left: 6px; margin-top: 8px; margin-right: 2px;"></th>
@@ -172,9 +174,9 @@ function addAssignment(day, name, time, link, isCustom) {
 
         container.insertAdjacentHTML("beforeend",  `
         <tr name="assignment" id="aslist${iteratable}" class="widthbox hov clickable" style="padding-left:15px">
-        <th><input class="clickable" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclickevent="checkMe('${name}', ${iteratable})" ${checked}></th>
-            <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${name}', ${isCustom})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
-            <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${name}', '${iteratable}', ${checkedAssignments.value[2].includes(unEscape(name))})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+        <th><input class="clickable" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;" type="checkbox" onclickevent="checkMe('${id}', ${iteratable})" ${checked}></th>
+            <th><img class="hideuntilhover clickable" src="${xicon}" onclickevent="xMe('${id}', ${isCustom})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
+            <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${id}', ${checkedAssignments.value[2].includes(id)})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
             ${kbutton}
             <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
             <th><h5 class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h5></th>
@@ -263,42 +265,42 @@ function filterGrades() {
     updateGradeList()
 }
 
-function checkMe(name, id) {
-    if(!checkedAssignments.value[0].includes(name)) {
-        checkedAssignments.value[0].push(name)
+function checkMe(id) {
+    if(!checkedAssignments.value[0].includes(id)) {
+        checkedAssignments.value[0].push(id)
     } else {
-        checkedAssignments.value[0].splice(checkedAssignments.value[0].indexOf(name), 1);
+        checkedAssignments.value[0].splice(checkedAssignments.value[0].indexOf(id), 1);
     }
     updateAssignments();
     checkedAssignments.set()
 }
 
-function xMe(name, isCustom) {
+function xMe(id, isCustom) {
     if(isCustom) {
         for(let i = 0; i < customAssignments.value.length; i++) {
-            if(customAssignments.value[i][1] == name) {
+            if(customAssignments.value[i][5] == id) {
                 customAssignments.value.splice(i, 1)
                 customAssignments.set()
             }
         }
         for(let i = 0; i < assignmentsarray.length; i++) {
-            if(assignmentsarray[i][1] == name) {
+            if(assignmentsarray[i][5] == id) {
                 assignmentsarray.splice(i, 1)
             }
         }
         console.info("Powerology: Removed custom assignment")
     } else {
-        checkedAssignments.value[1].push(name);
+        checkedAssignments.value[1].push(id);
         checkedAssignments.set();
     }
     updateAssignments();
 }
 
-function todoMe(name, id, remove) {
+function todoMe(id, remove) {
     if(!remove) {
-        checkedAssignments.value[2].push(name)
+        checkedAssignments.value[2].push(id)
     } else {
-        checkedAssignments.value[2].splice(checkedAssignments.value[2].indexOf(name), 1)
+        checkedAssignments.value[2].splice(checkedAssignments.value[2].indexOf(id), 1)
     }
     updateAssignments();
     checkedAssignments.set()
@@ -338,6 +340,12 @@ function addCustomAss() {
     let link = document.getElementById("caLink").value
     let daynames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     let monthnames = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    let id = `${Math.floor(Math.random() * 9999999999)}`
+    for(counter in assignmentsarray) {
+        if(assignmentsarray[counter][5] == id) {
+            id = `${Math.floor(Math.random() * 9999999999)}`
+        }
+    }
     if(name != "" && document.getElementById("caDate").value != "") {
         let day = `${daynames[date.getDay()]}, ${monthnames[date.getMonth()]} ${date.getDate()}`
         let time
@@ -346,8 +354,8 @@ function addCustomAss() {
         } else {
             time = `${date.getHours()-12}:${date.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})} pm`
         }
-        customAssignments.value.push([day, name, time, "custom", link])
-        intCustomAss([day, name, time, "custom", link])
+        customAssignments.value.push([day, name, time, "custom", link, id])
+        intCustomAss([day, name, time, "custom", link, id])
         customAssignments.set()
         updateAssignments()
         toggleAddGrd()

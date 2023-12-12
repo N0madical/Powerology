@@ -4,17 +4,24 @@ opengrd = storageapi.runtime.getURL("icons/grades.png");
 plusicon = storageapi.runtime.getURL("icons/plus.png");
 
 defaultClasscolors = {
-    "Computer science 2023-24: Grade-12":"#4169E1",  
-    "Creativity Activity Service : Class of 2024":"#FFD700", 
-    "Español 11 y 12: Sección Intermedia":"#008000", 
-    "Extended Essay: Seniors":"#FF0000", 
-    "General Information: Community":"#808080", 
-    "GPHC: Section D":"#FFA500", 
-    "Language and Literature 23-24: A":"#87CEEB", 
-    "Math Analysis and Approaches SL: Seniors 2":"#8B0000", 
-    "Physics SL: Seniors":"#800080", 
-    "Post Oak Press (School Newspaper): All Staff":"#FFFF00", 
-    "Theory of Knowledge 12: Section H":"#00008B"
+    "Computer science":"#4169E1",  
+    "Creativity Activity Service":"#FFD700", 
+    "Español":"#008000", 
+    "Extended Essay":"#FF0000", 
+    "General Information":"#808080", 
+    "GPHC":"#FFA500", 
+    "Language and Literature":"#87CEEB", 
+    "Math":"#8B0000", 
+    "Physics":"#800080", 
+    "Post Oak Press":"#FFFF00", 
+    "Theory of Knowledge":"#00008B",
+    "Music":"#9b00c9",
+    "English":"#FFFFFF",
+    "Physical Fitness":"#e48300",
+    "HSE":"#13fff4",
+    "History":"#ff5e13",
+    "Integrated Science":"#00d44d",
+    "Biology":"#32ff7d"
 }
 
 checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
@@ -62,7 +69,7 @@ function passFunctionCall(call) {
             </div>
             <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
                 <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 75px;">Due Date</h2>
-                <input id="caDate" type="datetime-local" class="margin-center" value="${datenow}T12:00" id="bgimg" style="display: inline-block;">
+                <input id="caDate" type="datetime-local" class="margin-center" value="${datenow}T12:00" id="bgimg" style="display: inline-block; width: 215px;">
             </div>
             <div style="margin-left: 50%; transform: translate(-50%, 0); width:max-content;">
                 <h2 class="" style="margin-bottom: 0px; display: inline-block; margin-right: 33px;">Link (Optional)</h2>
