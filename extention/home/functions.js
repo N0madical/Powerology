@@ -373,12 +373,6 @@ function parseCustomAss() {
     updateAssignments()
 }
 
-function closeBox(event) {
-    if(event.clientX >= 210 || event.clientY >= 500) {
-        toggleCngBg(true)
-    }
-}
-
 function editSavedGrades(argument="h", input=-1) {
     if(argument == "h") {
         console.info("a = add grade, r = remove grade, leave second argument blank for help")
@@ -422,8 +416,6 @@ function unEscape(htmlStr) {
 }
 
 function onError(error) {console.error("Powerology: Generic Error:", error)}
-
-document.addEventListener("click", closeBox);
 
 buttonfunctions = Object.assign({}, buttonfunctions, {
     "openGrades" : openGrades,

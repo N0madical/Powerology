@@ -2,21 +2,30 @@
     //Setting Background
 //########################################################
 
-defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true]
+defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true]
 backGround = new browserStorage("backGround", "sync", defaultBackGround, setBackground)
 backGround.get()
 function setBackground() {
+    document.body.classList.remove("js")
+    document.body.style.height = "max-content"
+    document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox" style="position: absolute; width: 100%; height: 100%; top: 0; transform: scale(1.1,1);"></div>`)
     if(backGround.value[3] || window.location.href.includes("home")) {
-        document.body.style.backgroundColor = backGround.value[0]
-        document.body.style.backgroundImage = `url('${backGround.value[1]}')`
-        document.body.style.backdropFilter = `blur(${backGround.value[2]}px)`
+        document.getElementById("backgroundbox").style.backgroundColor = backGround.value[0]
+        document.getElementById("backgroundbox").style.backgroundImage = `url('${backGround.value[1]}')`
+        document.getElementById("backgroundbox").style.filter = `blur(${backGround.value[2]}px)`
         if(!window.location.href.includes("home") && !window.location.href.includes("powerology")) {
-            document.getElementById("wrapper").style.backgroundColor = "#faf9f7"
-            document.getElementById("wrapper").classList.add("shadow")
+            document.getElementById("wrapper").classList.add("shadow", "wrapperbox")
+            if(backGround.value[4]) {
+                document.getElementById("wrapper").classList.add("bubblewrapperbox")
+            }
         } else if (window.location.href.includes("powerology")) {
             document.getElementById("container").style.margin = 0
             document.getElementById("main").style.minHeight = "91vh"
         }
+        window.addEventListener("scroll", function(){
+            document.getElementById("backgroundbox").style.backgroundPositionY = (window.pageYOffset*0.9) + "px";
+        });
+
     }
 
     cngbg = storageapi.runtime.getURL("icons/changebg_white.png");
@@ -34,6 +43,8 @@ function setBackground() {
         <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${backGround.value[2]}">
         <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Active On All Pages</h3>
         <input type="checkbox" class="margin-center" id="bgall" style="margin-bottom: 20px;">
+        <h3 class="text-center" style="margin-top: 20px;" id="bubblebox">Bubble Pages</h3>
+        <input type="checkbox" class="margin-center" id="bubblepg" style="margin-bottom: 20px;">
         <button class="margin-center clickable" onclickevent="saveBg()">Save</button>
     </div>
     </div>`)

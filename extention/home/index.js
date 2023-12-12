@@ -130,6 +130,14 @@ function loadSchoologyPlus() {
         updateAssignments()
         updateGradeList()
 
+        backGround = new browserStorage("backGround", "sync", defaultBackGround, () => {
+            if(backGround.value[4]) {
+                let boxes = document.getElementsByClassName("box")
+                for(let y = 0; y < boxes.length; y++) {boxes[y].style.borderRadius = "10px"}
+            }
+        })
+        backGround.get()
+
         let clickable = document.getElementsByClassName("onchangeClickable")
         for(let b = 0; b < clickable.length; b++) {
             if(clickable[b].hasAttribute("onchangeevent")) {
@@ -164,9 +172,12 @@ var loadrepeat = window.setInterval(function(){
                 openLink("https://postoakschool.schoology.com/settings/account/sethome")
                 clearInterval(loadrepeat)
             } else {
-                document.getElementById("right-column").remove()
-                document.getElementsByClassName("sgy-tabbed-navigation")[0].remove()
-                document.getElementById("main").style.width = "100%"
+                if(document.getElementById("right-column") || document.getElementsByClassName("sgy-tabbed-navigation")[0]) {
+                    document.getElementById("right-column").remove()
+                    document.getElementsByClassName("sgy-tabbed-navigation")[0].remove()
+                    document.getElementById("main").style.width = "100%"
+                }
+                
             }
         }
     } else {

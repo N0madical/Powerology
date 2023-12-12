@@ -32,6 +32,12 @@ hr {
     transform: translate(5%, 0);
 }
 
+.wrapperbox {
+    background-color: #faf9f7;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    padding: 20px 5px;
+}
+
 /* ######################################################## */
 /* Font Styling */
 
@@ -88,7 +94,6 @@ em {
     margin: 10px;
     padding-bottom: 10px;
     background-color: white;
-    border-radius: 10px;
 }
 
 .widthbox {
@@ -170,7 +175,7 @@ body{
 
 #bgbox {
     width: 200px;
-    height: 400px;
+    height: 480px;
     padding: 0px;
     position: absolute;
     background-color: #ffffff;
@@ -183,4 +188,9 @@ body{
     position: absolute;
     top: 60px;
     z-index: 100;
+}
+
+.bubblewrapperbox {
+    border-radius: 10px;
+    margin: 20px auto !important;
 }

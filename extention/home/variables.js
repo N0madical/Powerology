@@ -47,7 +47,7 @@ function passFunctionCall(call) {
 </script>
 <p id="codeportal" style="display: none;" value="sus"></p>
 <div id="centerbox">
-    <div id="classes" class="box shadow" style="width: 300px; height: fit-content;">
+    <div id="classes" class="box boxrounded shadow" style="width: 300px; height: fit-content;">
         <img class="clickable" src=${opengrd} style="position: absolute; left: calc(var(--vpl) + 280px); transform:translateY(12px); width: 15px; height: 15px;" onclickevent="openGrades('mastery')"></img>
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
@@ -56,7 +56,7 @@ function passFunctionCall(call) {
             </table>
         </div>
     </div>
-    <div id="assignments" class="box shadow" style="width: 500px; height: fit-content;">
+    <div id="assignments" class="box boxrounded shadow" style="width: 500px; height: fit-content;">
         <h1 class="header text-center">Assignments</h1>
         <img class="clickable" src=${refresh} style="position: absolute; left: calc(var(--vpl) + 355px); transform:translateY(-22px); width: 15px; height: 15px;" onclickevent="refreshClrAssLst()"></img>
         <img class="clickable" src=${plusicon} style="position: absolute; left: calc(var(--vpl) + 790px); transform:translateY(-20px); width: 13px; height: 13px;" onclickevent="toggleAddGrd()"></img>
@@ -87,7 +87,7 @@ function passFunctionCall(call) {
         </div>
     </div>
     <div>
-        <div id="grades" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
+        <div id="grades" class="box boxrounded shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
             <img class="clickable" src=${openext} style="position: absolute; left: calc(var(--vpl) + 1215px); transform:translateY(15px); width: 15px; height: 15px;" onclickevent="openLink('/grades/grades')" onrightclickevent="openLink('/grades/grades', true)"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
@@ -108,7 +108,7 @@ function passFunctionCall(call) {
                 </table>
             </div>
         </div>
-        <div id="todo" class="box shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 36vh; display:none;">
+        <div id="todo" class="box boxrounded shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 36vh; display:none;">
             <h1 class="header text-center">For Later</h1>
             <hr style="margin-bottom: 10px;">
             <div style="width: 100%; overflow-y: scroll; flex-grow: 1">
