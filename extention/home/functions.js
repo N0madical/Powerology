@@ -71,11 +71,10 @@ function intCustomAss(assignment) {
     let thisd
     let thisdate = new Date()
     let year = thisdate.getFullYear()
-    console.debug(assignmentsarray)
     for(let i = 0; i < assignmentsarray.length; i++) {
-        d1 = (i == 0) ? 0:Date.parse(`${assignmentsarray[i][0].substring(assignmentsarray[i][0].indexOf(",")).trim()}, ${year}`)
-        d2 = (assignmentsarray[i+1]) ? Date.parse(`${assignmentsarray[i+1][0].substring(assignmentsarray[i+1][0].indexOf(",")).trim()}, ${year}`):d1
-        thisd = Date.parse(`${assignment[0].substring(assignment[0].indexOf(",")).trim()}, ${year}`)
+        d1 = (i == 0) ? 0:Date.parse(`${assignmentsarray[i][0].substring(assignmentsarray[i][0].indexOf(",")).trim()}`)
+        d2 = (assignmentsarray[i+1]) ? Date.parse(`${assignmentsarray[i+1][0].substring(assignmentsarray[i+1][0].indexOf(",")).trim()}`):d1
+        thisd = Date.parse(`${assignment[0].substring(assignment[0].indexOf(",")).trim()}`)
         if (thisd >= d1 && thisd <= d2) {
             assignmentsarray.splice(i, 0, assignment)
             return
@@ -124,15 +123,15 @@ function addAssignment(id, day, name, time, link, isCustom) {
     xicon = storageapi.runtime.getURL("icons/x.png")
     todoicon = storageapi.runtime.getURL("icons/todo.png")
 
-    if(!checkedAssignments.value[1].includes(id)) {
-        if(!(dates.includes(day, 0))) {
+    if(!checkedAssignments.value[1].includes(id) && ((Date.parse(day) >= (Date.now()-86400000)) || (day == "overdue") || isCustom)) {
+        if(!(dates.includes(day.substring(0,day.length-6), 0))) {
             if(day == "overdue") {
                 dayonly = "Overdue"
                 notday = ""
                 color = "color: darkred"
             } else {
                 dayonly = day.substring(0,day.indexOf(","))
-                notday = day.substring(day.indexOf(","))
+                notday = (new Date(Date.parse(day)).getFullYear() > new Date().getFullYear()) ? day.substring(day.indexOf(",")):day.substring(day.indexOf(","),day.length-6)
                 color = ""
             }
             
@@ -145,9 +144,9 @@ function addAssignment(id, day, name, time, link, isCustom) {
             `)
 
             if(!checkedAssignments.value[2].includes(id)) {
-                asdates.push(day)
+                asdates.push(day.substring(0, day.length-6))
             } else {
-                tododates.push(day)
+                tododates.push(day.substring(0, day.length-6))
             }
             if(tododates.length > 0) {
                 document.getElementById("todo").style.display = "flex"
@@ -347,7 +346,7 @@ function addCustomAss() {
         }
     }
     if(name != "" && document.getElementById("caDate").value != "") {
-        let day = `${daynames[date.getDay()]}, ${monthnames[date.getMonth()]} ${date.getDate()}`
+        let day = `${daynames[date.getDay()]}, ${monthnames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
         let time
         if(date.getHours() <= 12) {
             time = `${date.getHours()}:${date.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})} am`

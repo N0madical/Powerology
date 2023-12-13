@@ -63,9 +63,9 @@ function loadSchoologyPlus() {
         assignmentsarray = []
         for(h = 0; h < assignments.length; h++) {
             try {
-                hname = assignments[h].firstChild.innerHTML
                 hdue = assignments[h].children[1].children[0].innerHTML
-                hdate = hdue.substr(4,hdue.indexOf(" at ")-10)
+                hdate = hdue.substr(4,hdue.indexOf(" at ")-4)
+                hname = assignments[h].firstChild.innerHTML
                 htime = hdue.substr(hdue.indexOf(" at ") + 4)
                 hclass = assignments[h].children[1].children[1].innerHTML
                 hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href

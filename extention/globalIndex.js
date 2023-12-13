@@ -8,7 +8,9 @@ backGround.get()
 function setBackground() {
     document.body.classList.remove("js")
     document.body.style.height = "max-content"
-    document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox" style="position: absolute; width: 100%; height: 100%; top: 0; left: -2.5%; transform: scale(1.1,1); background-size: 110% auto;"></div>`)
+    document.body.style.overflowX = "hidden"
+    document.body.style.minHeight = "100%"
+    document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox" style="position: absolute; width: 100%; height: 100%; top: 0; left: -2.5%; transform: scale(1.1,1); background-size: 120% auto; margin-bottom: -100px;"></div>`)
     if(backGround.value[3] || window.location.href.includes("home")) {
         document.getElementById("backgroundbox").style.backgroundColor = backGround.value[0]
         document.getElementById("backgroundbox").style.backgroundImage = `url('${backGround.value[1]}')`
@@ -23,7 +25,7 @@ function setBackground() {
             document.getElementById("main").style.minHeight = "91vh"
         }
         window.addEventListener("scroll", function(){
-            document.getElementById("backgroundbox").style.backgroundPositionY = (window.pageYOffset*0.9) + "px";
+            document.getElementById("backgroundbox").style.backgroundPositionY = ((window.pageYOffset*0.9)) + "px";
         });
 
     }
