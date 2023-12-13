@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    buttonlist = [["clearall", -1],["clearcol", 0],["clearass", 1],["clearcus", 2],["clearsav", 3]]
+    buttonlist = [["clearall", -1],["clearcol", 0],["clearass", 1],["clearcus", 2],["clearsav", 3],["clearsty",4]]
     for(let i = 0; i < buttonlist.length; i++) {
         document.getElementById(buttonlist[i][0]).addEventListener('click', function() {
             clearItem(buttonlist[i][1]);
@@ -40,8 +40,9 @@ function clearItem(index) {
             checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
             customAssignments = new browserStorage("customAssignments", "sync", [])
             pastGrades = new browserStorage("pastGrades", "local", [])
+            backGround = new browserStorage("backGround", "sync", ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true])
 
-            let stroagelist = [classColors, checkedAssignments, customAssignments, pastGrades]
+            let stroagelist = [classColors, checkedAssignments, customAssignments, pastGrades, backGround]
 
             stroagelist[index].clear()
         }
