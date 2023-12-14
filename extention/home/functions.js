@@ -187,6 +187,8 @@ function addAssignment(id, day, name, time, link, isCustom) {
 }
 
 function addGrade(date,name,grade,link,fromPast) {
+    console.debug(isNaN(parseFloat(grade)), grade, parseFloat(grade))
+    oneGrade = (!isNaN(parseFloat(grade))) ? parseFloat(grade).toFixed(1):grade
     container = document.getElementById("gradelist")
     colorgrade = (grade > 5.0) ? (grade/20):grade
     if(colorgrade >= 4.0) {
@@ -222,8 +224,8 @@ function addGrade(date,name,grade,link,fromPast) {
 
     container.insertAdjacentHTML("beforeend", `
     <tr name="grade" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" class="widthbox hov clickable">
-        <th style="width: 100%;"><h3 style="padding-left: 20px; text-align: left;">${name}</h3></th>
-        <th><h3 style="padding-right: 5px; text-align: right;">${grade}</h3></th>
+        <th style="width: 100%;"><h3 style="padding-left: 20px; text-align: left; padding-right: 10px;">${name}</h3></th>
+        <th><h3 class="hovhide" style="padding-right: 5px; text-align: right;">${oneGrade}</h3><h3 class="hovshow" style="padding-right: 5px; text-align: right;">${grade}</h3></th>
         <th><div class="gradebox" style="background-color: ${color};"></div></th>
     </tr>
     `)

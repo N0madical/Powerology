@@ -212,7 +212,7 @@ function saveBg() {
         document.getElementById("backgroundbox").style.backgroundColor = color
         document.getElementById("backgroundbox").style.backgroundImage = `url('${link}')`
         document.getElementById("backgroundbox").style.filter = `blur(${blurbg}px)`
-        if(!window.location.href.includes("home")) {
+        if(!window.location.href.includes("home") || window.location.href.includes("powerology")) {
             document.getElementById("wrapper").classList.add("shadow", "wrapperbox")
             if(bubblepg) {
                 document.getElementById("wrapper").classList.add("bubblewrapperbox")

@@ -33,13 +33,15 @@ function showGrades() {
             if(masteryGrades.value[j][0] == selClassName){
                 if(masteryGrades.value[j][1] >= Date.now()-86400000) {
                     gradeAv = true
-                    avg = parseFloat(masteryGrades.value[j][2]).toFixed(1)
+                    avg = parseFloat(masteryGrades.value[j][2]).toFixed(2)
                 }
             }
         }
 
         if(!document.getElementsByClassName(`open_${selClassId}`)[0]) {
-            classeslist[i].getElementsByClassName("gradebook-course-title")[0].innerHTML += `<img src="${openext}" class="clickable open_${selClassId}" style="width: 15px; height: 15px; float: right; margin-left:10px; margin-top: 2px;" onclickevent="openLink('https://postoakschool.schoology.com/course/${selClassId}/student_district_mastery', true)">`
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].style.width = "90%"
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].style.display = "inline-block"
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].insertAdjacentHTML("afterend", `<div class="ovgradebox" style="float: right; display: inline-block; margin-top: 5px;"><img src="${openext}" class="clickable open_${selClassId}" style="width: 15px; height: 15px; float: right; margin-left:10px; margin-top: 2px;" onclickevent="openLink('https://postoakschool.schoology.com/course/${selClassId}/student_district_mastery', true)"></div>`)
         }
 
         if(gradeAv && !document.getElementsByClassName(`grade_${selClassId}`)[0]) {
@@ -51,8 +53,9 @@ function showGrades() {
             } else if (avg >= 0.0 && avg < 3.5) {
                 color = "crimson"
             }
-    
-            classeslist[i].getElementsByClassName("gradebook-course-title")[0].innerHTML += `<div class="grade_${selClassId}" style="width: 20px; height: 20px; float:right; background-color: ${color}; margin-left: 10px"></div><h3 style="float: right; line-height: 9px">${avg}</h3>`
+            
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].parentElement.classList.add("hovmod")
+            classeslist[i].getElementsByClassName("gradebook-course-title")[0].parentElement.getElementsByClassName("ovgradebox")[0].innerHTML += `<div class="grade_${selClassId}" style="width: 20px; height: 20px; float:right; background-color: ${color}; margin-left: 10px"></div><h3 class="hovhide" style="float: right; line-height: 9px">${parseFloat(avg).toFixed(1)}</h3><h3 class="hovshow" style="float: right; line-height: 9px">${avg}</h3>`
         }
 
     }
@@ -83,7 +86,6 @@ function showGrades() {
         if((masteryGrades.value[j][1] >= Date.now()-86400000) && (parseFloat(masteryGrades.value[j][2]) <= 5.0) && (parseFloat(masteryGrades.value[j][2]) >= 0.0)) {
             totalAvg += parseFloat(masteryGrades.value[j][2])
             count++
-            console.debug(parseFloat(masteryGrades.value[j][2]))
         }
     }
     let gpa = totalAvg/count
@@ -118,7 +120,7 @@ function definePastGrades() {;
             } else {
                 duedatems = parseInt(Date.now())-604800000
             }
-            let grade = parseFloat(gradelist[i].getElementsByClassName("rounded-grade")[0].innerHTML).toFixed(1)
+            let grade = parseFloat(gradelist[i].getElementsByClassName("rounded-grade")[0].innerHTML).toFixed(2)
 
             let match2 = false
             for(let h=0; h < pastGrades.value.length; h++) {

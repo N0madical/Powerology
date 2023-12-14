@@ -133,6 +133,26 @@ em {
     display: flex;
 }
 
+.hovshow {
+    display: none;
+}
+.hov:hover .hovshow {
+    display: inherit;
+}
+.hovmod:hover .hovshow {
+    display: inherit;
+}
+
+.hovhide {
+    display: inherit;
+}
+.hov:hover .hovhide {
+    display: none;
+}
+.hovmod:hover .hovhide {
+    display: none;
+}
+
 .hov:hover {
     background-color: lightgray;
 }

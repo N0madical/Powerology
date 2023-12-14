@@ -15,7 +15,7 @@ function setBackground() {
         document.getElementById("backgroundbox").style.backgroundColor = backGround.value[0]
         document.getElementById("backgroundbox").style.backgroundImage = `url('${backGround.value[1]}')`
         document.getElementById("backgroundbox").style.filter = `blur(${backGround.value[2]}px)`
-        if(!window.location.href.includes("home") && !window.location.href.includes("powerology")) {
+        if(!window.location.href.includes("home") || window.location.href.includes("powerology")) {
             document.getElementById("wrapper").classList.add("shadow", "wrapperbox")
             if(backGround.value[4]) {
                 document.getElementById("wrapper").classList.add("bubblewrapperbox")
@@ -71,17 +71,6 @@ if (typeof browser !== "undefined") {
 //########################################################
     //Removing unwanted UI elements & Fixing Others
 //########################################################
-
-buttons = document.getElementsByClassName("_13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw")
-for(let h = 0; h < buttons.length; h++) {
-    if(buttons[h].hasAttribute("aria-label")) {
-        if(buttons[h].getAttribute("aria-label").includes("notifications")) {
-            if(buttons[h].getElementsByClassName("_2JX1Q _2L4PN les2- USYsM tAI8z fioA9 _1tpub _3RmDr")[0]) {
-                buttons[h].getElementsByClassName("_2JX1Q _2L4PN les2- USYsM tAI8z fioA9 _1tpub _3RmDr")[0].remove()
-            }
-        }
-    }
-}
 
 if(document.getElementById("app-run-5922356464") != null) {
     document.getElementById("app-run-5922356464").remove()
