@@ -235,7 +235,6 @@ function saveBg() {
 }
 
 function closeBox(event) {
-    console.debug(event.clientX, event.clientY)
     if(event.clientX >= 210 || event.clientY >= 580) {
         toggleCngBg(true)
     }

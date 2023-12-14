@@ -38,24 +38,24 @@ function updateGradeList() {
         document.getElementById("gradelist").textContent = ""
         for(p=0; p < gradesarray.length; p++) {
             if(gradessort[1] == "0") {
-                addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+                addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],gradesarray[p][1][3],false)
             } else if (parseFloat(gradesarray[p][1][1]) >= gradessort[0] && parseFloat(gradesarray[p][1][1]) <= gradessort[1]) {
-                addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],false)
+                addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],gradesarray[p][1][3],false)
             }
         }
         for(p=0; p < pastGrades.value.length; p++) {
             let counter = (pastGrades.value.length-1) - p
             match = false;
             for(c=0; c < gradesarray.length; c++) {
-                if(gradesarray[c][1][0] == pastGrades.value[counter][1][0]) {
+                if(gradesarray[c][1][3] == pastGrades.value[counter][1][3]) {
                     match = true;
                 }
             }
             if(!match) {
                 if(gradessort[1] == "0") {
-                    addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],true)
+                    addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],pastGrades.value[counter][1][3],true)
                 } else if (parseFloat(pastGrades.value[counter][1][1]) >= gradessort[0] && parseFloat(pastGrades.value[counter][1][1]) <= gradessort[1]) {
-                    addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],true)
+                    addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],pastGrades.value[counter][1][3],true)
                 }
             }
         }
@@ -186,8 +186,7 @@ function addAssignment(id, day, name, time, link, isCustom) {
     }
 }
 
-function addGrade(date,name,grade,link,fromPast) {
-    console.debug(isNaN(parseFloat(grade)), grade, parseFloat(grade))
+function addGrade(date,name,grade,link,id,fromPast) {
     oneGrade = (!isNaN(parseFloat(grade))) ? parseFloat(grade).toFixed(1):grade
     container = document.getElementById("gradelist")
     colorgrade = (grade > 5.0) ? (grade/20):grade
@@ -205,7 +204,7 @@ function addGrade(date,name,grade,link,fromPast) {
         if(grade >= 0 && !fromPast) {
             match2 = false;
             for(h=0; h < pastGrades.value.length; h++) {
-                if(pastGrades.value[h][1][0] == name) {
+                if(pastGrades.value[h][1][3] == id) {
                     if(pastGrades.value[h][1][1] != grade) {
                         console.info("Powerology: Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
                         pastGrades.value.splice(h,1)

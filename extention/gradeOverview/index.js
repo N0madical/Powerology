@@ -113,6 +113,7 @@ function definePastGrades() {;
         if(gradelist[i].getElementsByClassName("rounded-grade")[0]) {
             let name = gradelist[i].getElementsByClassName("title")[0].textContent.substring(0,gradelist[i].getElementsByClassName("title")[0].textContent.indexOf("assignment"))
             let link = gradelist[i].getElementsByClassName("title")[0].children[0].href
+            let id = link.substring(link.length - 10)
             let duedatems
             if(gradelist[i].getElementsByClassName("due-date")[0]) {
                 let duedate = gradelist[i].getElementsByClassName("due-date")[0].textContent.substring(4)
@@ -124,7 +125,7 @@ function definePastGrades() {;
 
             let match2 = false
             for(let h=0; h < pastGrades.value.length; h++) {
-                if(pastGrades.value[h][1][0] == name) {
+                if(pastGrades.value[h][1][3] == id) {
                     if(pastGrades.value[h][1][1] != grade) {
                         console.info("Powerology: Found same name with different grade:", name, ":", pastGrades.value[h][1][1], "=>", grade)
                         pastGrades.value.splice(h,1)
@@ -134,7 +135,7 @@ function definePastGrades() {;
                 }
             }
             if(!match2) {
-                pastGrades.value.push([[duedatems],[name,grade,link]])
+                pastGrades.value.push([[duedatems],[name,grade,link,id]])
                 pastGrades.value.sort((a, b) => a[0] - b[0])
                 // browser.storage.local.getBytesInUse("pastGrades").then(printBytes, onError)
                 // function printBytes(input) {console.debug("Storage used:", input)}
