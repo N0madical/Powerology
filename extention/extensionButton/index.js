@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    exceptionList = new browserStorage("exceptionList", "sync", ["/district_mastery/"], () => {document.getElementById("excludes").value = arrayInText(exceptionList.value)})
+    exceptionList.get()
 
     buttonlist = [["clearall", -1],["clearcol", 0],["clearass", 1],["clearcus", 2],["clearsav", 3],["clearsty",4]]
     for(let i = 0; i < buttonlist.length; i++) {
@@ -18,11 +20,45 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("opensc").addEventListener('click', function() {
         window.open("https://postoakschool.schoology.com/");
     });
+
+    document.getElementById("savebutton").addEventListener('click', function() {
+        try {
+            if(document.getElementById("excludes").value != "" && document.getElementById("excludes").value != undefined) {
+                exceptionList.value = document.getElementById("excludes").value.replaceAll(",", "").split('\n')
+                exceptionList.set()
+                document.getElementById("excludes").value = arrayInText(exceptionList.value)
+            } else {
+                exceptionList.value = ["/district_mastery/"]
+                exceptionList.set()
+                document.getElementById("excludes").value = arrayInText(exceptionList.value)
+            }
+        } catch (error) {
+            output(error)
+        }
+        
+        
+    });
     
 });
 
+function arrayInText(arrayin) {
+    let temp = ""
+    for(let i in arrayin) {
+        if(i < arrayin.length-1) {
+            temp += arrayin[i] + "\n"
+        } else {
+            temp += arrayin[i]
+        }
+    }
+    return temp
+}
+
 function output(text) {
-    document.getElementById("output").textContent = text
+    document.getElementById("output").innerHTML += text + '<br>'
+}
+
+function clearOutput() {
+    document.getElementById("output").innerHTML = ""
 }
 
 function clearItem(index) {
@@ -61,7 +97,7 @@ function outputDebug(message) {
         } else {
             storageapi = chrome;
         }
-        browser.tabs
+        storageapi.tabs
         .query({
         currentWindow: true,
         active: true,
@@ -69,7 +105,7 @@ function outputDebug(message) {
         .then(function sendMessageToTabs(tabs) {
             output(message)
             for (const tab of tabs) {
-                browser.tabs
+                storageapi.tabs
                 .sendMessage(tab.id, { action: `${message}` })
                 .catch(onError);
             }

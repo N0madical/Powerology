@@ -140,7 +140,7 @@ function toggleInfo() {
     if(!document.getElementById("infobox")) {
         document.body.insertAdjacentHTML("beforebegin", `
         <div class="clickable" id="infoboxbg" style="position: fixed; width: 100%; height: 100%; background-color: black; z-index: 25; opacity: 0.5; cursor: unset;" onclickevent="toggleInfo()"></div>
-        <div id="infobox" class="shadow" style="width: 600px; max-height: 800px; min-height: max-content; position: fixed; z-index: 50; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div id="infobox" class="shadow">
             <div style="width: 100%; height: 80px; background-color: rgb(54, 87, 59); margin: 0;">
                 <h1 style="text-align: center; color: white; font-size: 30px; padding-top: 20px;">Powerology Info</h1>
                 <img class="clickable" src="${ximage}" width="30px" height="30px" style="position: absolute; right: 5px; top: 5px;" onclickevent="toggleInfo()">
@@ -154,6 +154,7 @@ function toggleInfo() {
                     <li>Show all grades on home page</li>
                     <li>Custom backgrounds</li>
                     <li>Add custom assignments</li>
+                    <li>Double click mastery standard grades to edit - Test grades!</li>
                     <li>Show overall mastery grades & GPA on grades page</li>
                     <li>Entirely client-side</li>
                     <li>Browser storage for easy preference saving</li>
@@ -177,26 +178,31 @@ function toggleInfo() {
         `)
         addEventListeners(document.getElementById("infobox"))
         addEventListeners(document.getElementById("infoboxbg"))
+        setTimeout(function() {document.getElementById("infobox").classList.add("show")}, 20)
     } else {
-        document.getElementById("infobox").remove()
-        document.getElementById("infoboxbg").remove()
+        document.getElementById("infobox").classList.remove("show")
+        setTimeout(function() {
+            document.getElementById("infobox").remove()
+            document.getElementById("infoboxbg").remove()
+        }, 500)
+        
     }
 }
 
 function toggleCngBg(force = false) {
     let widget = document.getElementById("bgbox")
     if (force) {
-        widget.style.visibility = "hidden"
+        widget.classList.remove("show")
     } else {
-        if(widget.style.visibility == "hidden") {
-            widget.style.visibility = ""
+        if(!widget.classList.contains("show")) {
+            widget.classList.add("show")
             document.getElementById("bgcolor").value = backGround.value[0]
             document.getElementById("bgimg").value = backGround.value[1]
             document.getElementById("bgblur").value = backGround.value[2]
             document.getElementById("bgall").checked = backGround.value[3]
             document.getElementById("bubblepg").checked = backGround.value[4]
         } else {
-            widget.style.visibility = "hidden"
+            widget.classList.remove("show")
         }
     }
     

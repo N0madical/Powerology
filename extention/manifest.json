@@ -38,7 +38,7 @@
     "content_scripts": [
       {
         "matches": ["*://postoakschool.schoology.com/*"],
-        "css": ["styles.css", "fonts.css"],
+        "css": ["styles.css", "fonts.css", "coolbutton.css"],
         "js": ["globalFunctions.js", "globalIndex.js"]
       },
       {

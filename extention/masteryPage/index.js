@@ -25,6 +25,7 @@ function showAverage() {
             }
 
             avgGrade = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":(total/divby).toFixed(2)
+            avgGrade1p = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":(total/divby).toFixed(1)
             if(!isNaN(total/divby)) {
                 let included = false
                 for(let i = 0; i < masteryGrades.value.length; i++) {
@@ -53,20 +54,23 @@ function showAverage() {
             }
 
             efAvgGrade = (isNaN(eftotal/efdivby)) ? "Not Avaliable":(eftotal/efdivby).toFixed(2)
+            efAvgGrade1p = (isNaN(eftotal/efdivby)) ? "Not Avaliable":(eftotal/efdivby).toFixed(1)
 
             if(document.getElementById("averageBox") == null) {
                 warnImage = storageapi.runtime.getURL("icons/warnIcon.png");
                 document.getElementById("learning-objectives-cards-container").insertAdjacentHTML("afterbegin", `
                     <div id="averageBox">
-                        <div class="avgBox">
+                        <div class="avgBox hovmod">
                             <h1 class="text-center" style="display: inherit !important;">Overall Grade</h1>
-                            <h2 id="overallgrade" class="text-center">-</h2>
+                            <h2 id="overallgrade" class="text-center hovhide">-</h2>
+                            <h2 id="overallgrade2p" class="text-center hovshow">-</h2>
                             <h3 id="overallwarning" style="display: none; margin: 10px 50%; transform: translateX(-50%); width: max-content;"><img src="${warnImage}" style="width: 25px; height: 25px; transform: translateY(25%); margin-right: 10px;">  What-If Grade</h3>
                             <p id="overalltotal" style="display: none;"></p>
                         </div>
-                        <div class="avgBox">
+                        <div class="avgBox hovmod">
                             <h1 class="text-center" style="display: inherit !important;">Executive Functions</h1>
-                            <h2 id="overallEFgrade" class="text-center">-</h2>
+                            <h2 id="overallEFgrade" class="text-center hovhide">-</h2>
+                            <h2 id="overallEFgrade2p" class="text-center hovshow">-</h2>
                             <h3 id="overallEFwarning" style="display: none; margin: 10px 50%; transform: translateX(-50%); width: max-content;"><img src="${warnImage}" style="width: 25px; height: 25px; transform: translateY(25%); margin-right: 10px;">  What-If Grade</h3>
                             <p id="overallEFtotal" style="display: none;"></p>
                         </div>
@@ -74,8 +78,10 @@ function showAverage() {
                 `)
             }
 
-            document.getElementById("overallgrade").textContent = avgGrade
-            document.getElementById("overallEFgrade").textContent = efAvgGrade
+            document.getElementById("overallgrade").textContent = avgGrade1p
+            document.getElementById("overallgrade2p").textContent = avgGrade
+            document.getElementById("overallEFgrade").textContent = efAvgGrade1p
+            document.getElementById("overallEFgrade2p").textContent = efAvgGrade
             document.getElementById("overalltotal").textContent = divby
             document.getElementById("overallEFtotal").textContent = efdivby
 
@@ -89,9 +95,11 @@ function showAverage() {
                     var input=document.createElement("input");
                     input.value=val;
                     input.onblur=function(){
-                        var val=parseFloat(this.value).toFixed(2);
-                        this.parentNode.innerHTML=val;
-                        testAvg(parseFloat(svval), parseFloat(val), elmIsEf)
+                        if(!isNaN(parseFloat(this.value).toFixed(2))) {
+                            var val=parseFloat(this.value).toFixed(2);
+                            this.parentNode.innerHTML=val;
+                            testAvg(parseFloat(svval), parseFloat(val), elmIsEf)
+                        }
                     }
                     input.addEventListener("keydown", function(event) {
                         if (event.keyCode === 13) {
@@ -129,11 +137,13 @@ function testAvg(rem, ad, isEf) {
     inputtotal -= parseFloat(rem)
     inputtotal += parseFloat(ad)
     if(isEf) {
-        document.getElementById("overallgrade").textContent = (inputtotal/inputnum).toFixed(2)
+        document.getElementById("overallgrade").textContent = (inputtotal/inputnum).toFixed(1)
+        document.getElementById("overallgrade2p").textContent = (inputtotal/inputnum).toFixed(2)
         document.getElementById("averageBox").children[0].style.height = "100px"
         document.getElementById("overallwarning").style.display = "inherit"
     } else {
-        document.getElementById("overallEFgrade").textContent = (inputtotal/inputnum).toFixed(2)
+        document.getElementById("overallEFgrade").textContent = (inputtotal/inputnum).toFixed(1)
+        document.getElementById("overallEFgrade2p").textContent = (inputtotal/inputnum).toFixed(2)
         document.getElementById("averageBox").children[1].style.height = "100px"
         document.getElementById("overallEFwarning").style.display = "inherit"
     }

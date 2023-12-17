@@ -230,28 +230,28 @@ function addGrade(date,name,grade,link,id,fromPast) {
     `)
 }
 
-function openGrades(type) {
-    if(type == "mastery") {
-        let clsblacklist = [
-            "General Information",
-            "Extended Essay",
-            "Creativity Activity Service",
-            "Post Oak Press",
-        ]
-        let includes = false
-        for(let i=0; i < classesarray.length; i++) {
-            includes = false
-            for(let h=0; h < clsblacklist.length; h++) {
-                if(classesarray[i][0].includes(clsblacklist[h])) {
-                    includes = true
-                }
-            }
-            if(!includes) {
-                window.open(classesarray[i][1].replace("materials", "student_district_mastery")) 
+function openGrades() {
+    let clsblacklist = [
+        "General Information",
+        "Extended Essay",
+        "Creativity Activity Service",
+        "Post Oak Press",
+    ]
+    let includes = false
+    let timeout = 0
+    for(let i=0; i < classesarray.length; i++) {
+        includes = false
+        for(let h=0; h < clsblacklist.length; h++) {
+            if(classesarray[i][0].includes(clsblacklist[h])) {
+                includes = true
             }
         }
-    } else {
-        window.open("/grades/grades", "_self")
+        if(!includes) {
+            setTimeout(function() {
+                window.open(classesarray[i][1].replace("materials", "student_district_mastery"))
+            }, (timeout*500))
+            timeout++
+        }
     }
     
 }
