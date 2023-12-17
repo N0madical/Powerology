@@ -1,23 +1,20 @@
 defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true]
-exceptionList = new browserStorage("exceptionList", "sync", ["/district_mastery/"], getExcluded)
+exceptionList = new browserStorage("exceptionList", "sync", [[],[]], globalIndex)
 exceptionList.get()
 
-function getExcluded() {
-    if(nextCheck.value <= Date.now()) {
-        let gitHub = new XMLHttpRequest()
-        gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.js")
-        gitHub.send()
-        gitHub.onload = () => {
-            let output = JSON.parse(gitHub.response)
-            console.debug(output)
-        }
-    }
-}
-
 function globalIndex() {
+    let gitHub = new XMLHttpRequest()
+    gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.raw")
+    gitHub.send()
+    gitHub.onload = () => {
+        let output = atob(JSON.parse(gitHub.response).content)
+        console.debug(JSON.parse(output))
+    }
+
     let exclude = false
-    for(let i in exceptionList.value) {
-        if(window.location.href.includes(exceptionList.value[i]) && exceptionList.value[i].length > 0) {
+    let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
+    for(let i in exceptions) {
+        if(window.location.href.includes(exceptions[i]) && exceptions[i].length > 0) {
             exclude = true
         }
     }
