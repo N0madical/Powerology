@@ -7,6 +7,10 @@ function updateClasses() {
     }
 
     addEventListeners(document.getElementById("classlist"))
+
+    if(classColors.value.length == 0) {
+        classColors.get(updateClasses)
+    }
 }
 
 function updateAssignments() {

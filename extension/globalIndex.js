@@ -4,7 +4,7 @@ customAssignments = new browserStorage("customAssignments", "sync", [])
 
 pastGrades = new browserStorage("pastGrades", "local", [])
 
-classColors = new browserStorage("classColors", "sync")
+classColors = new browserStorage("classColors", "sync", defaultClasscolors)
 
 defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true]
 backGround = new browserStorage("backGround", "sync", defaultBackGround)
@@ -128,6 +128,36 @@ function globalIndex() {
     <a id="powerologyinfobutton" class="clickable _13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-pds-icon-default-2kZM7 _1SIMq _2kpZl _3OAXJ _3_bfp _3v0y7 _2s0LQ util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y" onclickevent="toggleInfo()"><img src="${powerologyinfo}" width="25px" height="25px" style="margin-top: 17px"></a>
     `)
     addEventListeners(document.getElementById("header"))
+
+
+    //########################################################
+        //Animation Listeners
+    //########################################################
+
+    // try{
+    //     document.querySelector(':root').style.setProperty('--menuheight', '0')
+
+    //     coursesbutton = document.getElementById("header").querySelector("nav").querySelector("ul").children[1]
+    //     coursesbutton.addEventListener("click", () => {
+    //         if(typeof coursesbutton.children[0].children[1] === 'undefined') {
+    //             setTimeout(() => {coursesbutton.children[0].children[1].style.height = `${((coursesbutton.children[0].children[1].children[0].children[0].children.length-1)*200) + 81}px`}, 100)
+    //             setTimeout(() => {coursesbutton.children[0].children[1].style.height = "max-content"}, 600)
+    //         }
+    //     })
+
+    //     groupsbutton = document.getElementById("header").querySelector("nav").querySelector("ul").children[2]
+    //     groupsbutton.addEventListener("click", () => {
+    //         if(typeof groupsbutton.children[0].children[1] === 'undefined') {
+    //             setTimeout(() => {groupsbutton.children[0].children[1].style.height = `${((groupsbutton.children[0].children[1].children[0].children[0].children.length-1)*200) + 81}px`}, 100)
+    //             setTimeout(() => {groupsbutton.children[0].children[1].style.height = "max-content"}, 600)
+    //         }
+    //     })
+    // } catch (error){
+    //     document.querySelector(':root').style.setProperty('--menuheight', 'max-content')
+    //     console.error("Could not add menu animations")
+    // }
+
+    //document.addEventListener()
 } catch (error) {
     console.error("Powerology: Global Index Error:", error)
 }
@@ -231,3 +261,17 @@ storageapi.runtime.onMessage.addListener((request) => {
         pastGrades.get(() => {console.debug("Past Grades:", pastGrades.value)})
     }
 });
+
+
+//########################################################
+    //Page-Specefic but Small
+//########################################################
+
+try {
+    if(window.location.href.includes("reorder")) {
+        document.getElementById("reorder-ui").querySelector("button").click()
+        document.getElementsByClassName("c8Wmf _3_a9F")[0].addEventListener("click", () => setTimeout(() => {openLink("/home")}, 250))
+    }
+} catch (error) {
+    console.error("Reorder page couldn't reorder:", error)
+}

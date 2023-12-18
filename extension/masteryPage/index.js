@@ -129,7 +129,7 @@ function showAverage() {
 document.getElementById("wrapper").style.width = "80%"
 
 function testAvg(rem, ad, isEf) {
-    let inputvar = (isEf) ? parseFloat(document.getElementById("overallgrade").textContent):parseFloat(document.getElementById("overallEFgrade").textContent)
+    let inputvar = (isEf) ? parseFloat(document.getElementById("overallgrade2p").textContent):parseFloat(document.getElementById("overallEFgrade2p").textContent)
     let inputnum = (isEf) ? parseFloat(document.getElementById("overalltotal").textContent):parseFloat(document.getElementById("overallEFtotal").textContent)
     let inputtotal = inputvar*inputnum
     inputtotal -= parseFloat(rem)

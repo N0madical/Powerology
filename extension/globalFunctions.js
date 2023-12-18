@@ -1,5 +1,5 @@
 //storage_types: sync, local
-function browserStorage(name, storageType, defaultValue = "[]") {
+function browserStorage(name, storageType, defaultValue = []) {
     this.name = name;
     this.value = defaultValue;
     this.defaultValue = defaultValue;
@@ -250,6 +250,27 @@ buttonfunctions = {
     "saveBg" : saveBg,
     "openLink" : openLink,
     "toggleInfo" : toggleInfo,
+}
+
+defaultClasscolors = {
+    "Computer science":"#4169E1",  
+    "Creativity Activity Service":"#FFD700", 
+    "Español":"#008000", 
+    "Extended Essay":"#FF0000", 
+    "General Information":"#808080", 
+    "GPHC":"#FFA500", 
+    "Language and Literature":"#87CEEB", 
+    "Math":"#8B0000", 
+    "Physics":"#800080", 
+    "Post Oak Press":"#FFFF00", 
+    "Theory of Knowledge":"#00008B",
+    "Music":"#9b00c9",
+    "English":"#FFFFFF",
+    "Physical Fitness":"#e48300",
+    "HSE":"#13fff4",
+    "History":"#ff5e13",
+    "Integrated Science":"#00d44d",
+    "Biology":"#32ff7d"
 }
 
 document.addEventListener("click", closeBox);

@@ -2,32 +2,11 @@ refresh = storageapi.runtime.getURL("icons/refresh.png");
 openext = storageapi.runtime.getURL("icons/openext.png");
 opengrd = storageapi.runtime.getURL("icons/grades.png");
 plusicon = storageapi.runtime.getURL("icons/plus.png");
-
-defaultClasscolors = {
-    "Computer science":"#4169E1",  
-    "Creativity Activity Service":"#FFD700", 
-    "Español":"#008000", 
-    "Extended Essay":"#FF0000", 
-    "General Information":"#808080", 
-    "GPHC":"#FFA500", 
-    "Language and Literature":"#87CEEB", 
-    "Math":"#8B0000", 
-    "Physics":"#800080", 
-    "Post Oak Press":"#FFFF00", 
-    "Theory of Knowledge":"#00008B",
-    "Music":"#9b00c9",
-    "English":"#FFFFFF",
-    "Physical Fitness":"#e48300",
-    "HSE":"#13fff4",
-    "History":"#ff5e13",
-    "Integrated Science":"#00d44d",
-    "Biology":"#32ff7d"
-}
+reordr = storageapi.runtime.getURL("icons/reorder.png")
 
 checkedAssignments.get()
 
 pastGrades.get(sortPastGrades)
-
 function sortPastGrades() {pastGrades.value.sort((a, b) => a[0] - b[0]); updateGradeList();}
 
 classColors.get()
@@ -45,6 +24,7 @@ function passFunctionCall(call) {
 <div id="centerbox">
     <div id="classes" class="box boxrounded shadow" style="width: 300px; height: fit-content;">
         <img class="clickable smbutton" src=${opengrd} style="left: calc(var(--vpl) + 280px); transform:translateY(12px);" onclickevent="openGrades()"></img>
+        <img class="clickable smbutton" src=${reordr} style="left: calc(var(--vpl) + 25px); transform:translateY(12px);" onclickevent="openLink('/courses/reorder')"></img>
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
         <div style="width: 100%;">
