@@ -1,6 +1,18 @@
+checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
+
+customAssignments = new browserStorage("customAssignments", "sync", [])
+
+pastGrades = new browserStorage("pastGrades", "local", [])
+
+classColors = new browserStorage("classColors", "sync")
+
 defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true]
-exceptionList = new browserStorage("exceptionList", "sync", [[],[]], globalIndex)
-exceptionList.get()
+backGround = new browserStorage("backGround", "sync", defaultBackGround)
+
+masteryGrades = new browserStorage("masteryGrades", "local", [])
+
+exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
+exceptionList.get(globalIndex)
 
 function globalIndex() {
     let gitHub = new XMLHttpRequest()
@@ -8,9 +20,10 @@ function globalIndex() {
     gitHub.send()
     gitHub.onload = () => {
         let output = atob(JSON.parse(gitHub.response).content)
-        console.debug(JSON.parse(output))
+        exceptionList.value[0] = JSON.parse(output)
+        exceptionList.set()
     }
-
+    
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
     for(let i in exceptions) {
@@ -23,8 +36,7 @@ function globalIndex() {
     //########################################################
         //Setting Background
     //########################################################
-    backGround = new browserStorage("backGround", "sync", defaultBackGround, setBackground)
-    backGround.get()
+    backGround.get(setBackground)
     function setBackground() {
         document.body.classList.remove("js")
         document.body.style.height = "max-content"
@@ -126,8 +138,8 @@ function globalIndex() {
 //########################################################
 
 if(typeof browser !== "undefined") {
-    nextCheck = new browserStorage("nextCheck", "local", Date.now(), onGetNextCheck)
-    nextCheck.get()
+    nextCheck = new browserStorage("nextCheck", "local", Date.now())
+    nextCheck.get(onGetNextCheck)
 }
 
 function onGetNextCheck() {
@@ -171,26 +183,27 @@ pastGrades = new browserStorage("pastGrades", "local", [])
 pastGrades.get()
 
 storageapi.runtime.onMessage.addListener((request) => {
-    console.debug(request, assignmentsarray)
     if(request.action == "debugprint") {
         let output = (document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0]) ? `Powerology Debug For User: ${document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0].textContent}`:"Powerology Debug For Undefined User"
+        output += "\n\n--\n\nCurrent Page:\n"
+        output += window.location.href
         output += "\n\n--\n\nAssignments:\n"
-        output += (assignmentsarray) ? assignmentsarray:""
+        output += (typeof assignmentsarray !== 'undefined') ? assignmentsarray:""
         output += "\n\n--\n\nOverdue Assignments:\n"
-        output += (overdueassignmentsarray) ? overdueassignmentsarray:""
+        output += (typeof overdueassignmentsarray !== 'undefined') ? overdueassignmentsarray:""
         output += "\n\n--\n\nClasses:\n"
-        output += (classesarray) ? classesarray:""
+        output += (typeof classesarray !== 'undefined') ? classesarray:""
         output += "\n\n--\n\nGrades:\n"
-        output += (gradesarray) ? gradesarray:""
+        output += (typeof gradesarray !== 'undefined') ? gradesarray:""
         output += "\n\n--\n\nCloud Checked:\n"
-        output += (checkedAssignments.value) ? checkedAssignments.value:""
+        output += (typeof checkedAssignments.value !== 'undefined') ? checkedAssignments.value:""
         output += "\n\n--\n\nCloud Custom:\n"
-        output += (customAssignments.value) ? customAssignments.value:""
+        output += (typeof customAssignments.value !== 'undefined') ? customAssignments.value:""
         output += "\n\n--\n\nCloud Past Grades:\n"
-        output += (pastGrades.value) ? pastGrades.value:""
+        output += (typeof pastGrades.value !== 'undefined') ? pastGrades.value:""
         output += "\n\n--\n\nHTML:\n"
         output += (document.getElementsByTagName('html')[0].innerHTML)
-        const file = new File([output], `PowerologyDebug-v${browser.runtime.getManifest().version}.html`, {
+        const file = new File([output], `PowerologyDebug-v${storageapi.runtime.getManifest().version}.html`, {
             type: 'text/plain',
         })
           
@@ -208,13 +221,13 @@ storageapi.runtime.onMessage.addListener((request) => {
 
     if(request.action == "storageprint") {
         console.debug("Dumping Stored Variables:")
-        checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]], () => {console.debug("Modified Assignments:", checkedAssignments.value)})
-        checkedAssignments.get()
+        checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
+        checkedAssignments.get(() => {console.debug("Modified Assignments:", checkedAssignments.value)})
 
-        customAssignments = new browserStorage("customAssignments", "sync", [], () => {console.debug("Custom Assignments:", customAssignments.value)})
-        customAssignments.get()
+        customAssignments = new browserStorage("customAssignments", "sync", [])
+        customAssignments.get(() => {console.debug("Custom Assignments:", customAssignments.value)})
 
-        pastGrades = new browserStorage("pastGrades", "local", [], () => {console.debug("Past Grades:", pastGrades.value)})
-        pastGrades.get()
+        pastGrades = new browserStorage("pastGrades", "local", [])
+        pastGrades.get(() => {console.debug("Past Grades:", pastGrades.value)})
     }
 });

@@ -69,12 +69,10 @@ function intCustomAss(assignment) {
     let d1
     let d2
     let thisd
-    let thisdate = new Date()
-    let year = thisdate.getFullYear()
-    for(let i = 0; i < assignmentsarray.length; i++) {
-        d1 = (i == 0) ? 0:Date.parse(`${assignmentsarray[i][0].substring(assignmentsarray[i][0].indexOf(",")).trim()}`)
-        d2 = (assignmentsarray[i+1]) ? Date.parse(`${assignmentsarray[i+1][0].substring(assignmentsarray[i+1][0].indexOf(",")).trim()}`):d1
-        thisd = Date.parse(`${assignment[0].substring(assignment[0].indexOf(",")).trim()}`)
+    for(let i = 0; i <= assignmentsarray.length; i++) {
+        d1 = (i == 0) ? 0:Date.parse(`${assignmentsarray[i-1][0].substring(assignmentsarray[i-1][0].indexOf(",")).trim()} ${assignmentsarray[i-1][2]}`)
+        d2 = (i == assignmentsarray.length) ? d1:Date.parse(`${assignmentsarray[i][0].substring(assignmentsarray[i][0].indexOf(",")).trim()} ${assignmentsarray[i][2]}`)
+        thisd = Date.parse(`${assignment[0].substring(assignment[0].indexOf(",")).trim()} ${assignment[2]}`)
         if (thisd >= d1 && thisd <= d2) {
             assignmentsarray.splice(i, 0, assignment)
             return

@@ -4,9 +4,7 @@
 
 avgGrade = "Error"
 
-
-masteryGrades = new browserStorage("masteryGrades", "local", [], defineMasteryGrades)
-masteryGrades.get()
+masteryGrades.get(defineMasteryGrades)
 
 function showAverage() {
     try {
@@ -118,7 +116,7 @@ function showAverage() {
             clearInterval(loadrepeat)
             loadrepeat = window.setInterval(function(){
                 showAverage()
-            }, 1000);
+            }, 500);
         }
     } catch (error) {
         if(document.getElementsByClassName("district-mastery-report-empty-wrapper-K3ciF")[0]) {

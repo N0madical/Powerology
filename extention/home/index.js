@@ -124,19 +124,18 @@ function loadSchoologyPlus() {
 
         addEventListeners(document.getElementById("centerbox"))
 
-        customAssignments.get()
+        customAssignments.get(parseCustomAss)
 
         updateClasses()
         updateAssignments()
         updateGradeList()
 
-        backGround = new browserStorage("backGround", "sync", defaultBackGround, () => {
+        backGround.get(() => {
             if(backGround.value[4]) {
                 let boxes = document.getElementsByClassName("box")
                 for(let y = 0; y < boxes.length; y++) {boxes[y].style.borderRadius = "10px"}
             }
         })
-        backGround.get()
 
         let clickable = document.getElementsByClassName("onchangeClickable")
         for(let b = 0; b < clickable.length; b++) {

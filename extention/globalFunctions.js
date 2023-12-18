@@ -1,9 +1,8 @@
 //storage_types: sync, local
-function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFunctions) {
+function browserStorage(name, storageType, defaultValue = "[]") {
     this.name = name;
     this.value = defaultValue;
     this.defaultValue = defaultValue;
-    this.runAfter = onCompleteFunctions;
 
     if(storageType == "sync") {
         this.sync = true
@@ -17,19 +16,19 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
         storageapi = chrome;
     }
 
-    this.get = function() {
+    this.get = function(...onCompleteFunctions) {
         try {
             if(typeof browser !== "undefined") {
                 if(this.sync) {
-                    browser.storage.sync.get(`${this.name}`).then(this.internalGet, this.error)
+                    browser.storage.sync.get(`${this.name}`).then(data => {this.internalGet(data, onCompleteFunctions)}, this.error)
                 } else {
-                    browser.storage.local.get(`${this.name}`).then(this.internalGet, this.error)
+                    browser.storage.local.get(`${this.name}`).then(data => {this.internalGet(data, onCompleteFunctions)}, this.error)
                 }
             } else {
                 if(this.sync) {
-                    chrome.storage.sync.get(`${this.name}`, this.internalGet)
+                    chrome.storage.sync.get(`${this.name}`, data => {this.internalGet(data, onCompleteFunctions)})
                 } else {
-                    chrome.storage.local.get(`${this.name}`, this.internalGet)
+                    chrome.storage.local.get(`${this.name}`, data => {this.internalGet(data, onCompleteFunctions)})
                 }
             }
         } catch (error) {
@@ -63,7 +62,7 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
 
     let self = this
 
-    this.internalGet = function(value) {
+    this.internalGet = function(value, runAfter) {
         self.value = value[self.name];
         if(self.value == undefined) {
             self.value = self.defaultValue
@@ -74,11 +73,11 @@ function browserStorage(name, storageType, defaultValue = "[]", ...onCompleteFun
                 storageapi.storage.local.set({[name]:self.value})
             }
         }
-        if(self.runAfter) {for(self.i = 0; self.i < self.runAfter.length; self.i++) {
+        if(runAfter) {for(self.i = 0; self.i < runAfter.length; self.i++) {
                 try {
-                    self.runAfter[self.i]()
+                    runAfter[self.i]()
                 } catch (error) {
-                    console.error("Powerology: Tried to run invalid function with error\n-----\n", self.runAfter[self.i], "\n-----\n", error ,"\n-----\nafter getting variable", self.name)
+                    console.error("Powerology: Tried to run invalid function with error\n-----\n", runAfter[self.i], "\n-----\n", error ,"\n-----\nafter getting variable", self.name)
                 }
         }   }
         

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    exceptionList = new browserStorage("exceptionList", "sync", ["/district_mastery/"], () => {document.getElementById("excludes").value = arrayInText(exceptionList.value)})
-    exceptionList.get()
+    exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
+    exceptionList.get(() => {document.getElementById("excludes").value = arrayInText(exceptionList.value[1])})
 
     buttonlist = [["clearall", -1],["clearcol", 0],["clearass", 1],["clearcus", 2],["clearsav", 3],["clearsty",4]]
     for(let i = 0; i < buttonlist.length; i++) {
@@ -24,13 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("savebutton").addEventListener('click', function() {
         try {
             if(document.getElementById("excludes").value != "" && document.getElementById("excludes").value != undefined) {
-                exceptionList.value = document.getElementById("excludes").value.replaceAll(",", "").split('\n')
+                exceptionList.value[1] = document.getElementById("excludes").value.replaceAll(",", "").split('\n')
                 exceptionList.set()
-                document.getElementById("excludes").value = arrayInText(exceptionList.value)
+                document.getElementById("excludes").value = arrayInText(exceptionList.value[1])
             } else {
-                exceptionList.value = ["/district_mastery/"]
+                exceptionList.value[1] = []
                 exceptionList.set()
-                document.getElementById("excludes").value = arrayInText(exceptionList.value)
+                document.getElementById("excludes").value = arrayInText(exceptionList.value[1])
             }
         } catch (error) {
             output(error)

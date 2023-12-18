@@ -6,8 +6,7 @@
 intval = false
 evntlstn = false
 
-masteryGrades = new browserStorage("masteryGrades", "local", [], defineMasteryGrades)
-masteryGrades.get()
+masteryGrades.get(defineMasteryGrades)
 
 function defineMasteryGrades() {
     if(!intval) {
@@ -103,9 +102,7 @@ function showGrades() {
 //########################################################
     //Saving Grades
 //########################################################
-
-pastGrades = new browserStorage("pastGrades", "local", [], definePastGrades)
-pastGrades.get()
+pastGrades.get(definePastGrades)
 
 function definePastGrades() {; 
     let gradelist = document.getElementsByClassName("item-row")

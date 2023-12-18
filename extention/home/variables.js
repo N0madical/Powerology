@@ -24,16 +24,12 @@ defaultClasscolors = {
     "Biology":"#32ff7d"
 }
 
-checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
 checkedAssignments.get()
 
-customAssignments = new browserStorage("customAssignments", "sync", [], parseCustomAss)
+pastGrades.get(sortPastGrades)
 
-pastGrades = new browserStorage("pastGrades", "local", [], sortPastGrades)
-pastGrades.get()
 function sortPastGrades() {pastGrades.value.sort((a, b) => a[0] - b[0]); updateGradeList();}
 
-classColors = new browserStorage("classColors", "sync", defaultClasscolors)
 classColors.get()
 
 dateobj = new Date()
