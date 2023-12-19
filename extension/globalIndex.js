@@ -6,7 +6,7 @@ pastGrades = new browserStorage("pastGrades", "local", [])
 
 classColors = new browserStorage("classColors", "sync", defaultClasscolors)
 
-defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true]
+defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true, "#36573B"]
 backGround = new browserStorage("backGround", "sync", defaultBackGround)
 
 masteryGrades = new browserStorage("masteryGrades", "local", [])
@@ -45,6 +45,7 @@ function globalIndex() {
         document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox"></div>`)
         if(backGround.value[3] || window.location.href.includes("home")) {
             document.getElementById("backgroundbox").style.backgroundColor = backGround.value[0]
+            setHeaderColor(backGround.value[5])
             document.getElementById("backgroundbox").style.backgroundImage = `url('${backGround.value[1]}')`
             document.getElementById("backgroundbox").style.filter = `blur(${backGround.value[2]}px)`
             if(!window.location.href.includes("home") || window.location.href.includes("powerology")) {
@@ -69,9 +70,11 @@ function globalIndex() {
         <div id="bgbox" class="shadow">
             <h1 class="text-center">Change Background</h1>
             <hr style="transform: translate(10px,0);">
-            <h2 class="text-center" style="margin-bottom: 5px;">Set Background<br> to Color</h2>
+            <h2 class="text-center" style="margin-bottom: 5px;">Change Header Color</h2>
+            <input class="margin-center" type="color" id="headercolor" value="${backGround.value[5]}">
+            <h2 class="text-center" style="margin-bottom: 5px; margin-top: 15px;">Set Background Color</h2>
             <input class="margin-center" type="color" id="bgcolor" value="${backGround.value[0]}">
-            <h2 class="text-center" style="margin-top: 30px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
+            <h2 class="text-center" style="margin-top: 15px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
             <input class="margin-center" class="text-center" value="${backGround.value[1]}" id="bgimg">
             <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
             <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${backGround.value[2]}">

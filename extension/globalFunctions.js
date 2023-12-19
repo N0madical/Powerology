@@ -200,6 +200,7 @@ function toggleCngBg(force = false) {
             document.getElementById("bgblur").value = backGround.value[2]
             document.getElementById("bgall").checked = backGround.value[3]
             document.getElementById("bubblepg").checked = backGround.value[4]
+            document.getElementById("headercolor").value = backGround.value[5]
         } else {
             widget.classList.remove("show")
         }
@@ -213,8 +214,11 @@ function saveBg() {
     blurbg = document.getElementById("bgblur").value
     onall = document.getElementById("bgall").checked
     bubblepg = document.getElementById("bubblepg").checked
+    headercolor = document.getElementById("headercolor").value
+    console.debug("sus")
     if(onall || window.location.href.includes("home")) {
         document.getElementById("backgroundbox").style.backgroundColor = color
+        setHeaderColor(headercolor)
         document.getElementById("backgroundbox").style.backgroundImage = `url('${link}')`
         document.getElementById("backgroundbox").style.filter = `blur(${blurbg}px)`
         if(!window.location.href.includes("home") || window.location.href.includes("powerology")) {
@@ -230,13 +234,23 @@ function saveBg() {
         }
     } else {
         document.getElementById("backgroundbox").style.backgroundColor = "#faf9f7"
+        setHeaderColor(defaultBackGround[5])
         document.getElementById("backgroundbox").style.backgroundImage = null
         document.getElementById("backgroundbox").style.filter = null
         document.getElementById("wrapper").classList.remove("shadow", "wrapperbox", "bubblewrapperbox")
     }
     
-    backGround.value = [color, link, blurbg, onall, bubblepg]
+    backGround.value = [color, link, blurbg, onall, bubblepg, headercolor]
     backGround.set()
+}
+
+function setHeaderColor(color) {
+    headercolors = document.getElementsByClassName("Header-header-button-1EE8Y")
+    postoakicon = document.getElementsByClassName("_1SIMq _3v0y7 _349XD")[0]
+    for(let i = 0; i < headercolors.length; i++) {
+        headercolors[i].style.backgroundColor = color
+    }
+    postoakicon.style.backgroundColor = color
 }
 
 function closeBox(event) {
