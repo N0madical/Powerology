@@ -57,23 +57,31 @@ function loadSchoologyPlus() {
     }
 
     try {
-        assignments = document.getElementsByClassName("upcoming-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("event-title")
+        assignmentparents = document.getElementsByClassName("upcoming-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("upcoming-event")
         assignmentsarray = []
-        for(h = 0; h < assignments.length; h++) {
+        for(h = 0; h < assignmentparents.length; h++) {
             try {
-                hdue = assignments[h].children[1].children[0].innerHTML
+                let assignment = assignmentparents[h].children[0].children[0].children[1]
+                hdue = (assignment.children[1].firstChild) ? assignment.children[1].children[0].textContent:assignment.children[1].textContent
                 hdate = hdue.substr(4,hdue.indexOf(" at ")-4)
-                hname = assignments[h].firstChild.innerHTML
+                hname = assignment.firstChild.innerHTML
                 htime = hdue.substr(hdue.indexOf(" at ") + 4)
-                hclass = assignments[h].children[1].children[1].innerHTML
-                hlink = assignments[h].getElementsByClassName("sExtlink-processed")[0].href
-                hid = hlink.substr(hlink.length-10)
-                assignmentsarray.push([hdate, hname, htime, hclass, hlink, hid])
+                hclass = assignment.children[1].children[1].innerHTML
+                hlink = (assignment.getElementsByClassName("sExtlink-processed")[0]) ? assignment.getElementsByClassName("sExtlink-processed")[0].href:""
+                hid = assignmentparents[h].getAttribute("data-start")
+                let replace = false
+                for(let i = 0; i < assignmentsarray.length; i++) {
+                    if(assignmentsarray[i][5] == hid) {
+                        replace = i
+                    }
+                }
+                if(replace && (hlink != "")) {assignmentsarray[replace] = [hdate, hname, htime, hclass, hlink, hid]}
+                else if (!replace) {assignmentsarray.push([hdate, hname, htime, hclass, hlink, hid])}
             } catch(err) {
-                console.debug("Powerology: Error in parsing assignments:", err)
+                console.error("Powerology: Error in parsing assignments:", err)
                 errorlist.push(`<h3 class="text-center">Error reading assignment #: ${h}</h3>`)
             }
-        }   
+        }
     } catch (error) {
         console.error("Powerology: Error reading assignments from Schoology page:\n", error)
         assignmentsarray.push(["Error", "Error - Check Console (f12) & Report to Aiden", "-", "", "/home"])
@@ -85,14 +93,13 @@ function loadSchoologyPlus() {
             overdueassignmentsarray = []
             for(u = 0; u < overdueassignments.length-1; u += 2) {
                 while(overdueassignments[u].id != "overdue_submissions" && (u < overdueassignments.length-1)) {u++}
-                uname = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].innerHTML
+                uname = overdueassignments[u+1].getElementsByClassName("event-title")[0].children[0].innerHTML
                 udue = overdueassignments[u].children[0].innerHTML
-                ulink = overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href
-                uid = ulink.substr(ulink.length-10)
+                ulink = (overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) ? overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href:""
+                uid = overdueassignments[u+1].getAttribute("data-start")
                 if(Date.parse(udue) <= Date.now()) {
                     overdueassignmentsarray.push([uname, ulink, uid])
                 }
-                
             }
         }
     } catch (error) {

@@ -14,6 +14,7 @@ function updateClasses() {
 }
 
 function updateAssignments() {
+    console.debug(assignmentsarray[0][5])
     console.info("Powerology: Updating Assignment List...")
     asdates = []
     tododates = []
