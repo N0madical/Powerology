@@ -152,6 +152,7 @@ function toggleInfo() {
                     <li>Assignment management!</li>
                     <li>Show all grades on home page</li>
                     <li>Custom backgrounds</li>
+                    <li>Change header color</li>
                     <li>Add custom assignments</li>
                     <li>Double click mastery standard grades to edit - Test grades!</li>
                     <li>Show overall mastery grades & GPA on grades page</li>
@@ -168,7 +169,8 @@ function toggleInfo() {
                 <ul style="padding-left: 20px; padding-top: 10px;">
                     <li><b>Creator, Developer:</b> Aiden</li>
                     <li><b>Early Debugging:</b> Sabrina & Eli C. -- The program would be crashing constantly without y'all</li>
-                    <li><b>Feature Fixes:</b> Mateo, Everest, Mr. Grisbee, Eli L. & Isa P. -- You guys/gals helped make it so much better</li>
+                    <li><b>Feature Suggestions:</b> Mateo, Everest, Mr. Grisbee, Eli L., Ms. Al-Karkhi & Nate -- You guys/gals helped make it so much better</li>
+                    <li><b>Bug Smashing:</b>Eli C., Isa, Eli L., Sophia O., Mr. Grisbee, Nuria</li>
                 </ul>
                 <button type="button" class="clickable margin-center" onclickevent="openLink('https://powerology.aidencunningham.com/', true)" style="margin-top: 20px">Powerology Website</button>
                 <button type="button" class="clickable margin-center" onclickevent="openLink('https://github.com/N0madical/Powerology', true)" style="margin-top: 20px">Powerology Source Code</button>
@@ -215,7 +217,6 @@ function saveBg() {
     onall = document.getElementById("bgall").checked
     bubblepg = document.getElementById("bubblepg").checked
     headercolor = document.getElementById("headercolor").value
-    console.debug("sus")
     if(onall || window.location.href.includes("home")) {
         document.getElementById("backgroundbox").style.backgroundColor = color
         setHeaderColor(headercolor)
@@ -245,12 +246,14 @@ function saveBg() {
 }
 
 function setHeaderColor(color) {
-    headercolors = document.getElementsByClassName("Header-header-button-1EE8Y")
-    postoakicon = document.getElementsByClassName("_1SIMq _3v0y7 _349XD")[0]
-    for(let i = 0; i < headercolors.length; i++) {
-        headercolors[i].style.backgroundColor = color
+    if(color.toUpperCase() != "#36573B") {
+        headercolors = document.getElementsByClassName("Header-header-button-1EE8Y")
+        postoakicon = document.getElementsByClassName("_1SIMq _3v0y7 _349XD")[0]
+        for(let i = 0; i < headercolors.length; i++) {
+            headercolors[i].style.backgroundColor = color
+        }
+        postoakicon.style.backgroundColor = color
     }
-    postoakicon.style.backgroundColor = color
 }
 
 function closeBox(event) {

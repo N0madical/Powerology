@@ -14,7 +14,6 @@ function updateClasses() {
 }
 
 function updateAssignments() {
-    console.debug(assignmentsarray[0][5])
     console.info("Powerology: Updating Assignment List...")
     asdates = []
     tododates = []
@@ -97,11 +96,7 @@ function addClass(name, link) {
         }
     }
 
-    if(typeof browser !== "undefined") {
-        colorwidth = "7px"
-    } else {
-        colorwidth = "10px"
-    }
+    colorwidth = (typeof browser !== "undefined") ? "7px":"10px"
 
     container.insertAdjacentHTML("beforeend", `
     <tr class="widthbox shadow hov clickable">
@@ -203,7 +198,7 @@ function addGrade(date,name,grade,link,id,fromPast) {
         color = "gray"
     }
 
-    if(date == -1) {
+    if(date != -1) {
         if(grade >= 0 && !fromPast) {
             match2 = false;
             for(h=0; h < pastGrades.value.length; h++) {
@@ -217,7 +212,7 @@ function addGrade(date,name,grade,link,id,fromPast) {
                 }
             }
             if(!match2) {
-                pastGrades.value.push([[date],[name,grade,link]])
+                pastGrades.value.push([[date],[name,grade,link,id]])
                 pastGrades.value.sort((a, b) => a[0] - b[0])
                 pastGrades.set()
             }

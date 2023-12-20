@@ -1,5 +1,3 @@
-//document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1920x1080/?city,night')"
-
 datacollected = false
 classesarray = []
 assignmentsarray = []
@@ -28,7 +26,8 @@ function loadSchoologyPlus() {
                 }
             }
             ilink = grades[i].getElementsByClassName("sExtlink-processed")[0].href
-            gradesarray.push([[itime],[iname,igrade,ilink]])
+            iid = ilink.substring(ilink.length-10)
+            gradesarray.push([[itime],[iname,igrade,ilink,iid]])
         }
     } catch (error) {
         console.error("Powerology: Error reading grades from Schoology page:\n", error)

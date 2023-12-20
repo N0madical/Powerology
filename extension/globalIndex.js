@@ -1,3 +1,13 @@
+//########################################################
+    //Defining API
+//########################################################
+
+if (typeof browser !== "undefined") {
+    storageapi = browser;
+} else {
+    storageapi = chrome;
+}
+
 checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
 
 customAssignments = new browserStorage("customAssignments", "sync", [])
@@ -89,17 +99,6 @@ function globalIndex() {
         document.getElementById("bgall").checked = backGround.value[3]
 
         addEventListeners(document.getElementById("bgboxbox"))
-    }
-
-
-    //########################################################
-        //Defining API
-    //########################################################
-
-    if (typeof browser !== "undefined") {
-        storageapi = browser;
-    } else {
-        storageapi = chrome;
     }
 
 
