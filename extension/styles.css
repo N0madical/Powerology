@@ -162,6 +162,14 @@ em {
     margin-bottom: -100px;
 }
 
+.searchbar {
+    width: 80%;
+    height: 40px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 20px;
+}
+
 .smbutton {
     position: absolute;
     width: 15px;

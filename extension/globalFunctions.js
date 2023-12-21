@@ -144,7 +144,7 @@ function toggleInfo() {
                 <h1 style="text-align: center; color: white; font-size: 30px; padding-top: 20px;">Powerology Info</h1>
                 <img class="clickable" src="${ximage}" width="30px" height="30px" style="position: absolute; right: 5px; top: 5px;" onclickevent="toggleInfo()">
             </div>
-            <div style="box-sizing: border-box; background-color: #faf9f7; width: 100%; max-height: 720px; min-height: max-content; overflow-y: scroll; padding: 20px 20px; font-size: medium;">
+            <div style="box-sizing: border-box; background-color: #faf9f7; width: 100%; max-height: 70vh; min-height: max-content; overflow-y: scroll; padding: 20px 20px; font-size: medium;">
                 <h2 style="font-size: 30px;">Powerology Features:</h2>
                 <ul style="padding-left: 20px; padding-top: 10px;">
                     <li>Home Page Styling</li>

@@ -39,7 +39,7 @@ function loadSchoologyPlus() {
         classesarray = []
         for(j = 0; j < classes.length; j++) {
             jtext = classes[j].getAttribute("aria-label")
-            jname = jtext.slice(jtext.indexOf("Navigate to course:") + 20, jtext.indexOf(".  Organization:")).trim()
+            jname = jtext.slice(jtext.indexOf("Navigate to course:") + 20, jtext.indexOf(".")).trim()
             jlist = classes[j].getElementsByClassName("course-dashboard__card-lens-img")
             jid = classes[j].getAttribute("data-reactid").substr(classes[j].getAttribute("data-reactid").length - 10)
             jlink = `https://postoakschool.schoology.com/course/${jid}/materials`
