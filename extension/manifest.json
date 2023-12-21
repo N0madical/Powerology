@@ -70,8 +70,8 @@
         "css": ["gradeOverview/styles.css"]
       },
       {
-        "matches": ["*://postoakschool.schoology.com/course/*"],
-        "js": ["classPage/index.js", "classPage/functions.js"]
+        "matches": ["*://postoakschool.schoology.com/course/*", "*://postoakschool.schoology.com/assignment/*"],
+        "js": ["classPage/index.js"]
       }
     ],
 
