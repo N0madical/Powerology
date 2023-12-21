@@ -25,14 +25,16 @@ exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
 exceptionList.get(globalIndex)
 
 function globalIndex() {
-    let gitHub = new XMLHttpRequest()
-    gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.raw")
-    gitHub.send()
-    gitHub.onload = () => {
-        let output = atob(JSON.parse(gitHub.response).content)
-        exceptionList.value[0] = JSON.parse(output)
-        exceptionList.set()
-    }
+    // let gitHub = new XMLHttpRequest()
+    // gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.raw")
+    // gitHub.send()
+    // gitHub.onload = () => {
+    //     let output = atob(JSON.parse(gitHub.response).content)
+    //     exceptionList.value[0] = JSON.parse(output)
+    //     exceptionList.set()
+    // }
+    exceptionList.value = [[],[]]
+    exceptionList.set()
     
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
@@ -48,11 +50,12 @@ function globalIndex() {
     //########################################################
     backGround.get(setBackground)
     function setBackground() {
+        console.debug("It's me")
         document.body.classList.remove("js")
         document.body.style.height = "max-content"
         document.body.style.overflowX = "hidden"
         document.body.style.minHeight = "100%"
-        document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox"></div>`)
+        /document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox"></div>`)
         if(backGround.value[3] || window.location.href.includes("home")) {
             document.getElementById("backgroundbox").style.backgroundColor = backGround.value[0]
             setHeaderColor(backGround.value[5])
@@ -66,6 +69,9 @@ function globalIndex() {
             } else if (window.location.href.includes("powerology")) {
                 document.getElementById("container").style.margin = 0
                 document.getElementById("main").style.minHeight = "91vh"
+            } 
+            if (window.location.href.includes("district_mastery")) {
+                document.getElementById("wrapper").style.width = "80%"
             }
             window.addEventListener("scroll", function(){
                 document.getElementById("backgroundbox").style.backgroundPositionY = ((window.pageYOffset*-0.1)) + "px";

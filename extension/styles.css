@@ -36,6 +36,7 @@ hr {
     background-color: #faf9f7;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
     padding: 20px 5px;
+    margin: auto auto;
 }
 
 /* ######################################################## */
@@ -160,6 +161,7 @@ em {
     transform: scale(1.1,1); 
     background-size: 120% auto; 
     margin-bottom: -100px;
+    z-index: -100;
 }
 
 .searchbar {

@@ -233,12 +233,15 @@ function saveBg() {
             let boxes = document.getElementsByClassName("box")
             for(let y = 0; y < boxes.length; y++) {boxes[y].style.borderRadius = (bubblepg) ? "10px":"0px"}
         }
+
+        if (window.location.href.includes("district_mastery")) {document.getElementById("wrapper").style.width = "80%"}
     } else {
         document.getElementById("backgroundbox").style.backgroundColor = "#faf9f7"
         setHeaderColor(defaultBackGround[5])
         document.getElementById("backgroundbox").style.backgroundImage = null
         document.getElementById("backgroundbox").style.filter = null
         document.getElementById("wrapper").classList.remove("shadow", "wrapperbox", "bubblewrapperbox")
+        if (window.location.href.includes("district_mastery")) {document.getElementById("wrapper").style.width = null}
     }
     
     backGround.value = [color, link, blurbg, onall, bubblepg, headercolor]
@@ -257,7 +260,9 @@ function setHeaderColor(color) {
 }
 
 function closeBox(event) {
-    if(event.clientX >= 210 || event.clientY >= 580) {
+    let boxheight = parseInt(window.getComputedStyle(document.getElementById("bgbox")).getPropertyValue("height").replace("px",""))
+    console.debug(boxheight)
+    if(event.clientX >= 210 || event.clientY >= (95 + boxheight)) {
         toggleCngBg(true)
     }
 }
