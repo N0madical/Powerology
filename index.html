@@ -77,7 +77,7 @@
       versionlist = JSON.parse(versions.response)
       for(var i = 0; i < versionlist.length; i++) {
         vname = versionlist[i].name
-        vnumber = vname.substring(vname.indexOf("-v")+2,vname.indexOf("-v")+5)
+        vnumber = vname.substring(vname.indexOf("-v")+2).replace(".xpi", "")
         if(i == versionlist.length-1) {
           document.getElementById("body").insertAdjacentHTML("afterbegin", `
           <table style="text-align: center; margin-left: 50%; transform: translate(-50%); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15); padding: 10px; margin-top: 50px;">
