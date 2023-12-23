@@ -134,8 +134,8 @@ function loadSchoologyPlus() {
         updateAssignments()
         updateGradeList()
 
-        backGround.get(() => {
-            if(backGround.value[4]) {
+        settings.get(() => {
+            if(settings.value.bubbleBoxes) {
                 let boxes = document.getElementsByClassName("box")
                 for(let y = 0; y < boxes.length; y++) {boxes[y].style.borderRadius = "10px"}
             }

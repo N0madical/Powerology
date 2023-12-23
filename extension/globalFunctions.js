@@ -190,6 +190,35 @@ function toggleInfo() {
     }
 }
 
+//########################################################
+    //Animation Listeners
+//########################################################
+
+function addAnimation() {
+    try{
+        document.querySelector(':root').style.setProperty('--menuheight', '0')
+
+        coursesbutton = document.getElementById("header").querySelector("nav").querySelector("ul").children[1]
+        coursesbutton.addEventListener("click", () => {
+            if(typeof coursesbutton.children[0].children[1] === 'undefined') {
+                setTimeout(() => {coursesbutton.children[0].children[1].style.height = `${((coursesbutton.children[0].children[1].children[0].children[0].children.length-1)*200) + 81}px`}, 100)
+                setTimeout(() => {coursesbutton.children[0].children[1].style.height = "max-content"}, 600)
+            }
+        })
+
+        groupsbutton = document.getElementById("header").querySelector("nav").querySelector("ul").children[2]
+        groupsbutton.addEventListener("click", () => {
+            if(typeof groupsbutton.children[0].children[1] === 'undefined') {
+                setTimeout(() => {groupsbutton.children[0].children[1].style.height = `${((groupsbutton.children[0].children[1].children[0].children[0].children.length-1)*200) + 81}px`}, 100)
+                setTimeout(() => {groupsbutton.children[0].children[1].style.height = "max-content"}, 600)
+            }
+        })
+    } catch (error){
+        document.querySelector(':root').style.removeProperty('--menuheight')
+        console.error("Could not add menu animations")
+    }
+}
+
 function toggleCngBg(force = false) {
     let widget = document.getElementById("bgbox")
     if (force) {
@@ -197,12 +226,12 @@ function toggleCngBg(force = false) {
     } else {
         if(!widget.classList.contains("show")) {
             widget.classList.add("show")
-            document.getElementById("bgcolor").value = backGround.value[0]
-            document.getElementById("bgimg").value = backGround.value[1]
-            document.getElementById("bgblur").value = backGround.value[2]
-            document.getElementById("bgall").checked = backGround.value[3]
-            document.getElementById("bubblepg").checked = backGround.value[4]
-            document.getElementById("headercolor").value = backGround.value[5]
+            document.getElementById("bgcolor").value = settings.value.bgColor
+            document.getElementById("bgimg").value = settings.value.bgImg
+            document.getElementById("bgblur").value = settings.value.bgBlur
+            document.getElementById("bgall").checked = settings.value.onAll
+            document.getElementById("bubblepg").checked = settings.value.bubbleBoxes
+            document.getElementById("headercolor").value = settings.value.headerColor
         } else {
             widget.classList.remove("show")
         }
@@ -214,9 +243,10 @@ function saveBg() {
     color = document.getElementById("bgcolor").value
     link = document.getElementById("bgimg").value
     blurbg = document.getElementById("bgblur").value
+    headercolor = document.getElementById("headercolor").value
     onall = document.getElementById("bgall").checked
     bubblepg = document.getElementById("bubblepg").checked
-    headercolor = document.getElementById("headercolor").value
+    animations = document.getElementById("animationcheck").checked
     if(onall || window.location.href.includes("home")) {
         document.getElementById("backgroundbox").style.backgroundColor = color
         setHeaderColor(headercolor)
@@ -237,15 +267,23 @@ function saveBg() {
         if (window.location.href.includes("district_mastery")) {document.getElementById("wrapper").style.width = "80%"}
     } else {
         document.getElementById("backgroundbox").style.backgroundColor = "#faf9f7"
-        setHeaderColor(defaultBackGround[5])
+        setHeaderColor(defaultSettings.headerColor)
         document.getElementById("backgroundbox").style.backgroundImage = null
         document.getElementById("backgroundbox").style.filter = null
         document.getElementById("wrapper").classList.remove("shadow", "wrapperbox", "bubblewrapperbox")
         if (window.location.href.includes("district_mastery")) {document.getElementById("wrapper").style.width = null}
     }
+
+    if(settings.value.animate) {addAnimation()} else {document.querySelector(':root').style.removeProperty('--menuheight'); console.debug("sussy")}
     
-    backGround.value = [color, link, blurbg, onall, bubblepg, headercolor]
-    backGround.set()
+    settings.value.bgColor = color
+    settings.value.bgImg = link
+    settings.value.bgBlur = blurbg
+    settings.value.headerColor = headercolor
+    settings.value.onAll = onall
+    settings.value.bubbleBoxes = bubblepg
+    settings.value.animate = animations
+    settings.set()
 }
 
 function setHeaderColor(color) {

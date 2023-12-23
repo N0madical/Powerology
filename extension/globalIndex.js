@@ -8,6 +8,17 @@ if (typeof browser !== "undefined") {
     storageapi = chrome;
 }
 
+defaultSettings = {
+    bgColor: "#faf9f7",
+    bgImg: "https://source.unsplash.com/random/1920x1080/?city,night",
+    bgBlur: 10,
+    headerColor: "#36573B",
+    onAll: true,
+    bubbleBoxes: true,
+    animate: false,
+}
+settings = new browserStorage("settings", "sync", defaultSettings)
+
 checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
 
 customAssignments = new browserStorage("customAssignments", "sync", [])
@@ -15,9 +26,6 @@ customAssignments = new browserStorage("customAssignments", "sync", [])
 pastGrades = new browserStorage("pastGrades", "local", [])
 
 classColors = new browserStorage("classColors", "sync", defaultClasscolors)
-
-defaultBackGround = ["#faf9f7", "https://source.unsplash.com/random/1920x1080/?city,night", 10, true, true, "#36573B"]
-backGround = new browserStorage("backGround", "sync", defaultBackGround)
 
 masteryGrades = new browserStorage("masteryGrades", "local", [])
 
@@ -48,21 +56,21 @@ function globalIndex() {
     //########################################################
         //Setting Background
     //########################################################
-    backGround.get(setBackground)
+    settings.get(setBackground)
     function setBackground() {
         document.body.classList.remove("js")
         document.body.style.height = "max-content"
         document.body.style.overflowX = "hidden"
         document.body.style.minHeight = "100%"
         /document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox"></div>`)
-        if(backGround.value[3] || window.location.href.includes("home")) {
-            document.getElementById("backgroundbox").style.backgroundColor = backGround.value[0]
-            setHeaderColor(backGround.value[5])
-            document.getElementById("backgroundbox").style.backgroundImage = `url('${backGround.value[1]}')`
-            document.getElementById("backgroundbox").style.filter = `blur(${backGround.value[2]}px)`
+        if(settings.value.onAll || window.location.href.includes("home")) {
+            document.getElementById("backgroundbox").style.backgroundColor = settings.value.bgColor
+            setHeaderColor(settings.value.headerColor)
+            document.getElementById("backgroundbox").style.backgroundImage = `url('${settings.value.bgImg}')`
+            document.getElementById("backgroundbox").style.filter = `blur(${settings.value.bgBlur}px)`
             if(!window.location.href.includes("home") || window.location.href.includes("powerology")) {
                 document.getElementById("wrapper").classList.add("shadow", "wrapperbox")
-                if(backGround.value[4]) {
+                if(settings.value.bubbleBoxes) {
                     document.getElementById("wrapper").classList.add("bubblewrapperbox")
                 }
             } else if (window.location.href.includes("powerology")) {
@@ -86,22 +94,27 @@ function globalIndex() {
             <h1 class="text-center">Change Background</h1>
             <hr style="transform: translate(10px,0);">
             <h2 class="text-center" style="margin-bottom: 5px;">Change Header Color</h2>
-            <input class="margin-center" type="color" id="headercolor" value="${backGround.value[5]}">
+            <input class="margin-center" type="color" id="headercolor" value="${settings.value.headerColor}">
             <h2 class="text-center" style="margin-bottom: 5px; margin-top: 15px;">Set Background Color</h2>
-            <input class="margin-center" type="color" id="bgcolor" value="${backGround.value[0]}">
+            <input class="margin-center" type="color" id="bgcolor" value="${settings.value.bgColor}">
             <h2 class="text-center" style="margin-top: 15px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
-            <input class="margin-center" class="text-center" value="${backGround.value[1]}" id="bgimg">
+            <input class="margin-center" class="text-center" value="${settings.value.bgImg}" id="bgimg">
             <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
-            <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${backGround.value[2]}">
+            <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${settings.value.bgBlur}">
             <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Active On All Pages</h3>
             <input type="checkbox" class="margin-center" id="bgall" style="margin-bottom: 20px;">
             <h3 class="text-center" style="margin-top: 20px;" id="bubblebox">Bubble Pages</h3>
             <input type="checkbox" class="margin-center" id="bubblepg" style="margin-bottom: 20px;">
+            <h3 class="text-center" style="margin-top: 20px;">Animations</h3>
+            <input type="checkbox" class="margin-center" id="animationcheck" style="margin-bottom: 20px;">
             <button class="margin-center clickable" onclickevent="saveBg()" style="margin-bottom: 20px;">Save</button>
         </div>
         </div>`)
 
-        document.getElementById("bgall").checked = backGround.value[3]
+        document.getElementById("bgall").checked = settings.value.onAll
+        document.getElementById("animationcheck").checked = settings.value.animate
+
+        if(settings.value.animate) {addAnimation()}
 
         addEventListeners(document.getElementById("bgboxbox"))
     }
@@ -135,34 +148,7 @@ function globalIndex() {
     <a id="powerologyinfobutton" class="clickable _13cCs _2M5aC _24avl _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-pds-icon-default-2kZM7 _1SIMq _2kpZl _3OAXJ _3_bfp _3v0y7 _2s0LQ util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y" onclickevent="toggleInfo()"><img src="${powerologyinfo}" width="25px" height="25px" style="margin-top: 17px"></a>
     `)
     addEventListeners(document.getElementById("header"))
-
-
-    //########################################################
-        //Animation Listeners
-    //########################################################
-
-    // try{
-    //     document.querySelector(':root').style.setProperty('--menuheight', '0')
-
-    //     coursesbutton = document.getElementById("header").querySelector("nav").querySelector("ul").children[1]
-    //     coursesbutton.addEventListener("click", () => {
-    //         if(typeof coursesbutton.children[0].children[1] === 'undefined') {
-    //             setTimeout(() => {coursesbutton.children[0].children[1].style.height = `${((coursesbutton.children[0].children[1].children[0].children[0].children.length-1)*200) + 81}px`}, 100)
-    //             setTimeout(() => {coursesbutton.children[0].children[1].style.height = "max-content"}, 600)
-    //         }
-    //     })
-
-    //     groupsbutton = document.getElementById("header").querySelector("nav").querySelector("ul").children[2]
-    //     groupsbutton.addEventListener("click", () => {
-    //         if(typeof groupsbutton.children[0].children[1] === 'undefined') {
-    //             setTimeout(() => {groupsbutton.children[0].children[1].style.height = `${((groupsbutton.children[0].children[1].children[0].children[0].children.length-1)*200) + 81}px`}, 100)
-    //             setTimeout(() => {groupsbutton.children[0].children[1].style.height = "max-content"}, 600)
-    //         }
-    //     })
-    // } catch (error){
-    //     document.querySelector(':root').style.setProperty('--menuheight', 'max-content')
-    //     console.error("Could not add menu animations")
-    // }
+    
 
     //document.addEventListener()
 } catch (error) {
