@@ -31,8 +31,10 @@ function masteryPage() {
                     for(let i = 0; i < standards.length; i++) {
                         standards[i].children[0].style.width = "85%"
                         let thisicon = (pinnedStandards.value.includes(standards[i].getElementsByClassName("_2qcpH _3ghFm _22tOa drGks _23_WZ")[0].textContent)) ? piniconFilled:pinicon
+                        let isHovshow = (pinnedStandards.value.includes(standards[i].getElementsByClassName("_2qcpH _3ghFm _22tOa drGks _23_WZ")[0].textContent)) ? "":"hovshow"
+                        standards[i].classList.add("hovmod")
                         standards[i].insertAdjacentHTML("beforeend", `
-                        <img class="pin_${i} clickable" src=${thisicon} name="${standards[i].getElementsByClassName("_2qcpH _3ghFm _22tOa drGks _23_WZ")[0].textContent}" style="margin: auto; height: 25px;" onclickevent="togglePin('pin_${i}')">
+                        <img class="pin_${i} clickable ${isHovshow}" src=${thisicon} name="${standards[i].getElementsByClassName("_2qcpH _3ghFm _22tOa drGks _23_WZ")[0].textContent}" style="margin: auto; height: 25px;" onclickevent="togglePin('pin_${i}')">
                         `)
                         if(pinnedStandards.value.includes(standards[i].getElementsByClassName("_2qcpH _3ghFm _22tOa drGks _23_WZ")[0].textContent)) {
                             box.children[0].children[0].prepend(standards[i])
@@ -71,10 +73,12 @@ function masteryPage() {
         if(pinnedStandards.value.includes(name)) {
             pinnedStandards.value.splice(pinnedStandards.value.indexOf(name),1)
             document.getElementsByClassName(pin)[0].src = pinicon
+            document.getElementsByClassName(pin)[0].classList.add("hovshow")
             pinnedStandards.set()
         } else {
             pinnedStandards.value.push(name)
             document.getElementsByClassName(pin)[0].src = piniconFilled
+            document.getElementsByClassName(pin)[0].classList.remove("hovshow")
             pinnedStandards.set()
         }
     }
