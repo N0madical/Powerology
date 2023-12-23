@@ -43,7 +43,7 @@ function gradeOverview() {
                 if(masteryGrades.value[j][0] == selClassName){
                     if(masteryGrades.value[j][1] >= Date.now()-(86400000*3)) {
                         gradeAv = true
-                        avg = parseFloat(masteryGrades.value[j][2]).toFixed(2)
+                        avg = round(parseFloat(masteryGrades.value[j][2]),2)
                         gotDate = new Date(masteryGrades.value[j][1])
                     }
                 }
@@ -66,7 +66,7 @@ function gradeOverview() {
                 }
                 
                 classeslist[i].getElementsByClassName("gradebook-course-title")[0].parentElement.classList.add("hovmod") //${months[gotDate.getMonth()]} ${gotDate.getDate()}
-                classeslist[i].getElementsByClassName("gradebook-course-title")[0].parentElement.getElementsByClassName("ovgradebox")[0].innerHTML += `<div class="grade_${selClassId}" style="width: 20px; height: 20px; float:right; background-color: ${color}; margin-left: 10px"></div><h3 class="hovhide" style="float: right; line-height: 9px">${parseFloat(avg).toFixed(1)}</h3><h3 class="hovshow" style="float: right; line-height: 9px">${avg} - <i>${months[gotDate.getMonth()]} ${gotDate.getDate()}</i></h3>`
+                classeslist[i].getElementsByClassName("gradebook-course-title")[0].parentElement.getElementsByClassName("ovgradebox")[0].innerHTML += `<div class="grade_${selClassId}" style="width: 20px; height: 20px; float:right; background-color: ${color}; margin-left: 10px"></div><h3 class="hovhide" style="float: right; line-height: 9px">${round(parseFloat(avg),1)}</h3><h3 class="hovshow" style="float: right; line-height: 9px">${avg} - <i>${months[gotDate.getMonth()]} ${gotDate.getDate()}</i></h3>`
             }
 
         }
@@ -100,8 +100,8 @@ function gradeOverview() {
             }
         }
         let gpa = totalAvg/count
-        document.getElementById("avg5").textContent = (gpa.toFixed(2))
-        document.getElementById("avg4").textContent = (gpa*0.8).toFixed(2)
+        document.getElementById("avg5").textContent = round(gpa,2)
+        document.getElementById("avg4").textContent = round(gpa*0.8,2)
         document.getElementById("avg100").textContent = Math.round(gpa*20)
 
         if(!evntlstn) {
@@ -130,11 +130,11 @@ function gradeOverview() {
                 } else {
                     duedatems = parseInt(Date.now())-604800000
                 }
-                let grade = parseFloat(gradelist[i].getElementsByClassName("rounded-grade")[0].innerHTML).toFixed(2)
+                let grade = round(parseFloat(gradelist[i].getElementsByClassName("rounded-grade")[0].innerHTML),2)
                 if(parseFloat(grade) > 5) {
-                    grade = (parseFloat(grade)/20).toFixed(2)
+                    grade = round((parseFloat(grade)/20),2)
                 } else {
-                    grade = parseFloat(grade).toFixed(2)
+                    grade = round(parseFloat(grade),2)
                 }
 
                 let match2 = false

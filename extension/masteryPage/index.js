@@ -34,8 +34,8 @@ function masteryPage() {
                     }
                 }
 
-                avgGrade = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":(total/divby).toFixed(2)
-                avgGrade1p = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":(total/divby).toFixed(1)
+                avgGrade = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":round(total/divby,2)
+                avgGrade1p = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":round(total/divby,1)
                 if(!isNaN(total/divby)) {
                     let included = false
                     for(let i = 0; i < masteryGrades.value.length; i++) {
@@ -63,8 +63,8 @@ function masteryPage() {
                     }
                 }
 
-                efAvgGrade = (isNaN(eftotal/efdivby)) ? "Not Avaliable":(eftotal/efdivby).toFixed(2)
-                efAvgGrade1p = (isNaN(eftotal/efdivby)) ? "Not Avaliable":(eftotal/efdivby).toFixed(1)
+                efAvgGrade = (isNaN(eftotal/efdivby)) ? "Not Avaliable":round(eftotal/efdivby,2)
+                efAvgGrade1p = (isNaN(eftotal/efdivby)) ? "Not Avaliable":round(eftotal/efdivby,1)
 
                 if(document.getElementById("averageBox") == null) {
                     warnImage = storageapi.runtime.getURL("icons/warnIcon.png");
@@ -105,8 +105,8 @@ function masteryPage() {
                         var input=document.createElement("input");
                         input.value=val;
                         input.onblur=function(){
-                            if(!isNaN(parseFloat(this.value).toFixed(2))) {
-                                var val=parseFloat(this.value).toFixed(2);
+                            if(!isNaN(round(parseFloat(this.value),2))) {
+                                var val=round(parseFloat(this.value),2);
                                 this.parentNode.innerHTML=val;
                                 testAvg(parseFloat(svval), parseFloat(val), elmIsEf)
                             }
@@ -145,13 +145,13 @@ function masteryPage() {
         inputtotal -= parseFloat(rem)
         inputtotal += parseFloat(ad)
         if(isEf) {
-            document.getElementById("overallgrade").textContent = (inputtotal/inputnum).toFixed(1)
-            document.getElementById("overallgrade2p").textContent = (inputtotal/inputnum).toFixed(2)
+            document.getElementById("overallgrade").textContent = round(inputtotal/inputnum,1)
+            document.getElementById("overallgrade2p").textContent = round(inputtotal/inputnum,2)
             document.getElementById("averageBox").children[0].style.height = "100px"
             document.getElementById("overallwarning").style.display = "inherit"
         } else {
-            document.getElementById("overallEFgrade").textContent = (inputtotal/inputnum).toFixed(1)
-            document.getElementById("overallEFgrade2p").textContent = (inputtotal/inputnum).toFixed(2)
+            document.getElementById("overallEFgrade").textContent = round(inputtotal/inputnum,1)
+            document.getElementById("overallEFgrade2p").textContent = round(inputtotal/inputnum,2)
             document.getElementById("averageBox").children[1].style.height = "100px"
             document.getElementById("overallEFwarning").style.display = "inherit"
         }

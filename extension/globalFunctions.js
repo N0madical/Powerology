@@ -261,10 +261,13 @@ function setHeaderColor(color) {
 
 function closeBox(event) {
     let boxheight = parseInt(window.getComputedStyle(document.getElementById("bgbox")).getPropertyValue("height").replace("px",""))
-    console.debug(boxheight)
     if(event.clientX >= 210 || event.clientY >= (95 + boxheight)) {
         toggleCngBg(true)
     }
+}
+
+function round(number, length) {
+    return (Math.round(number*(10**length))/(10**length)).toFixed(length)
 }
 
 buttonfunctions = {

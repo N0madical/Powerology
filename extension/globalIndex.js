@@ -50,7 +50,6 @@ function globalIndex() {
     //########################################################
     backGround.get(setBackground)
     function setBackground() {
-        console.debug("It's me")
         document.body.classList.remove("js")
         document.body.style.height = "max-content"
         document.body.style.overflowX = "hidden"

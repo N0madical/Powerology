@@ -1,4 +1,4 @@
-version = parseFloat(storageapi.runtime.getManifest().version).toFixed(1)
+version = round(parseFloat(storageapi.runtime.getManifest().version),1)
 setTimeout(checkVersion, 1000)
 function checkVersion() {
     if(!document.getElementById("vtext")) {

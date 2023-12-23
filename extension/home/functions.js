@@ -185,7 +185,7 @@ function addAssignment(id, day, name, time, link, isCustom) {
 }
 
 function addGrade(date,name,grade,link,id,fromPast) {
-    oneGrade = (!isNaN(parseFloat(grade))) ? parseFloat(grade).toFixed(1):grade
+    oneGrade = (!isNaN(parseFloat(grade))) ? round(parseFloat(grade),1):grade
     container = document.getElementById("gradelist")
     colorgrade = (grade > 5.0) ? (grade/20):grade
     if(colorgrade >= 4.0) {

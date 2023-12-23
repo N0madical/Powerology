@@ -20,9 +20,9 @@ function loadSchoologyPlus() {
             igrade = grades[i].getElementsByClassName("recently-completed-grade")[0].textContent;
             if(!isNaN(igrade) && !isNaN(parseFloat(igrade))) {
                 if(parseFloat(igrade) > 5) {
-                    igrade = (parseFloat(igrade)/20).toFixed(2)
+                    igrade = round((parseFloat(igrade)/20),2)
                 } else {
-                    igrade = parseFloat(igrade).toFixed(2)
+                    igrade = round(parseFloat(igrade),2)
                 }
             }
             ilink = grades[i].getElementsByClassName("sExtlink-processed")[0].href
