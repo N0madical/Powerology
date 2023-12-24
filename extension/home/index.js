@@ -31,7 +31,7 @@ function loadSchoologyPlus() {
         }
     } catch (error) {
         console.error("Powerology: Error reading grades from Schoology page:\n", error)
-        gradesarray.push([[-1],["Error - Check Console (f12) & Report to Aiden","-","/home"]])
+        gradesarray.push([[-1],["Error - Save Debug & Report to Aiden","-","/home"]])
     }
 
     try {
@@ -52,7 +52,7 @@ function loadSchoologyPlus() {
         }
     } catch (error) {
         console.error("Powerology: Error reading classes from Schoology page:\n", error)
-        classesarray.push(["Error - Check Console (f12) & Report to Aiden","/home",""])
+        classesarray.push(["Error - Save Debug & Report to Aiden","/home",""])
     }
 
     try {
@@ -83,7 +83,7 @@ function loadSchoologyPlus() {
         }
     } catch (error) {
         console.error("Powerology: Error reading assignments from Schoology page:\n", error)
-        assignmentsarray.push(["Error", "Error - Check Console (f12) & Report to Aiden", "-", "", "/home"])
+        assignmentsarray.push(["Error", "Error - Save Debug & Report to Aiden", "-", "", "/home"])
     }
 
     try {
@@ -131,6 +131,7 @@ function loadSchoologyPlus() {
         customAssignments.get(parseCustomAss)
 
         updateClasses()
+        settings.get(updateClasses)
         updateAssignments()
         updateGradeList()
 

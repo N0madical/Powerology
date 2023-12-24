@@ -3,7 +3,7 @@ function updateClasses() {
     console.info("Powerology: Updating Class List...")
     document.getElementById("classlist").textContent = ""
     for(p=0; p < classesarray.length; p++) {
-        addClass(classesarray[p][0],classesarray[p][1])
+        addClass(classesarray[p][0],classesarray[p][1],classesarray[p][2])
     }
 
     addEventListeners(document.getElementById("classlist"))
@@ -86,21 +86,32 @@ function intCustomAss(assignment) {
     return
 }
 
-function addClass(name, link) {
+function addClass(name, link, img) {
     container = document.getElementById("classlist")
     carat = storageapi.runtime.getURL("icons/carat.png");
-    let color = "#808080"
-    for(let key in classColors.value) {
-        if((name).toLowerCase().includes(key.toLowerCase())) {
-            color = classColors.value[key]
-        }
+    if(settings.value.classImg) {
+        colorwidth = (typeof browser !== "undefined") ? "15px":"18px"
+    } else {
+        colorwidth = (typeof browser !== "undefined") ? "7px":"10px"
     }
-
-    colorwidth = (typeof browser !== "undefined") ? "7px":"10px"
+    
+    let tab
+    if(img != "null" && settings.value.classImg) {
+        console.debug(img)
+        tab = `<div style="width: 15px; height: 100%; background-image: url(${img}); background-size: auto 100%; background-position-x: center;">`
+    } else {
+        let color = "#808080"
+        for(let key in classColors.value) {
+            if((name).toLowerCase().includes(key.toLowerCase())) {
+                color = classColors.value[key]
+            }
+        }
+        tab = `<input id="color_${classiteratable}" class="onchangeClickable" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/>`
+    }
 
     container.insertAdjacentHTML("beforeend", `
     <tr class="widthbox shadow hov clickable">
-        <th class="classcolor"><input id="color_${classiteratable}" class="onchangeClickable" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/></th>
+        <th class="classcolor">${tab}</th>
         <th class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
         <th class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
     </tr>

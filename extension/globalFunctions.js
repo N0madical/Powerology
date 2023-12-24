@@ -144,7 +144,7 @@ function toggleInfo() {
                 <h1 style="text-align: center; color: white; font-size: 30px; padding-top: 20px;">Powerology Info</h1>
                 <img class="clickable" src="${ximage}" width="30px" height="30px" style="position: absolute; right: 5px; top: 5px;" onclickevent="toggleInfo()">
             </div>
-            <div style="box-sizing: border-box; background-color: #faf9f7; width: 100%; max-height: 70vh; min-height: max-content; overflow-y: scroll; padding: 20px 20px; font-size: medium;">
+            <div id="pinfobox" style="box-sizing: border-box; background-color: #faf9f7; width: 100%; max-height: 70vh; min-height: max-content; overflow-y: scroll; padding: 20px 20px; font-size: medium;">
                 <h2 style="font-size: 30px;">Powerology Features:</h2>
                 <ul style="padding-left: 20px; padding-top: 10px;">
                     <li>Home Page Styling</li>
@@ -226,12 +226,15 @@ function toggleCngBg(force = false) {
     } else {
         if(!widget.classList.contains("show")) {
             widget.classList.add("show")
+            document.getElementById("darkmode").value = settings.value.darkMode
             document.getElementById("bgcolor").value = settings.value.bgColor
             document.getElementById("bgimg").value = settings.value.bgImg
             document.getElementById("bgblur").value = settings.value.bgBlur
             document.getElementById("bgall").checked = settings.value.onAll
             document.getElementById("bubblepg").checked = settings.value.bubbleBoxes
             document.getElementById("headercolor").value = settings.value.headerColor
+            document.getElementById("animationcheck").value = settings.value.animate
+            document.getElementById("imagescheck").value = settings.value.classImg
         } else {
             widget.classList.remove("show")
         }
@@ -240,6 +243,7 @@ function toggleCngBg(force = false) {
 }
 
 function saveBg() {
+    darkmode = document.getElementById("darkmode").checked
     color = document.getElementById("bgcolor").value
     link = document.getElementById("bgimg").value
     blurbg = document.getElementById("bgblur").value
@@ -247,6 +251,16 @@ function saveBg() {
     onall = document.getElementById("bgall").checked
     bubblepg = document.getElementById("bubblepg").checked
     animations = document.getElementById("animationcheck").checked
+    imageCheck = document.getElementById("imagescheck").checked
+
+    if(darkmode) {
+        let sheet = document.createElement('style')
+        sheet.id = "darkModeSheet"
+        sheet.innerHTML = darkModeCss
+        document.body.appendChild(sheet);
+    } else if (document.getElementById("darkModeSheet")){
+        document.getElementById("darkModeSheet").remove()
+    }
     if(onall || window.location.href.includes("home")) {
         document.getElementById("backgroundbox").style.backgroundColor = color
         setHeaderColor(headercolor)
@@ -262,6 +276,8 @@ function saveBg() {
         } else {
             let boxes = document.getElementsByClassName("box")
             for(let y = 0; y < boxes.length; y++) {boxes[y].style.borderRadius = (bubblepg) ? "10px":"0px"}
+            settings.value.classImg = imageCheck
+            updateClasses()
         }
 
         if (window.location.href.includes("district_mastery")) {document.getElementById("wrapper").style.width = "80%"}
@@ -276,6 +292,7 @@ function saveBg() {
 
     if(settings.value.animate) {addAnimation()} else {document.querySelector(':root').style.removeProperty('--menuheight'); console.debug("sussy")}
     
+    settings.value.darkMode = darkmode
     settings.value.bgColor = color
     settings.value.bgImg = link
     settings.value.bgBlur = blurbg
@@ -283,6 +300,7 @@ function saveBg() {
     settings.value.onAll = onall
     settings.value.bubbleBoxes = bubblepg
     settings.value.animate = animations
+    settings.value.classImg = imageCheck
     settings.set()
 }
 
@@ -335,5 +353,74 @@ defaultClasscolors = {
     "Integrated Science":"#00d44d",
     "Biology":"#32ff7d"
 }
+
+darkModeCss = `
+p, h1, h2, h3, h4, h5, div, span:not(.gray):not(.fioA9), li {
+  color: white !important;
+}
+
+#center a {
+  color:  #5dade2 !important;
+}
+
+#sidebar-left a, #center-top a, #tabs-wrapper a, .grader-grid-username a {
+  color: white !important;
+}
+
+.gray {
+  color: #BDBDBD !important;
+}
+
+body:not(.is-detail-layout) #sidebar-left .active-trail a {
+  background-color: #616161 !important;
+}
+
+#wrapper, ._2q19q:not(.Card-card-image-uV6Bu), .action-links, .action-links-unfold, #edge-filters-menu, .link-btn, a.ui-selectmenu, .ui-selectmenu-menu, .materials-filter-wrapper, ._1Z0RM, #tabs-wrapper a, .sgy-course-search-form__submit-row, .box, #bgbox, .Header-header-drop-menu-3SaYV, .content-top-upper, .popups-body, fieldset {
+  background: #212121 !important;
+}
+
+#main, #home-feed-container, #main-content-wrapper, #center-top, .avgBox, ._1Z0RM:not(._2mWUT), .tabs, ._1EwGW, #pinfobox {
+    background: #424242 !important;
+    border: none !important;
+}
+
+.feed-comments, .roster-top, .enrollment-view-wrapper, .materials-filter-wrapper, #edge-filters, .grader-grid-table-header-wrapper, .grader-grid-header-cell, .gradebook__major-period-title--course-overall:not(.has-override-column), .public_fixedDataTableCell_main, .fc-state-default, #error-page {
+   background: #616161 !important;
+}
+
+.Oq4U1:hover:not(:active) {
+    background-color: #28444f !important;
+}
+
+.form-text, .mceContentBody {
+    color: white !important;
+    background-color: #424242 !important;
+}
+
+.box img {
+   filter: invert(100%)
+}
+
+.box em {
+   color: lightgreen
+}
+
+.hov:hover, ._27Nsz:focus:not(:active) {
+   background-color: #424242 !important;
+}
+
+._2awxe img {
+    filter: invert(100%);
+}
+
+.access-code.left-block-wrapper, .parent-code {
+    background-color: #4F7942 !important;
+}
+
+.fc-event-skin.ev-course {
+    background-color: #13274F !important;
+    border-color: black !important;
+}
+`
 
 document.addEventListener("click", closeBox);

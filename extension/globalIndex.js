@@ -9,6 +9,7 @@ if (typeof browser !== "undefined") {
 }
 
 defaultSettings = {
+    darkMode: false,
     bgColor: "#faf9f7",
     bgImg: "https://source.unsplash.com/random/1920x1080/?city,night",
     bgBlur: 10,
@@ -16,6 +17,7 @@ defaultSettings = {
     onAll: true,
     bubbleBoxes: true,
     animate: false,
+    classImg: false,
 }
 settings = new browserStorage("settings", "sync", defaultSettings)
 
@@ -33,16 +35,14 @@ exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
 exceptionList.get(globalIndex)
 
 function globalIndex() {
-    // let gitHub = new XMLHttpRequest()
-    // gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.raw")
-    // gitHub.send()
-    // gitHub.onload = () => {
-    //     let output = atob(JSON.parse(gitHub.response).content)
-    //     exceptionList.value[0] = JSON.parse(output)
-    //     exceptionList.set()
-    // }
-    exceptionList.value = [[],[]]
-    exceptionList.set()
+    let gitHub = new XMLHttpRequest()
+    gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.raw")
+    gitHub.send()
+    gitHub.onload = () => {
+        let output = atob(JSON.parse(gitHub.response).content)
+        exceptionList.value[0] = JSON.parse(output)
+        exceptionList.set()
+    }
     
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
@@ -62,7 +62,13 @@ function globalIndex() {
         document.body.style.height = "max-content"
         document.body.style.overflowX = "hidden"
         document.body.style.minHeight = "100%"
-        /document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox"></div>`)
+        if(settings.value.darkMode) {
+            let sheet = document.createElement('style')
+            sheet.id = "darkModeSheet"
+            sheet.innerHTML = darkModeCss
+            document.body.appendChild(sheet);
+        }
+        document.body.insertAdjacentHTML("afterbegin", `<div id="backgroundbox"></div>`)
         if(settings.value.onAll || window.location.href.includes("home")) {
             document.getElementById("backgroundbox").style.backgroundColor = settings.value.bgColor
             setHeaderColor(settings.value.headerColor)
@@ -86,13 +92,15 @@ function globalIndex() {
 
         }
 
-        cngbg = storageapi.runtime.getURL("icons/changebg_white.png");
+        gear = storageapi.runtime.getURL("icons/gear.png");
 
         document.body.insertAdjacentHTML('afterbegin', `<div id="bgboxbox">
-        <img src=${cngbg} alt="Change Background" width="25" height="25" onclickevent="toggleCngBg()" class="clickable" style="position: absolute; left:5px; top:5px; cursor: pointer;">
+        <img src=${gear} alt="Settings" width="25" height="25" onclickevent="toggleCngBg()" class="clickable gearicon">
         <div id="bgbox" class="shadow">
-            <h1 class="text-center">Change Background</h1>
+            <h1 class="text-center">Settings</h1>
             <hr style="transform: translate(10px,0);">
+            <h2 class="text-center" style="margin-top: 20px;">Dark Mode</h2>
+            <input type="checkbox" class="margin-center" id="darkmode" style="margin-bottom: 20px;">
             <h2 class="text-center" style="margin-bottom: 5px;">Change Header Color</h2>
             <input class="margin-center" type="color" id="headercolor" value="${settings.value.headerColor}">
             <h2 class="text-center" style="margin-bottom: 5px; margin-top: 15px;">Set Background Color</h2>
@@ -107,12 +115,16 @@ function globalIndex() {
             <input type="checkbox" class="margin-center" id="bubblepg" style="margin-bottom: 20px;">
             <h3 class="text-center" style="margin-top: 20px;">Animations</h3>
             <input type="checkbox" class="margin-center" id="animationcheck" style="margin-bottom: 20px;">
+            <h3 class="text-center" style="margin-top: 20px;">Show Class Images</h3>
+            <input type="checkbox" class="margin-center" id="imagescheck" style="margin-bottom: 20px;">
             <button class="margin-center clickable" onclickevent="saveBg()" style="margin-bottom: 20px;">Save</button>
         </div>
         </div>`)
 
+        document.getElementById("darkmode").checked = settings.value.darkMode
         document.getElementById("bgall").checked = settings.value.onAll
         document.getElementById("animationcheck").checked = settings.value.animate
+        document.getElementById("imagescheck").checked = settings.value.classImg
 
         if(settings.value.animate) {addAnimation()}
 
