@@ -1,3 +1,10 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Global Functions
+//########################################################
+
+
+//Browser Storage object: Handles storing and retreiving browser storage items
 //storage_types: sync, local
 function browserStorage(name, storageType, defaultValue = []) {
     this.name = name;
@@ -88,6 +95,7 @@ function browserStorage(name, storageType, defaultValue = []) {
     }
 }
 
+//Function for opening links
 function openLink(link, newtab=false) {
     if(!newtab) {
         window.open(link, "_self")
@@ -97,6 +105,8 @@ function openLink(link, newtab=false) {
     
 }
 
+//My own custom workaround for the onClick function not being able to access extention scripts
+//Uses event listeners and custom properties to convey data
 function addEventListeners(object) {
     try{
         let clickable = object.getElementsByClassName("clickable")
@@ -130,10 +140,10 @@ function addEventListeners(object) {
         }
     } catch (error) {
         console.error(`Error setting event listeners for object ${object} with error: ${error}`)
-    }
-    
+    } 
 }
 
+//Handling the info dialog
 function toggleInfo() {
     ximage = storageapi.runtime.getURL("icons/x_white.png");
     if(!document.getElementById("infobox")) {
@@ -190,10 +200,7 @@ function toggleInfo() {
     }
 }
 
-//########################################################
-    //Animation Listeners
-//########################################################
-
+//Experimenting with adding animations to Schoology's UI
 function addAnimation() {
     try{
         document.querySelector(':root').style.setProperty('--menuheight', '0')
@@ -219,6 +226,7 @@ function addAnimation() {
     }
 }
 
+//Toggles the settings dialog
 function toggleCngBg(force = false) {
     let widget = document.getElementById("bgbox")
     if (force) {
@@ -242,6 +250,7 @@ function toggleCngBg(force = false) {
     
 }
 
+//Saves and dynamically updates the settings dialog
 function saveBg() {
     darkmode = document.getElementById("darkmode").checked
     color = document.getElementById("bgcolor").value
@@ -354,6 +363,7 @@ defaultClasscolors = {
     "Biology":"#32ff7d"
 }
 
+//CSS to apply when dark mode is activated
 darkModeCss = `
 p, h1, h2, h3, h4, h5, div, span:not(.gray):not(.fioA9), li {
   color: white !important;

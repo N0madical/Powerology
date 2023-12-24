@@ -1,6 +1,13 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Mastery Pages
+//########################################################
+
+
 exceptionList.get(masteryPage)
 
 function masteryPage() {  
+    //Checking to see if script should be canceled in case of bugs
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
     for(let i in exceptions) {
@@ -23,6 +30,10 @@ function masteryPage() {
             if(document.getElementById("learning-objectives-cards-view-more")) {
                 document.getElementById("learning-objectives-cards-view-more").click()
             } else if (window.location.href.includes("learning-objectives")) {
+                
+                //##############################
+                    //Reading grades and calculating averages
+                //##############################
                 let grades = document.getElementById("learning-objectives-cards-container").children
                 let name = document.getElementsByClassName("_24avl _1EyV_ _3v0y7 _2VUdE _3LeCL _2_GfG _3L6tC _10N3s _3Wb6n dVlNp _3_bfp")[1].textContent
                 let total = 0
@@ -66,6 +77,11 @@ function masteryPage() {
                 efAvgGrade = (isNaN(eftotal/efdivby)) ? "Not Avaliable":round(eftotal/efdivby,2)
                 efAvgGrade1p = (isNaN(eftotal/efdivby)) ? "Not Avaliable":round(eftotal/efdivby,1)
 
+
+                //##############################
+                    //Displaying grade averages
+                //##############################
+
                 if(document.getElementById("averageBox") == null) {
                     warnImage = storageapi.runtime.getURL("icons/warnIcon.png");
                     document.getElementById("learning-objectives-cards-container").insertAdjacentHTML("afterbegin", `
@@ -97,6 +113,11 @@ function masteryPage() {
 
                 document.getElementsByClassName("_3EZZc _1FFms _3QKei _2awxe _3skcp fjQuT uQOmx _2NVPS _1Sb_q WnfJn _3ARYD _3t4oF")[0].children[2].style.display = "none"
 
+
+                //##############################
+                    //Enabling double-click to edit grades
+                //##############################
+
                 document.querySelectorAll("[id=district-mastery-grade-title]").forEach(function(node){
                     var elmIsEf = !node.parentElement.parentElement.parentElement.parentElement.parentElement.querySelectorAll("span")[0].innerHTML.includes("EF")
                     node.ondblclick=function(){
@@ -124,6 +145,10 @@ function masteryPage() {
                 });
             }
 
+            //##############################
+                //Repeat constantly because Schooogy UI is reactive
+            //##############################
+
             if(document.getElementById("averageBox")) {
                 clearInterval(loadrepeat)
                 loadrepeat = window.setInterval(function(){
@@ -131,12 +156,18 @@ function masteryPage() {
                 }, 500);
             }
         } catch (error) {
+            //Reload the page on an error
+            console.debug(error)
             if(document.getElementsByClassName("district-mastery-report-empty-wrapper-K3ciF")[0]) {
                 setTimeout(()=>{location.reload()}, Math.floor(Math.random() * 2000))
             }
-            //console.debug(error)
         }
     }
+
+
+    //##############################
+        //Handling test averages
+    //##############################
 
     function testAvg(rem, ad, isEf) {
         let inputvar = (isEf) ? parseFloat(document.getElementById("overallgrade2p").textContent):parseFloat(document.getElementById("overallEFgrade2p").textContent)

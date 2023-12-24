@@ -1,6 +1,13 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Schoology Grades Page
+//########################################################
+
+
 exceptionList.get(gradeOverview)
 
 function gradeOverview() {  
+    //Checking to see if script should be canceled in case of bugs
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
     for(let i in exceptions) {
@@ -18,7 +25,7 @@ function gradeOverview() {
     evntlstn = false
 
     masteryGrades.get(defineMasteryGrades)
-
+    
     function defineMasteryGrades() {
         if(!intval) {
             document.getElementById("past-selector").innerHTML += `<p style="float: right; margin-top: 5px;">Overall Grade (Only shows when Mastery has been opened in the past three days)</p>`
@@ -35,6 +42,8 @@ function gradeOverview() {
         let openext = storageapi.runtime.getURL("icons/openext.png");
         let classeslist = document.getElementById("main-inner").getElementsByClassName("gradebook-course")
         let months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+        
+        //Grabbing grades
         for(let i = 0; i < classeslist.length; i++) {
             let selClassName = classeslist[i].getElementsByClassName("sExtlink-processed")[0].childNodes[1].data
             let selClassId = classeslist[i].id.substring(classeslist[i].id.length-10)
@@ -71,6 +80,7 @@ function gradeOverview() {
 
         }
 
+        //Displaying averages
         if(document.getElementById("averageBox") == null) {
             document.getElementById("main").insertAdjacentHTML("beforeend", `
                 <h1 class="text-center" style="margin-top: 50px">Average GPAs (Only Out Of Currently Visible)</h1>
@@ -91,6 +101,7 @@ function gradeOverview() {
             `)
         }
 
+        //Averaging grades
         let count = 0
         let totalAvg = 0
         for(let j = 0; j < masteryGrades.value.length; j++) {

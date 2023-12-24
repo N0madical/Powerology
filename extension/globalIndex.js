@@ -1,5 +1,11 @@
 //########################################################
-    //Defining API
+    //Powerology Web Extention - By Aiden C
+    //Script: Global Index
+//########################################################
+
+
+//########################################################
+    //Defining Start Variables
 //########################################################
 
 if (typeof browser !== "undefined") {
@@ -19,6 +25,11 @@ defaultSettings = {
     animate: false,
     classImg: false,
 }
+
+//########################################################
+    //Defining Browser Storage
+//########################################################
+
 settings = new browserStorage("settings", "sync", defaultSettings)
 
 checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
@@ -35,6 +46,10 @@ exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
 exceptionList.get(globalIndex)
 
 function globalIndex() {
+    //########################################################
+        //Use GitHub api to get bug patches
+    //########################################################
+    //Checking to see if script should be canceled in case of bugs
     let gitHub = new XMLHttpRequest()
     gitHub.open("GET", "https://api.github.com/repos/N0madical/Powerology/contents/exclusions.raw")
     gitHub.send()
@@ -53,9 +68,12 @@ function globalIndex() {
     }
     if(!exclude) {
     try{
+
+        
     //########################################################
         //Setting Background
     //########################################################
+
     settings.get(setBackground)
     function setBackground() {
         document.body.classList.remove("js")

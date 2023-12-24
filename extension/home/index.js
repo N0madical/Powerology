@@ -1,3 +1,9 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Schoology Home
+//########################################################
+
+
 datacollected = false
 classesarray = []
 assignmentsarray = []
@@ -11,6 +17,7 @@ function loadSchoologyPlus() {
         //Grabbing Data
     //########################################################
 
+    //Reading Grades
     try {
         grades = document.getElementsByClassName("recently-completed-event")
         gradesarray = []
@@ -34,6 +41,7 @@ function loadSchoologyPlus() {
         gradesarray.push([[-1],["Error - Save Debug & Report to Aiden","-","/home"]])
     }
 
+    //Reading Classes
     try {
         classes = document.getElementsByClassName("sgy-card")
         classesarray = []
@@ -55,6 +63,7 @@ function loadSchoologyPlus() {
         classesarray.push(["Error - Save Debug & Report to Aiden","/home",""])
     }
 
+    //Reading Assignments
     try {
         assignmentparents = document.getElementsByClassName("upcoming-submissions")[0].getElementsByClassName("upcoming-list")[0].getElementsByClassName("upcoming-event")
         assignmentsarray = []
@@ -86,6 +95,7 @@ function loadSchoologyPlus() {
         assignmentsarray.push(["Error", "Error - Save Debug & Report to Aiden", "-", "", "/home"])
     }
 
+    //Reading Overdue Assignemnts
     try {
         if(document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0]) {
             overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
@@ -115,19 +125,13 @@ function loadSchoologyPlus() {
         document.getElementById("site-navigation-footer").style.display = "none"
         document.getElementById("site-navigation-breadcrumbs").style.display = "none"
 
-        // if(document.getElementById("schoologyplusplus")) {
-        //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb
-        // } else {
-        //     document.body.innerHTML += `<div id="schoologyplusplus"></div>`
-        //     document.getElementById("schoologyplusplus").innerHTML = schoologyplusplusWeb;
-        // }
-
-        //document.getElementById("wrapper").style.width = "100%"
+        //Most important line of the code here:
         document.getElementById("wrapper").insertAdjacentHTML("beforebegin", schoologyplusplusWeb)
         document.getElementById("wrapper").style.display = "none"
 
         addEventListeners(document.getElementById("centerbox"))
 
+        //Filling-in UI:
         customAssignments.get(parseCustomAss)
 
         updateClasses()
@@ -142,6 +146,9 @@ function loadSchoologyPlus() {
             }
         })
 
+        //##############################
+            //Handler for non-button clickable objects
+        //##############################
         let clickable = document.getElementsByClassName("onchangeClickable")
         for(let b = 0; b < clickable.length; b++) {
             if(clickable[b].hasAttribute("onchangeevent")) {
@@ -154,6 +161,10 @@ function loadSchoologyPlus() {
             }
         }
 
+
+        //##############################
+            //Reactive button positioning
+        //##############################
         let mgleft = window.getComputedStyle(document.getElementById("centerbox")).getPropertyValue("margin-left");
         var r = document.querySelector(':root')
         r.style.setProperty('--vpl', mgleft);
@@ -188,6 +199,11 @@ var loadrepeat = window.setInterval(function(){
         clearInterval(loadrepeat)
     }
 }, 100);
+
+
+//##############################
+    //More reactive button positioning
+//##############################
 
 onresize = () => {
     let mgleft = window.getComputedStyle(document.getElementById("centerbox")).getPropertyValue("margin-left");

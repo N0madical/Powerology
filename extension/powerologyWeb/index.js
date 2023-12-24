@@ -1,3 +1,13 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Powerology Download Page Interaction
+//########################################################
+
+//##############################
+    //Displays the user's current version and displays
+    //'Please update' if the user is behind
+    //(Firefox Only)
+//##############################
 version = round(parseFloat(storageapi.runtime.getManifest().version),1)
 setTimeout(checkVersion, 1000)
 function checkVersion() {

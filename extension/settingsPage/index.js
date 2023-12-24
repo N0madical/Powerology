@@ -1,3 +1,9 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Auto Settings-Setter
+//########################################################
+
+// Changes the default home screen to classes so Schoology UI can run
 setTimeout(changeSettings, 250)
 
 function changeSettings() {

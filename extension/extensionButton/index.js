@@ -1,3 +1,9 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Web Extention Button
+//########################################################
+
+
 document.addEventListener('DOMContentLoaded', function() {
     exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
     exceptionList.get(() => {document.getElementById("excludes").value = arrayInText(exceptionList.value[1])})

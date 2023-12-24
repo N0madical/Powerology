@@ -1,3 +1,9 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: 5-second link page
+//########################################################
+
+//Just clicks the link that says 'Will redirect in 5 seconds, click here to redirect now', because it's annoying
 try{document.getElementsByClassName("s-extlink-direct sExtlink-processed")[0].click()} catch (error) {console.error("Couldn't click link:", error)}
 
 // exceptionList.get(linkPage)

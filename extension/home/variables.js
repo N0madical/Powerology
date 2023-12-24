@@ -1,9 +1,16 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Schoology Home Variables
+//########################################################
+
+//Icons
 refresh = storageapi.runtime.getURL("icons/refresh.png");
 openext = storageapi.runtime.getURL("icons/openext.png");
 opengrd = storageapi.runtime.getURL("icons/grades.png");
 plusicon = storageapi.runtime.getURL("icons/plus.png");
 reordr = storageapi.runtime.getURL("icons/reorder.png")
 
+//Getting browser-saved variables
 checkedAssignments.get()
 
 pastGrades.get(sortPastGrades)
@@ -14,6 +21,10 @@ classColors.get()
 dateobj = new Date()
 datenow = dateobj.toISOString().substring(0,10)
 
+
+//##############################
+    //The meat and bones of the homepage
+//##############################
 schoologyplusplusWeb = `
 <script type="text/javascript">
 function passFunctionCall(call) {

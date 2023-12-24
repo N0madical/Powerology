@@ -1,3 +1,12 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Schoology Home Functions
+//########################################################
+
+//##############################
+    //Home page Reactive UI
+//##############################
+
 function updateClasses() {
     classiteratable = 0
     console.info("Powerology: Updating Class List...")
@@ -69,6 +78,11 @@ function updateGradeList() {
     
 }
 
+
+//##############################
+    //Custom Assignment Handler
+//##############################
+
 function intCustomAss(assignment) {
     let d1
     let d2
@@ -85,6 +99,11 @@ function intCustomAss(assignment) {
     assignmentsarray.splice(assignmentsarray.length+1, 0, assignment)
     return
 }
+
+
+//##############################
+    //Helper scripts for reactive UI
+//##############################
 
 function addClass(name, link, img) {
     container = document.getElementById("classlist")
@@ -239,6 +258,11 @@ function addGrade(date,name,grade,link,id,fromPast) {
     `)
 }
 
+
+//##############################
+    //Opens all grades pages
+//##############################
+
 function openGrades() {
     let clsblacklist = [
         "General Information",
@@ -273,6 +297,11 @@ function filterGrades() {
     gradessort = [from,to]
     updateGradeList()
 }
+
+
+//##############################
+    //Handling assignment buttons
+//##############################
 
 function checkMe(id) {
     if(!checkedAssignments.value[0].includes(id)) {
@@ -325,6 +354,11 @@ function setColor(id, name) {
     classColors.value[name] = document.getElementById(id).value
     classColors.set()
 }
+
+
+//##############################
+    //Custom assignments widget
+//##############################
 
 function toggleAddGrd(force = false) {
     let widget = document.getElementById("addbox")
@@ -382,6 +416,11 @@ function parseCustomAss() {
     updateAssignments()
 }
 
+
+//##############################
+    //Command line interactive script, now irrevelant
+//##############################
+
 function editSavedGrades(argument="h", input=-1) {
     if(argument == "h") {
         console.info("a = add grade, r = remove grade, leave second argument blank for help")
@@ -415,6 +454,7 @@ function editSavedGrades(argument="h", input=-1) {
     }
 }
 
+//Being nice to JSON.Parse
 function unEscape(htmlStr) {
     htmlStr = htmlStr.replace(/&lt;/g , "<");	 
     htmlStr = htmlStr.replace(/&gt;/g , ">");     

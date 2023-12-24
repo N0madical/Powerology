@@ -1,3 +1,10 @@
+//########################################################
+    //Powerology Web Extention - By Aiden C
+    //Script: Schoology Class Pages & Teacher Mods
+//########################################################
+
+
+//These browser storage elements are specefic to the teachermods, so I don't load them globally
 pinnedStandards = new browserStorage("pinnedStandards", "sync", ["1.Body Paragraphs"])
 pinicon = storageapi.runtime.getURL("icons/pin.png");
 piniconFilled = storageapi.runtime.getURL("icons/pinFull.png");
@@ -5,6 +12,7 @@ piniconFilled = storageapi.runtime.getURL("icons/pinFull.png");
 exceptionList.get(masteryPage)
 
 function masteryPage() {  
+    //Checking to see if script should be canceled in case of bugs
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
     for(let i in exceptions) {
@@ -17,8 +25,11 @@ function masteryPage() {
 
     let searchsave
     defaultGraded = ""
-
+    
+    //Schoology's UI is reactive, so this script repeats every 1/4 second to check for updates
     function reactiveCheck() {
+
+        //Standards page search bar and pins
         if(document.getElementsByClassName("_1Z0RM Ivlky _2awxe _1EwGW _3skcp _26UWf _2nSV0 nOK4_")[0]) {
             if(document.getElementsByClassName("_1Z0RM Ivlky _2awxe _1EwGW _3skcp _26UWf _2nSV0 nOK4_")[0].children.length == 4) {
                 let box = document.getElementsByClassName("fjQuT uQOmx _17X0S _2oDcw Ivlky _2awxe _2UdSL _1Z0RM _1EwGW _2v5vf _35kHT")[0]
@@ -61,6 +72,7 @@ function masteryPage() {
             }
         }
 
+        //'Add assignment' UI fixes
         box = document.getElementsByClassName("popups-box")[0]
         if(box) {
             title = box.getElementsByClassName("title")[0]
@@ -122,11 +134,11 @@ function masteryPage() {
 
     pinnedStandards.get(() => {setInterval(reactiveCheck, 250)})
 
-    
     } catch (error) {
         console.error("Couldn't run class page fixes with error", error)
     }
 
+    //Toggles pin on mastery standards
     function togglePin(pin) {
         let name = document.getElementsByClassName(pin)[0].getAttribute("name")
         if(pinnedStandards.value.includes(name)) {
@@ -142,11 +154,11 @@ function masteryPage() {
         }
     }
 
+    //Advanced button on custom 'add assignment' ui
     function openAdvanced() {
         box = document.getElementsByClassName("popups-box")[0]
         form = box.querySelector("[id='s-grade-item-add-form']").children[0]
         for(let i = 4; i < form.children.length; i++) {
-            console.debug(form.children[i].classList)
             if(form.children[i].getAttribute("type") != "hidden" && !form.children[i].classList.contains("classic-mastery")) {
                 form.children[i].style.display = "inherit"
             }
@@ -154,6 +166,7 @@ function masteryPage() {
         document.getElementById("advButton").remove()
     }
 
+    //Function for 'graded' button
     function toggleGraded() {
         console.debug(document.getElementById("edit-grading-category-id").value, defaultGraded)
         if(document.getElementById("edit-grading-category-id").value == "0") {
