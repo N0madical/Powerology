@@ -77,7 +77,7 @@ function passFunctionCall(call) {
         </div>
     </div>
     <div>
-        <div id="grades" class="box boxrounded shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh; resize: vertical; overflow: hidden;">
+        <div id="grades" class="box boxrounded shadow" style="width: 400px; display: flex; flex-direction: column; max-height: 50vh; resize: vertical; overflow: hidden;">
             <img class="clickable smbutton" src=${openext} style="left: calc(var(--vpl) + 1215px); transform:translateY(15px);" onclickevent="openLink('/grades/grades')" onrightclickevent="openLink('/grades/grades', true)"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
