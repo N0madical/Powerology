@@ -9,9 +9,9 @@ pinnedStandards = new browserStorage("pinnedStandards", "sync", ["1.Body Paragra
 pinicon = storageapi.runtime.getURL("icons/pin.png");
 piniconFilled = storageapi.runtime.getURL("icons/pinFull.png");
 
-exceptionList.get(masteryPage)
+exceptionList.get(classPage)
 
-function masteryPage() {  
+function classPage() {  
     //Checking to see if script should be canceled in case of bugs
     let exclude = false
     let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
@@ -25,6 +25,23 @@ function masteryPage() {
 
     let searchsave
     defaultGraded = ""
+    
+    try {
+        if(document.getElementsByClassName("page-title")[0]) {
+            if(document.getElementsByClassName("page-title")[0].children[0]) {
+                reNames.get(setName)
+                function setName() {
+                    let classname = document.getElementsByClassName("page-title")[0].children[0]
+                    if(reNames.value[classname.textContent]) {
+                        classname.textContent = reNames.value[classname.textContent]
+                    }
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Couldn't get class name, error:", error)
+    }
+    
     
     //Schoology's UI is reactive, so this script repeats every 1/4 second to check for updates
     function reactiveCheck() {

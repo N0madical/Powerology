@@ -125,14 +125,16 @@ function addClass(name, link, img) {
                 color = classColors.value[key]
             }
         }
-        tab = `<input id="color_${classiteratable}" class="onchangeClickable" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/>`
+        tab = `<input id="color_${classiteratable}" class="onchangeClickable colorbox" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/>`
     }
+
+    reNamed = (reNames.value[name]) ? reNames.value[name]:name
 
     container.insertAdjacentHTML("beforeend", `
     <tr class="widthbox shadow hov clickable">
         <th class="classcolor">${tab}</th>
-        <th class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${name}</h2></th>
-        <th class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
+        <th class="clickable" onclickevent="clickClass('${name}', '${link}')" onrightclickevent="openLink('${link}',true)" style="width: 100%;"><h2 style="padding-left: 10px; text-align: left; margin-top: 10px; margin-bottom: 10px;">${reNamed}</h2></th>
+        <th class="clickable moveside" onclickevent="clickClass('${name}', '${link}')" onrightclickevent="openLink('${link}',true)" style="width: 40px; background: url(${carat}) no-repeat center center; background-size: 15px 15px;"></th>
     </tr>
     `)
 
@@ -416,6 +418,30 @@ function parseCustomAss() {
     updateAssignments()
 }
 
+function clickClass(name, link) {
+    if(isEditMode) {
+        desiredName = prompt("Please enter new name for: \n\n" + name)
+        if(desiredName != "") {
+            reNames.value[name] = desiredName
+            updateClasses()
+            reNames.set()
+        } else {
+            if(reNames.value[name]) {
+                delete reNames.value[name]
+                updateClasses()
+                reNames.set()
+            }
+        }
+    } else {
+        openLink(link)
+    }
+}
+
+function toggleEditMode() {
+    isEditMode = (isEditMode) ? false:true
+    document.getElementById("editmodebutton").src = (isEditMode) ? editon:editicon
+}
+
 
 //##############################
     //Command line interactive script, now irrevelant
@@ -478,5 +504,7 @@ buttonfunctions = Object.assign({}, buttonfunctions, {
     "filterGrades" : filterGrades,
     "toggleAddGrd" : toggleAddGrd,
     "addCustomAss" : addCustomAss,
+    "toggleEditMode" : toggleEditMode,
+    "clickClass" : clickClass,
     "openLink" : openLink,
 })

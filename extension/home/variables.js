@@ -9,6 +9,8 @@ openext = storageapi.runtime.getURL("icons/openext.png");
 opengrd = storageapi.runtime.getURL("icons/grades.png");
 plusicon = storageapi.runtime.getURL("icons/plus.png");
 reordr = storageapi.runtime.getURL("icons/reorder.png")
+editicon = storageapi.runtime.getURL("icons/edit.png")
+editon = storageapi.runtime.getURL("icons/edit2.png")
 
 //Getting browser-saved variables
 checkedAssignments.get()
@@ -36,6 +38,7 @@ function passFunctionCall(call) {
     <div id="classes" class="box boxrounded shadow" style="width: 300px; height: fit-content;">
         <img class="clickable smbutton" src=${opengrd} style="left: calc(var(--vpl) + 280px); transform:translateY(12px);" onclickevent="openGrades()"></img>
         <img class="clickable smbutton" src=${reordr} style="left: calc(var(--vpl) + 25px); transform:translateY(12px);" onclickevent="openLink('/courses/reorder')"></img>
+        <img id="editmodebutton" class="clickable smbutton" src=${editicon} style="left: calc(var(--vpl) + 50px); transform:translateY(12px);" onclickevent="toggleEditMode()"></img>
         <h1 class="header text-center">Classes</h1>
         <hr style="margin-bottom: 10px;">
         <div style="width: 100%;">
@@ -74,7 +77,7 @@ function passFunctionCall(call) {
         </div>
     </div>
     <div>
-        <div id="grades" class="box boxrounded shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh;">
+        <div id="grades" class="box boxrounded shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 50vh; resize: vertical; overflow: hidden;">
             <img class="clickable smbutton" src=${openext} style="left: calc(var(--vpl) + 1215px); transform:translateY(15px);" onclickevent="openLink('/grades/grades')" onrightclickevent="openLink('/grades/grades', true)"></img>
             <h1 class="header text-center">Grades</h1>
             <hr style="margin-bottom: 10px;">
@@ -95,7 +98,7 @@ function passFunctionCall(call) {
                 </table>
             </div>
         </div>
-        <div id="todo" class="box boxrounded shadow" style="width: 400px; height: fit-content; display: flex; flex-direction: column; max-height: 36vh; display:none;">
+        <div id="todo" class="box boxrounded shadow" style="width: 400px; display: flex; flex-direction: column; max-height: 36vh; display:none; resize: vertical; overflow: hidden;">
             <h1 class="header text-center">For Later</h1>
             <hr style="margin-bottom: 10px;">
             <div style="width: 100%; overflow-y: scroll; flex-grow: 1">

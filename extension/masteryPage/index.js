@@ -157,9 +157,17 @@ function masteryPage() {
             }
         } catch (error) {
             //Reload the page on an error
-            console.debug(error)
+            //console.debug(error)
             if(document.getElementsByClassName("district-mastery-report-empty-wrapper-K3ciF")[0]) {
-                setTimeout(()=>{location.reload()}, Math.floor(Math.random() * 2000))
+                let arexclude = false
+                for(let i in exceptions) {
+                    if((exceptions[i] == "noautoreload") && exceptions[i].length > 0) {
+                        arexclude = true
+                    }
+                }
+                if(!arexclude) {
+                    setTimeout(()=>{location.reload()}, Math.floor(Math.random() * 2000))
+                }
             }
         }
     }

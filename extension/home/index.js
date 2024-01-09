@@ -11,6 +11,7 @@ gradesarray = []
 overdueassignmentsarray = []
 gradessort = [0,0]
 errorlist = []
+isEditMode = false
 
 function loadSchoologyPlus() {
     //########################################################
@@ -136,6 +137,7 @@ function loadSchoologyPlus() {
 
         updateClasses()
         settings.get(updateClasses)
+        reNames.get(updateClasses)
         updateAssignments()
         updateGradeList()
 

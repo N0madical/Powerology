@@ -42,6 +42,8 @@ classColors = new browserStorage("classColors", "sync", defaultClasscolors)
 
 masteryGrades = new browserStorage("masteryGrades", "local", [])
 
+reNames = new browserStorage("reNames", "sync", {})
+
 exceptionList = new browserStorage("exceptionList", "sync", [[],[]])
 exceptionList.get(globalIndex)
 
@@ -125,9 +127,9 @@ function globalIndex() {
             <input class="margin-center" type="color" id="bgcolor" value="${settings.value.bgColor}">
             <h2 class="text-center" style="margin-top: 15px; margin-bottom: 5px;">Set Background to Image (Url)</h2>
             <input class="margin-center" class="text-center" value="${settings.value.bgImg}" id="bgimg">
-            <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Image Blur (Pixels 0-100)</h3>
+            <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Background Blur (Pixels 0-100)</h3>
             <input type="number" class="margin-center" id="bgblur" style="width: 50px; margin-bottom: 20px;" min="0" max="100" step="1" value="${settings.value.bgBlur}">
-            <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Active On All Pages</h3>
+            <h3 class="text-center" style="margin-top: 20px;" id="blurbox">Styling Active On All Pages</h3>
             <input type="checkbox" class="margin-center" id="bgall" style="margin-bottom: 20px;">
             <h3 class="text-center" style="margin-top: 20px;" id="bubblebox">Bubble Pages</h3>
             <input type="checkbox" class="margin-center" id="bubblepg" style="margin-bottom: 20px;">
