@@ -94,57 +94,60 @@ function classPage() {
         if(box) {
             title = box.getElementsByClassName("title")[0]
             if(title) {
-                if(!document.getElementById("customGui")) {
-                    defaultGraded = document.getElementById("edit-grading-category-id").value
-                    form = box.querySelector("[id='s-grade-item-add-form']").children[0]
-                    for(let i = 3; i < form.children.length; i++) {
-                        if(!form.children[i].classList.contains("submit-buttons") && !form.children[i].classList.contains("s-common-adv-options-wrapper")) {
-                            form.children[i].style.display = "none"
+                if(title.textContent == "Create Assignment") {
+                    if(!document.getElementById("customGui")) {
+                        defaultGraded = document.getElementById("edit-grading-category-id").value
+                        form = box.querySelector("[id='s-grade-item-add-form']").children[0]
+                        for(let i = 3; i < form.children.length; i++) {
+                            if(!form.children[i].classList.contains("submit-buttons") && !form.children[i].classList.contains("s-common-adv-options-wrapper")) {
+                                form.children[i].style.display = "none"
+                            }
                         }
+                        calendaricon = storageapi.runtime.getURL("icons/calendar.png");
+                        masteryicon = storageapi.runtime.getURL("icons/mastery.png");
+                        openext = storageapi.runtime.getURL("icons/openext.png");
+                        form.querySelector("[id='attachments']").insertAdjacentHTML("afterend", `
+                        <div id="customGui" style="display: flex; width: 80%; margin-bottom: 10px;" class="margin-center">
+                            <div class="box2" id="datebox">
+                                <h1>Set Date</h1>
+                                <img src=${calendaricon} style="width: 25px;">
+                            </div>
+                            <div class="box2 clickable hov" onclick="renderSgyMasteryAlignmentUi(true)">
+                                <h1 style="margin-top: 25%;">Add Standards</h1>
+                                <img src=${masteryicon} style="width: 25px;">
+                            </div>
+                            <div class="box2 clickable hov" onclickevent="toggleGraded()">
+                                <h1 style="margin-top: 25%;">Graded?</h1>
+                                <h1 id="gradedDisplay">-</h1>
+                            </div>
+                            <div class="box2 clickable hov" onclickevent="openLink('${window.location.href.replace("materials", "gradesetup")}')">
+                                <h1 style="margin-top: 15%;">Set Defaults</h1>
+                                <img src=${openext} style="margin-top: 0px; width: 25px;">
+                            </div>
+                        </div>
+                        <h2 id="advButton" class="clickable text-center" onclickevent="openAdvanced()">Advanced</h2>
+                        `)
+                        document.getElementById("datebox").insertAdjacentElement("beforeend", document.getElementsByClassName("form-row-wrapper due-date-wrapper")[0])
+                        document.getElementById("customGui").insertAdjacentElement("afterend", document.getElementsByClassName("alignment-item-container")[0])
+                        document.getElementById("datebox").getElementsByClassName("form-row-wrapper due-date-wrapper")[0].style.display = "inherit"
+                        document.getElementById("datebox").getElementsByClassName("form-row-wrapper due-date-wrapper")[0].children[1].style.display = "none"
+                        document.getElementById("datebox").getElementsByClassName("form-item")[0].children[1].style.marginTop = "10px"
+                        document.getElementById("datebox").getElementsByClassName("form-item")[0].children[2].style.marginTop = "5px"
+                        document.getElementById("datebox").getElementsByClassName("form-item")[0].children[1].style.marginLeft = "8px"
+                        document.getElementById("datebox").getElementsByClassName("form-item")[0].children[2].style.marginLeft = "24px"
+                        document.getElementsByClassName("alignment-item-container")[0].style.marginLeft = "50%"
+                        document.getElementsByClassName("alignment-item-container")[0].style.transform = "translateX(-50%)"
+                        document.getElementsByClassName("alignment-item-container")[0].style.marginBottom = "10px";
+                        document.getElementsByClassName("s-common-adv-options-wrapper")[0].style.marginLeft = "39%";
+                        document.getElementById("datebox").querySelector("label").style.display = "none"
+                        addEventListeners(document.getElementById("customGui"))
+                        addEventListeners(document.getElementById("advButton"))
                     }
-                    calendaricon = storageapi.runtime.getURL("icons/calendar.png");
-                    masteryicon = storageapi.runtime.getURL("icons/mastery.png");
-                    openext = storageapi.runtime.getURL("icons/openext.png");
-                    form.querySelector("[id='attachments']").insertAdjacentHTML("afterend", `
-                    <div id="customGui" style="display: flex; width: 80%; margin-bottom: 10px;" class="margin-center">
-                        <div class="box2" id="datebox">
-                            <h1>Set Date</h1>
-                            <img src=${calendaricon} style="width: 25px;">
-                        </div>
-                        <div class="box2 clickable hov" onclick="renderSgyMasteryAlignmentUi(true)">
-                            <h1 style="margin-top: 25%;">Add Standards</h1>
-                            <img src=${masteryicon} style="width: 25px;">
-                        </div>
-                        <div class="box2 clickable hov" onclickevent="toggleGraded()">
-                            <h1 style="margin-top: 25%;">Graded?</h1>
-                            <h1 id="gradedDisplay">-</h1>
-                        </div>
-                        <div class="box2 clickable hov" onclickevent="openLink('${window.location.href.replace("materials", "gradesetup")}')">
-                            <h1 style="margin-top: 15%;">Configure Advanced</h1>
-                            <img src=${openext} style="margin-top: 0px; width: 25px;">
-                        </div>
-                    </div>
-                    <h2 id="advButton" class="clickable text-center" onclickevent="openAdvanced()">Advanced</h2>
-                    `)
-                    document.getElementById("datebox").insertAdjacentElement("beforeend", document.getElementsByClassName("form-row-wrapper due-date-wrapper")[0])
-                    document.getElementById("customGui").insertAdjacentElement("afterend", document.getElementsByClassName("alignment-item-container")[0])
-                    document.getElementById("datebox").getElementsByClassName("form-row-wrapper due-date-wrapper")[0].style.display = "inherit"
-                    document.getElementById("datebox").getElementsByClassName("form-row-wrapper due-date-wrapper")[0].children[1].style.display = "none"
-                    document.getElementById("datebox").getElementsByClassName("form-item")[0].children[1].style.marginTop = "10px"
-                    document.getElementById("datebox").getElementsByClassName("form-item")[0].children[2].style.marginTop = "5px"
-                    document.getElementById("datebox").getElementsByClassName("form-item")[0].children[1].style.marginLeft = "8px"
-                    document.getElementById("datebox").getElementsByClassName("form-item")[0].children[2].style.marginLeft = "24px"
-                    document.getElementsByClassName("alignment-item-container")[0].style.marginLeft = "50%"
-                    document.getElementsByClassName("alignment-item-container")[0].style.transform = "translateX(-50%)"
-                    document.getElementsByClassName("alignment-item-container")[0].style.marginBottom = "10px";
-                    document.getElementsByClassName("s-common-adv-options-wrapper")[0].style.marginLeft = "39%";
-                    document.getElementById("datebox").querySelector("label").style.display = "none"
-                    addEventListeners(document.getElementById("customGui"))
-                    addEventListeners(document.getElementById("advButton"))
+                categoryValue = document.getElementById("edit-grading-category-id").value
+                canGraded = (defaultGraded == "0") ? "No Default Category":"No"
+                isGraded = (categoryValue == "0") ? canGraded:"Yes"
+                document.getElementById("gradedDisplay").textContent = isGraded
                 }
-            categoryValue = document.getElementById("edit-grading-category-id").value
-            isGraded = (categoryValue == "0") ? "No":"Yes"
-            document.getElementById("gradedDisplay").textContent = isGraded
             }
         }
     }
@@ -176,8 +179,13 @@ function classPage() {
         box = document.getElementsByClassName("popups-box")[0]
         form = box.querySelector("[id='s-grade-item-add-form']").children[0]
         for(let i = 4; i < form.children.length; i++) {
-            if(form.children[i].getAttribute("type") != "hidden" && !form.children[i].classList.contains("classic-mastery")) {
+            if(form.children[i].getAttribute("type") != "hidden" && !form.children[i].classList.contains("classic-mastery") && (form.children[i].id != "edit-alignments-wrapper-0")) {
                 form.children[i].style.display = "inherit"
+            }
+            if(form.children[i].children[0]) {
+                if(form.children[i].children[0].id == "edit-district-mastery-grading-scale-id-wrapper") {
+                    form.children[i].style.visibility = "hidden"
+                }
             }
         }
         document.getElementById("advButton").remove()
