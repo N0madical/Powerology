@@ -256,6 +256,8 @@ storageapi.runtime.onMessage.addListener((request) => {
         output += (typeof customAssignments.value !== 'undefined') ? customAssignments.value:""
         output += "\n\n--\n\nCloud Past Grades:\n"
         output += (typeof pastGrades.value !== 'undefined') ? pastGrades.value:""
+        output += "\n\n--\n\nCloud Class Colors:\n"
+        output += (typeof classColors.value !== 'undefined') ? classColors.value:""
         output += "\n\n--\n\nHTML:\n"
         output += (document.getElementsByTagName('html')[0].innerHTML)
         const file = new File([output], `PowerologyDebug-v${storageapi.runtime.getManifest().version}.html`, {
@@ -276,14 +278,30 @@ storageapi.runtime.onMessage.addListener((request) => {
 
     if(request.action == "storageprint") {
         console.debug("Dumping Stored Variables:")
-        checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
-        checkedAssignments.get(() => {console.debug("Modified Assignments:", checkedAssignments.value)})
+        try {
+            checkedAssignments = new browserStorage("checkedAssignments", "sync", [[],[],[]])
+            checkedAssignments.get(() => {console.debug("Modified Assignments:", checkedAssignments.value)})
+        } catch {console.debug("Could not print Modified Assignments")}
+        
+        try {
+            customAssignments = new browserStorage("customAssignments", "sync", [])
+            customAssignments.get(() => {console.debug("Custom Assignments:", customAssignments.value)})
+        } catch {console.debug("Could not print Custom Assignments")}
 
-        customAssignments = new browserStorage("customAssignments", "sync", [])
-        customAssignments.get(() => {console.debug("Custom Assignments:", customAssignments.value)})
+        try {
+            pastGrades = new browserStorage("pastGrades", "local", [])
+            pastGrades.get(() => {console.debug("Past Grades:", pastGrades.value)})
+        } catch {console.debug("Could not print Past Grades")}
 
-        pastGrades = new browserStorage("pastGrades", "local", [])
-        pastGrades.get(() => {console.debug("Past Grades:", pastGrades.value)})
+        try {
+            classColors = new browserStorage("classColors", "sync", [])
+            classColors.get(() => {console.debug("Class Colors:", classColors.value)})
+        } catch {console.debug("Could not print Class Colors")}
+
+        try {
+            masteryGrades = new browserStorage("masteryGrades", "local", [])
+            masteryGrades.get(() => {console.debug("Mastery Grades:", masteryGrades.value)})
+        } catch {console.debug("Could not print Mastery Grades")}
     }
 });
 

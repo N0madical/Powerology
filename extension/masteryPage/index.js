@@ -3,7 +3,6 @@
     //Script: Mastery Pages
 //########################################################
 
-
 exceptionList.get(masteryPage)
 
 function masteryPage() {  
@@ -22,8 +21,11 @@ function masteryPage() {
     //########################################################
 
     avgGrade = "Error"
+    let name
 
-    masteryGrades.get(defineMasteryGrades)
+    loadrepeat = window.setInterval(function(){
+        showAverage()
+    }, 250);
 
     function showAverage() {
         try {
@@ -35,7 +37,7 @@ function masteryPage() {
                     //Reading grades and calculating averages
                 //##############################
                 let grades = document.getElementById("learning-objectives-cards-container").children
-                let name = document.getElementsByClassName("_24avl _1EyV_ _3v0y7 _2VUdE _3LeCL _2_GfG _3L6tC _10N3s _3Wb6n dVlNp _3_bfp")[1].textContent
+                name = document.getElementsByClassName("_24avl _1EyV_ _3v0y7 _2VUdE _3LeCL _2_GfG _3L6tC _10N3s _3Wb6n dVlNp _3_bfp")[1].textContent
                 let total = 0
                 let divby = 0
                 for(let i = 0; i < grades.length; i++) {
@@ -45,23 +47,12 @@ function masteryPage() {
                     }
                 }
 
+                //Finding average grade and saving to browser storage
+
                 avgGrade = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":round(total/divby,2)
                 avgGrade1p = (isNaN(total/divby)) ? "Not Avaliable - Try Reloading Page":round(total/divby,1)
                 if(!isNaN(total/divby)) {
-                    let included = false
-                    for(let i = 0; i < masteryGrades.value.length; i++) {
-                        if(masteryGrades.value[i][0] == name) {
-                            if(masteryGrades.value[i][2] == avgGrade) {
-                                included = true
-                            } else {
-                                masteryGrades.value.splice(i,1)
-                            }
-                        }
-                    }
-                    if(!included) {
-                        masteryGrades.value.push([name, Date.now(), avgGrade])
-                        masteryGrades.set()
-                    }
+                    masteryGrades.get(saveMasteryGrades)
                 }
 
                 let efgrades = document.getElementById("learning-objectives-cards-container").children
@@ -174,7 +165,7 @@ function masteryPage() {
 
 
     //##############################
-        //Handling test averages
+        //Handling user-changed averages
     //##############################
 
     function testAvg(rem, ad, isEf) {
@@ -196,10 +187,26 @@ function masteryPage() {
         }
     }
 
-    function defineMasteryGrades() {
-        loadrepeat = window.setInterval(function(){
-            showAverage()
-        }, 250);
+    function saveMasteryGrades() {
+        // console.debug(masteryGrades.value)
+        // console.debug("Checking to save grade:", name, avgGrade)
+        let included = false
+        for(let i = 0; i < masteryGrades.value.length; i++) {
+            if(masteryGrades.value[i][0] == name) {
+                if(masteryGrades.value[i][2] == avgGrade) {
+                    included = true
+                    console.info("Powerology: Found duplicate same avg grade, skipping...")
+                } else {
+                    masteryGrades.value.splice(i,1)
+                    console.info("Powerology: Found duplicate avg grade but was different, removing...")
+                }
+            }
+        }
+        if(!included) {
+            masteryGrades.value.push([name, Date.now(), avgGrade])
+            masteryGrades.set()
+            console.info("Powerology: No duplicate avg foumd, saving...", masteryGrades.value)
+        }
     }
 
-    }}
+}}

@@ -148,21 +148,6 @@ function loadSchoologyPlus() {
             }
         })
 
-        //##############################
-            //Handler for non-button clickable objects
-        //##############################
-        let clickable = document.getElementsByClassName("onchangeClickable")
-        for(let b = 0; b < clickable.length; b++) {
-            if(clickable[b].hasAttribute("onchangeevent")) {
-                let func = clickable[b].getAttribute("onchangeevent");
-                let funcname = func.substring(0,func.indexOf("("));
-                let funcargs = JSON.parse(("[" + func.substring(func.indexOf("(")+1,func.length-1) + "]").replaceAll('\'', '\"')) //.split(/(?<=['|"]), (?=['|"])/);
-                clickable[b].addEventListener("change", () => {
-                    buttonfunctions[funcname].apply(null, funcargs)
-                });
-            }
-        }
-
 
         //##############################
             //Reactive button positioning
