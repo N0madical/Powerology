@@ -67,7 +67,7 @@ function updateGradeList() {
         for(p=0; p < gradesarray.length; p++) {
             if(gradessort[1] == "0") {
                 addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],gradesarray[p][1][3],false)
-            } else if (parseFloat(gradesarray[p][1][1]) >= gradessort[0] && parseFloat(gradesarray[p][1][1]) <= gradessort[1]) {
+            } else if (parseFloat(gradesarray[p][1][1]) >= gradessort[0] && parseFloat(gradesarray[p][1][1]) < gradessort[1]) {
                 addGrade(gradesarray[p][0][0],gradesarray[p][1][0],gradesarray[p][1][1],gradesarray[p][1][2],gradesarray[p][1][3],false)
             }
         }
@@ -82,7 +82,7 @@ function updateGradeList() {
             if(!match) {
                 if(gradessort[1] == "0") {
                     addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],pastGrades.value[counter][1][3],true)
-                } else if (parseFloat(pastGrades.value[counter][1][1]) >= gradessort[0] && parseFloat(pastGrades.value[counter][1][1]) <= gradessort[1]) {
+                } else if (parseFloat(pastGrades.value[counter][1][1]) >= gradessort[0] && parseFloat(pastGrades.value[counter][1][1]) < gradessort[1]) {
                     addGrade(pastGrades.value[counter][0][0],pastGrades.value[counter][1][0],pastGrades.value[counter][1][1],pastGrades.value[counter][1][2],pastGrades.value[counter][1][3],true)
                 }
             }
@@ -123,15 +123,15 @@ function intCustomAss(assignment) {
 function addClass(name, link, img) {
     container = document.getElementById("classlist")
     carat = storageapi.runtime.getURL("icons/carat.png");
-    if(settings.value.classImg) {
-        colorwidth = (typeof browser !== "undefined") ? "15px":"18px"
-    } else {
-        colorwidth = (typeof browser !== "undefined") ? "7px":"10px"
-    }
+    // if(settings.value.classImg) {
+    //     colorwidth = (typeof browser !== "undefined") ? "15px":"18px"
+    // } else {
+    //     colorwidth = (typeof browser !== "undefined") ? "7px":"10px"
+    // }
+    colorwidth = (settings.value.classImg) ? "15px":"7px"
     
     let tab
     if(img != "null" && settings.value.classImg) {
-        console.debug(img)
         tab = `<div style="width: 15px; height: 100%; background-image: url(${img}); background-size: auto 100%; background-position-x: center;">`
     } else {
         let color = "#808080"
@@ -140,7 +140,7 @@ function addClass(name, link, img) {
                 color = classColors.value[key]
             }
         }
-        tab = `<input id="color_${classiteratable}" class="onchangeClickable colorbox" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/>`
+        tab = `<input id="color_${classiteratable}" class="onchangeClickable colorbox clickable" type="color" value="${color}" onchangeevent="setColor('color_${classiteratable}', '${name}')" style="width: ${colorwidth};"/>`
     }
 
     reNamed = (reNames.value[name]) ? reNames.value[name]:name
@@ -223,7 +223,7 @@ function addAssignment(id, day, name, time, link, isCustom) {
             <th><img class="hideuntilhover clickable" src="${todoicon}" onclickevent="todoMe('${id}', ${checkedAssignments.value[2].includes(id)})" width="15px" height="15px" style="margin-left: 2px; margin-top: 8px; margin-right: 2px;"></th>
             ${kbutton}
             <th style="width: 100%;"><h3 class="clickable" id="assignment${iteratable}" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="text-align: left; color: lightslategrey; margin-left: 20px; ${textDec}">${name}</h3></th>
-            <th><h5 class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="padding-right: 15px; text-align: right; white-space: nowrap;">${time}</h5></th>
+            <th><h5 class="clickable" onclickevent="openLink('${link}')" onrightclickevent="openLink('${link}',true)" style="padding-right: 15px; padding-left: 5px; text-align: right; white-space: nowrap;">${time}</h5></th>
         </tr>
         `)
 
@@ -368,7 +368,6 @@ function refreshClrAssLst() {
 }
 
 function setColor(id, name) {
-    console.debug("hi")
     classColors.value[name] = document.getElementById(id).value
     classColors.set()
 }

@@ -61,7 +61,7 @@ h1 {
 
 h2 {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 16px !important;
     color: #556370;
     line-height: 25px !important;
 }
@@ -261,6 +261,20 @@ em {
     margin: 20px auto !important;
 }
 
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+input[type="color"]::-moz-color-swatch {
+	border: none;
+}
+
 
 /* ######################################################## */
 /* Animations */
@@ -273,11 +287,12 @@ em {
 }
 
 .colorbox {
-    transition: width 0.25s ease-out;
+    transition: width 0.25s ease-out, filter 0.25s ease-out;
 }
 
 .colorbox:hover {
-    width: 20px !important;
+    width: 30px !important;
+    filter: brightness(1.2);
 }
 
 .gearicon:hover {

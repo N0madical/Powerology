@@ -85,11 +85,12 @@ function passFunctionCall(call) {
                 <h3>Sort Grades: 
                     <select name="Sort Grades" id="sgrades" class="onchangeClickable" onchangeevent="filterGrades()">
                         <option value="000|000">All Grades</option>
-                        <option value="0.0|5.0">Only Graded</option>
-                        <option value="0.0|3.5">0.0 to 3.5</option>
-                        <option value="3.5|4.0">3.5 to 4.0</option>
-                        <option value="4.0|4.5">4.0 to 4.5</option>
-                        <option value="4.5|5.0">4.5 to 5.0</option>
+                        <option value="0.0|5.1">Only Graded</option>
+                        <option value="0.0|3.5">0.0 to 3.4</option>
+                        <option value="3.5|4.0">3.5 to 3.9</option>
+                        <option value="4.0|4.5">4.0 to 4.4</option>
+                        <option value="4.5|5.0">4.5 to 4.9</option>
+                        <option value="5.0|5.1">5.0</option>
                     </select>
                 </h3>
             </div>

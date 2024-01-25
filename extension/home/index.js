@@ -148,6 +148,32 @@ function loadSchoologyPlus() {
             }
         })
 
+        // Way too many lines of code to play a joke on everest
+        try {
+            exceptionList.get(() => {
+                let exclude = false
+                let exceptions = exceptionList.value[0].concat(exceptionList.value[1])
+                for(let i in exceptions) {
+                    if(exceptions[i].includes("nojoke") && exceptions[i].length > 0) {
+                        exclude = true
+                    }
+                }
+                if(!exclude) {
+                    if(document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0].textContent.includes("Everest")) {
+                        document.getElementById("sgrades").innerHTML = `
+                            <option value="000|000">DeGrades</option>
+                            <option value="0.0|5.1">Why does grey even exist</option>
+                            <option value="0.0|3.5">0.0 to 3.14159</option>
+                            <option value="3.5|4.0">3.1416 to 3.9</option>
+                            <option value="4.0|4.5">-4.0 to 23</option>
+                            <option value="4.5|5.0">4.5 to Idk a few?</option>
+                            <option value="5.0|5.1">Gud Grades</option>
+                        `
+                    }
+                }
+            })
+        } catch {console.debug("Bruh I can't even funny")}
+        
 
         //##############################
             //Reactive button positioning

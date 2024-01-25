@@ -299,7 +299,7 @@ function saveBg() {
         if (window.location.href.includes("district_mastery")) {document.getElementById("wrapper").style.width = null}
     }
 
-    if(settings.value.animate) {addAnimation()} else {document.querySelector(':root').style.removeProperty('--menuheight'); console.debug("sussy")}
+    if(settings.value.animate) {addAnimation()} else {document.querySelector(':root').style.removeProperty('--menuheight');}
     
     settings.value.darkMode = darkmode
     settings.value.bgColor = color
