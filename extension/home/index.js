@@ -103,12 +103,14 @@ function loadSchoologyPlus() {
             overdueassignmentsarray = []
             for(u = 0; u < overdueassignments.length-1; u += 2) {
                 while(overdueassignments[u].id != "overdue_submissions" && (u < overdueassignments.length-1)) {u++}
-                uname = overdueassignments[u+1].getElementsByClassName("event-title")[0].children[0].innerHTML
-                udue = overdueassignments[u].children[0].innerHTML
-                ulink = (overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) ? overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href:""
-                uid = overdueassignments[u+1].getAttribute("data-start")
-                if(Date.parse(udue) <= Date.now()) {
-                    overdueassignmentsarray.push([uname, ulink, uid])
+                if(overdueassignments[u].id == "overdue_submissions") {
+                    uname = overdueassignments[u+1].getElementsByClassName("event-title")[0].children[0].innerHTML
+                    udue = overdueassignments[u].children[0].innerHTML
+                    ulink = (overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) ? overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href:""
+                    uid = overdueassignments[u+1].getAttribute("data-start")
+                    if(Date.parse(udue) <= Date.now()) {
+                        overdueassignmentsarray.push([uname, ulink, uid])
+                    }
                 }
             }
         }
@@ -159,7 +161,7 @@ function loadSchoologyPlus() {
                     }
                 }
                 if(!exclude) {
-                    if(document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0].textContent.includes("Everest")) {
+                    if(document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0].textContent.includes("Everest") || document.getElementsByClassName("LGaPf _3LkKR _17Z60 util-max-width-twenty-characters-2pOJU")[0].textContent.includes("Ashley")) {
                         document.getElementById("sgrades").innerHTML = `
                             <option value="000|000">DeGrades</option>
                             <option value="0.0|5.1">Why does grey even exist</option>

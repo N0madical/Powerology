@@ -287,12 +287,11 @@ input[type="color"]::-moz-color-swatch {
 }
 
 .colorbox {
-    transition: width 0.25s ease-out, filter 0.25s ease-out;
+    transition: width 0.25s ease-out;
 }
 
 .colorbox:hover {
     width: 30px !important;
-    filter: brightness(1.2);
 }
 
 .gearicon:hover {
