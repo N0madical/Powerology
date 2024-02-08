@@ -23,6 +23,7 @@ function gradeOverview() {
 
     intval = false
     evntlstn = false
+    classlinks = []
 
     masteryGrades.get(defineMasteryGrades)
     
@@ -62,6 +63,7 @@ function gradeOverview() {
                 classeslist[i].getElementsByClassName("gradebook-course-title")[0].style.width = "80%"
                 classeslist[i].getElementsByClassName("gradebook-course-title")[0].style.display = "inline-block"
                 classeslist[i].getElementsByClassName("gradebook-course-title")[0].insertAdjacentHTML("afterend", `<div class="ovgradebox" style="float: right; display: inline-block; margin-top: 5px;"><img src="${openext}" class="clickable open_${selClassId}" style="width: 15px; height: 15px; float: right; margin-left:10px; margin-top: 2px;" onclickevent="openLink('https://postoakschool.schoology.com/course/${selClassId}/student_district_mastery', true)"></div>`)
+                classlinks.push(selClassId)
             }
 
             if(gradeAv && !document.getElementsByClassName(`grade_${selClassId}`)[0]) {
@@ -82,6 +84,10 @@ function gradeOverview() {
 
         //Displaying averages
         if(document.getElementById("averageBox") == null) {
+            document.getElementById("main").insertAdjacentHTML("afterbegin", `
+                <button id="mstryButton" class="text-center clickable" onclickevent="openAllMastery()" style="margin: 20px 50%; width: 200px; height: 40px; transform: translateX(-50%); border-radius: 10px;">Open All Mastery Pages</button>
+            `)
+            addEventListeners(document.getElementById("mstryButton"))
             document.getElementById("main").insertAdjacentHTML("beforeend", `
                 <h1 class="text-center" style="margin-top: 50px">Average GPAs (Only Out Of Currently Visible)</h1>
                 <div id="averageBox">
@@ -120,6 +126,20 @@ function gradeOverview() {
         }
         evntlstn = true
     }
+
+    function openAllMastery() {
+        let timeout = 0
+        for(let i=0; i < classlinks.length; i++) {            
+            setTimeout(function() {
+                openLink(`https://postoakschool.schoology.com/course/${classlinks[i]}/student_district_mastery`, true)
+            }, (timeout*500))
+            timeout++
+        }
+    }
+
+    buttonfunctions = Object.assign({}, buttonfunctions, {
+        "openAllMastery" : openAllMastery,
+    })
 
 
     //########################################################

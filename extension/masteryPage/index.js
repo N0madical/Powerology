@@ -193,7 +193,7 @@ function masteryPage() {
         let included = false
         for(let i = 0; i < masteryGrades.value.length; i++) {
             if(masteryGrades.value[i][0] == name) {
-                if(masteryGrades.value[i][2] == avgGrade) {
+                if((masteryGrades.value[i][2] == avgGrade) && (masteryGrades.value[i][1] > (Date.now()-600000))) {
                     included = true
                     console.info("Powerology: Found duplicate same avg grade, skipping...")
                 } else {
