@@ -25,6 +25,25 @@ function classPage() {
 
     let searchsave
     defaultGraded = ""
+
+    try {
+        if(document.getElementsByClassName("page-title")[0]) {
+            if(document.getElementsByClassName("page-title")[0].children[0]) {
+                let classname = document.getElementsByClassName("page-title")[0].children[0].textContent
+                console.debug(classname)
+                if(classname.includes("GPHC")) {
+                    console.debug("yay!")
+                    document.getElementById("center-top").insertAdjacentHTML("afterend", `
+                    <a href="https://drive.usercontent.google.com/download?id=1Ieqzkxsnv3baZCkN6sYc5wjIx0zLkzH7&export=download&authuser=0">
+                        <button class="mybutton">Open GPHC Textbook E-Reader PDF</button>
+                    </a>
+                    `)
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Couldn't get class name, error:", error)
+    }
     
     try {
         if(document.getElementsByClassName("page-title")[0]) {

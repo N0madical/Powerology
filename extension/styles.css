@@ -275,6 +275,13 @@ input[type="color"]::-moz-color-swatch {
 	border: none;
 }
 
+.mybutton {
+    background-color: white;
+    margin-top: 15px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 
 /* ######################################################## */
 /* Animations */

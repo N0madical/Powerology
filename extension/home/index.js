@@ -77,7 +77,11 @@ function loadSchoologyPlus() {
                 htime = hdue.substr(hdue.indexOf(" at ") + 4)
                 hclass = assignment.children[1].children[1].innerHTML
                 hlink = (assignment.getElementsByClassName("sExtlink-processed")[0]) ? assignment.getElementsByClassName("sExtlink-processed")[0].href:""
-                hid = assignmentparents[h].getAttribute("data-start")
+                if(hlink != "") {
+                    hid = hlink.substr(hlink.length - 10)
+                } else {
+                    hid = assignmentparents[h].getAttribute("data-start")
+                }
                 let replace = false
                 for(let i = 0; i < assignmentsarray.length; i++) {
                     if(assignmentsarray[i][5] == hid) {
