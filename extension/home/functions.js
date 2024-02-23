@@ -439,7 +439,12 @@ function parseCustomAss() {
 
 function clickClass(name, link) {
     if(isEditMode) {
-        desiredName = prompt("Please enter new name for: \n\n" + name)
+        let fillin = name
+        console.debug(reNames.value[name])
+        if(reNames.value[name]) {
+            fillin = reNames.value[name]
+        }
+        desiredName = prompt("Please enter new name for: \n\n" + name, fillin)
         if(desiredName != "") {
             reNames.value[name] = desiredName
             updateClasses()
