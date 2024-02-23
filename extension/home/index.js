@@ -105,17 +105,41 @@ function loadSchoologyPlus() {
         if(document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0]) {
             overdueassignments = document.getElementsByClassName("overdue-submissions")[0].getElementsByClassName("upcoming-list")[0].children
             overdueassignmentsarray = []
-            for(u = 0; u < overdueassignments.length-1; u += 2) {
-                while(overdueassignments[u].id != "overdue_submissions" && (u < overdueassignments.length-1)) {u++}
+            let udue = ""
+            let nowdate = Date.now()
+            for(u = 0; u < overdueassignments.length; u++) {
                 if(overdueassignments[u].id == "overdue_submissions") {
-                    uname = overdueassignments[u+1].getElementsByClassName("event-title")[0].children[0].innerHTML
                     udue = overdueassignments[u].children[0].innerHTML
-                    ulink = (overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) ? overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href:""
-                    uid = overdueassignments[u+1].getAttribute("data-start")
-                    if(Date.parse(udue) <= Date.now()) {
+                } else if (overdueassignments[u].classList.contains("upcoming-event")) {
+                    if(Date.parse(udue) <= nowdate) {
+                        let uname = overdueassignments[u].getElementsByClassName("event-title")[0].children[0].innerHTML
+                        let ulink = (overdueassignments[u].getElementsByClassName("sExtlink-processed")[0]) ? overdueassignments[u].getElementsByClassName("sExtlink-processed")[0].href:""
+                        let uid = 0
+                        if(ulink != "") {
+                            uid = ulink.substr(ulink.length - 10)
+                        } else {
+                            uid = overdueassignments[u].getAttribute("data-start")
+                        }
                         overdueassignmentsarray.push([uname, ulink, uid])
                     }
                 }
+
+
+                // console.debug(overdueassignments[u], overdueassignments[u].id)
+                // while(overdueassignments[u].id != "overdue_submissions" && (u < overdueassignments.length-1)) {u++}
+                // if(overdueassignments[u].id == "overdue_submissions") {
+                //     uname = overdueassignments[u+1].getElementsByClassName("event-title")[0].children[0].innerHTML
+                //     udue = overdueassignments[u].children[0].innerHTML
+                //     ulink = (overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0]) ? overdueassignments[u+1].getElementsByClassName("sExtlink-processed")[0].href:""
+                //     if(ulink != "") {
+                //         uid = ulink.substr(ulink.length - 10)
+                //     } else {
+                //         uid = overdueassignments[u+1].getAttribute("data-start")
+                //     }
+                //     if(Date.parse(udue) <= Date.now()) {
+                //         overdueassignmentsarray.push([uname, ulink, uid])
+                //     }
+                // }
             }
         }
     } catch (error) {

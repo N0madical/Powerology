@@ -38,7 +38,7 @@ function updateClasses() {
 }
 
 function updateAssignments() {
-    console.info("Powerology: Updating Assignment List...")
+    console.info("Powerology: Updating Assignment List..."
     asdates = []
     tododates = []
     iteratable = 0
@@ -165,10 +165,14 @@ function addAssignment(id, day, name, time, link, isCustom) {
         dates = tododates
     }
 
+    let morningdate = new Date();
+    morningdate.setUTCHours(0,0,0,0);
+
+
     xicon = storageapi.runtime.getURL("icons/x.png")
     todoicon = storageapi.runtime.getURL("icons/todo.png")
 
-    if(!checkedAssignments.value[1].includes(id) && ((Date.parse(day) >= (Date.now()-86400000)) || (day == "overdue") || isCustom)) {
+    if(!checkedAssignments.value[1].includes(id) && ((Date.parse(day) >= (morningdate)) || (day == "overdue") || isCustom)) {
         if(!(dates.includes(day.substring(0,day.length-6), 0))) {
             if(day == "overdue") {
                 dayonly = "Overdue"
