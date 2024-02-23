@@ -38,7 +38,7 @@ function updateClasses() {
 }
 
 function updateAssignments() {
-    console.info("Powerology: Updating Assignment List..."
+    console.info("Powerology: Updating Assignment List...")
     asdates = []
     tododates = []
     iteratable = 0
